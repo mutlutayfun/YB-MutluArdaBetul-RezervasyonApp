@@ -46,8 +46,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 Phone = "02124582324",
                 Email = "CheersLighthouse@gmail.com",
                 Stars = 4,
-                CheckinTime = new DateTime(2024, 1, 1, 14, 0, 0).TimeOfDay,
-                CheckoutTime = new DateTime(2024, 1, 1, 11, 0, 0).TimeOfDay
+                CheckinTime = DateTime.Now,
+                CheckoutTime = DateTime.Now
             },
             new Hotel()
             {
@@ -57,8 +57,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 Phone = "02129240200",
                 Email = "Raffles@gmail.com",
                 Stars = 5,
-                CheckinTime = new DateTime(2024, 1, 1, 15, 0, 0).TimeOfDay,
-                CheckoutTime = new DateTime(2024, 1, 1, 12, 0, 0).TimeOfDay
+                CheckinTime = DateTime.Now,
+                CheckoutTime = DateTime.Now
             },
             new Hotel()
             {
@@ -68,8 +68,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 Phone = "02123156000",
                 Email = "Hilton@gmail.com",
                 Stars = 5,
-                CheckinTime = new DateTime(2024, 1, 1, 14, 0, 0).TimeOfDay,
-                CheckoutTime = new DateTime(2024, 1, 1, 12, 0, 0).TimeOfDay
+                CheckinTime = DateTime.Now,
+                CheckoutTime = DateTime.Now
             }
             );
 
