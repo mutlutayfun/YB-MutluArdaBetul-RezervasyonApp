@@ -63,4 +63,5 @@ namespace YB_MutluArdaBetülRezervasyonApp.Business.Services
             }
         }
     }
+
 }
