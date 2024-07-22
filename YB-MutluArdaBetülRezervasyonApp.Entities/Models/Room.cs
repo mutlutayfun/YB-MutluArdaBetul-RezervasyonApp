@@ -9,10 +9,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.Entities.Models
 {
     public class Room : BaseEntity
     {
-        public int HotelID { get; set; }
-        public Hotel Hotel { get; set; }
-        public int TypeID { get; set; }
-        public RoomType RoomType { get; set; }
-        public string Status { get; set; }
+        public Guid HotelID { get; set; }
+        public Hotel? Hotel { get; set; }
+        public Guid TypeID { get; set; }
+        public RoomType? RoomType { get; set; }
+        public string? Status { get; set; }
     }
 }
