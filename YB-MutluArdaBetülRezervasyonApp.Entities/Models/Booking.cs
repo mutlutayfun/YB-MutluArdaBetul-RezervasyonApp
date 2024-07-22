@@ -15,7 +15,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.Entities.Models
         public Guid RoomId { get; set; }
         public Room? Room { get; set; }
         
-        ICollection<Payment>? Payments { get; set; }
-        ICollection<GuestBooking>? GuestBookings { get; set; }
+        public ICollection<Payment>? Payments { get; set; }
+        public ICollection<GuestBooking>? GuestBookings { get; set; }
     }
 }

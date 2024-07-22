@@ -16,6 +16,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.Entities.Models
         public string? Phone { get; set; }
         public string? Email { get; set; }
 
-        ICollection<GuestBooking>? GuestBookings { get; set; }
+        public ICollection<GuestBooking>? GuestBookings { get; set; }
     }
 }
