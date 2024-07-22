@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YB_MutluArdaBetülRezervasyonApp.Entities.Models;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Context
 {
@@ -19,6 +21,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Context
         public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<Payment> Payments { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Data Source = MUTLUTAYFUN; Initial Catalog = ReservasyonDB; Integrated Security = True; Trust Server Certificate = True;");
+        }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,28 +43,26 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Context
             modelBuilder.Entity<Payment>()
                .HasKey(p => new { p.BookingId });
 
-            // İlişkileri ve diğer yapılandırmaları tanımlıyoruz
+            //modelBuilder.Entity<Room>()
+            //    .HasOne(r => r.Hotel)
+            //    .WithMany(h => h.Rooms)
+            //    .HasForeignKey(r => r.HotelId);
 
-            modelBuilder.Entity<Room>()
-                .HasOne(r => r.Hotel)
-                .WithMany(h => h.Rooms)
-                .HasForeignKey(r => r.HotelId);
+            //modelBuilder.Entity<Booking>()
+            //    .HasOne(b => b.Room)
+            //    .WithMany()
+            //    .HasForeignKey(b => b.RoomId)
+            //    .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Booking>()
-                .HasOne(b => b.Room)
-                .WithMany()
-                .HasForeignKey(b => b.RoomId)
-                .OnDelete(DeleteBehavior.Restrict);
+            //modelBuilder.Entity<GuestBooking>()
+            //    .HasOne(gb => gb.Guest)
+            //    .WithMany(g => g.GuestBookings)  
+            //    .HasForeignKey(gb => gb.GuestId);
 
-            modelBuilder.Entity<GuestBooking>()
-                .HasOne(gb => gb.Guest)
-                .WithMany(g => g.GuestBookings)  // Public özelliğe erişim
-                .HasForeignKey(gb => gb.GuestId);
-
-            modelBuilder.Entity<GuestBooking>()
-                .HasOne(gb => gb.Booking)
-                .WithMany(b => b.GuestBookings)
-                .HasForeignKey(gb => gb.BookingId);
+            //modelBuilder.Entity<GuestBooking>()
+            //    .HasOne(gb => gb.Booking)
+            //    .WithMany(b => b.GuestBookings)
+            //    .HasForeignKey(gb => gb.BookingId);
 
 
             
