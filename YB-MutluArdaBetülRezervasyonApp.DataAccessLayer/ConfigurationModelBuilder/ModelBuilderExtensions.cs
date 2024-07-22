@@ -8,13 +8,34 @@ using YB_MutluArdaBetülRezervasyonApp.Entities.Models;
 
 namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBuilder
 {
-    public class ModelBuilderExtensions
+    
+
+    public static class ModelBuilderExtensions
     {
-        public static void DefinedClasses(ModelBuilder modelBuilder)
+        public static void DefinedClasses(this ModelBuilder modelBuilder)
         {
-            var hotelId1 = Guid.Parse("b2a71efc-3f76-4e28-9e16-0fc5d717fd61");
-            var hotelId2 = Guid.Parse("c2a71efc-3f76-4e28-9e16-0fc5d717fd61");
-            var hotelId3 = Guid.Parse("a2a71efc-3f76-4e28-9e16-0fc5d717fd61");
+            var guids = Helper.GenerateGuids(11);
+            var hotelId1 = guids[0];
+            var hotelId2 = guids[1];
+            var hotelId3 = guids[2];
+            var staffId1 = guids[3];
+            var staffId2 = guids[4];
+            var staffId3 = guids[5];
+            var staffId4 = guids[6];
+            var roomTypeId1 = guids[7];
+            var roomTypeId2 = guids[8];
+            var roomTypeId3 = guids[9];
+            var roomTypeId4 = guids[10];
+            var guestId1 = guids[11];
+            var guestId2 = guids[12];
+            var guestId3 = guids[13];
+            var guestId4 = guids[14];
+            var paymentId1 = guids[15];
+            var paymentId2 = guids[16];
+            var roomId1 = guids[17];
+            var roomId2 = guids[18];
+            var roomId3 = guids[19];
+            var roomId4 = guids[20];
 
             modelBuilder.Entity<Hotel>().HasData(
             new Hotel()
@@ -55,7 +76,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
             modelBuilder.Entity<Staff>().HasData(
             new Staff()
             {
-                Id = Guid.Parse("f0c5a1d3-0f1c-4e9b-bba8-b569d4e3a1d0"),
+                Id = staffId1,
                 HotelId = hotelId1,
                 FirstName = "Marie",
                 LastName = "Bertrand",
@@ -68,7 +89,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
             },
             new Staff()
             {
-                Id = Guid.Parse("f0c6a1d3-0f1c-4e9b-bba8-b569d4e3a1d0"),
+                Id = staffId2,
                 HotelId = hotelId1,
                 FirstName = "Steven",
                 LastName = "Buchanan",
@@ -81,7 +102,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
             },
             new Staff()
             {
-                Id = Guid.Parse("f0c3a1d3-0f1c-4e9b-bba8-b569d4e3a1d0"),
+                Id = staffId3,
                 HotelId = hotelId2,
                 FirstName = "Michael",
                 LastName = "Suyama",
@@ -94,7 +115,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
             },
             new Staff()
             {
-                Id = Guid.Parse("f0c6a1d9-0f1c-4e9b-bba8-b569d4e3a1d0"),
+                Id = staffId4,
                 HotelId = hotelId3,
                 FirstName = "Robert",
                 LastName = "King",
@@ -106,6 +127,112 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 HireDate = new DateTime(1994, 01, 02)
             }
             );
+
+            modelBuilder.Entity<RoomType>().HasData(
+            new RoomType()
+            {
+                Id = roomTypeId1,
+                Name = "Tek kişilik",
+                Description = "Şık ve ferah",
+                PricePerNight = 1500,
+                Capacity = 1
+            },
+            new RoomType()
+            {
+                Id = roomTypeId2,
+                Name = "Çift kişilik",
+                Description = "Geniş ve ferah",
+                PricePerNight = 2500,
+                Capacity = 2
+            },
+            new RoomType()
+            {
+                Id = roomTypeId3,
+                Name = "Üç kişilik",
+                Description = "3 kişinin kalabileceği genişlikte bir oda",
+                PricePerNight = 3500,
+                Capacity = 3
+            },
+            new RoomType()
+            {
+                Id = roomTypeId4,
+                Name = "Dört kişilik",
+                Description = "Geniş oda tasarımı",
+                PricePerNight = 4200,
+                Capacity = 4
+            }
+            );
+            modelBuilder.Entity<Guest>().HasData(
+            new Guest()
+            {
+                Id = guestId1,
+                FirstName = "Nancy",
+                LastName = "Davolio",
+                DateOfBirth = new DateTime(1963, 07, 02),
+                Address = "507 - 20th Ave. E.Apt. 2A",
+                Phone = "(505) 555 55 50",
+                Email = "Nancy@gmail.com"
+            },
+            new Guest()
+            {
+                Id = guestId2,
+                FirstName = "Andrew",
+                LastName = "Fuller",
+                DateOfBirth = new DateTime(1963, 07, 02),
+                Address = "908 W. Capital Way",
+                Phone = "(505) 555 55 50",
+                Email = "Andrew@gmail.com"
+            },
+            new Guest()
+            {
+                Id = guestId3,
+                FirstName = "Janet",
+                LastName = "Leverling",
+                DateOfBirth = new DateTime(1963, 07, 02),
+                Address = "722 Moss Bay Blvd.",
+                Phone = "(505) 555 55 50",
+                Email = "Janet@gmail.com"
+            },
+            new Guest()
+            {
+                Id = guestId4,
+                FirstName = "Steven",
+                LastName = "Buchanan",
+                DateOfBirth = new DateTime(1963, 07, 02),
+                Address = "4110 Old Redmond Rd.",
+                Phone = "(505) 555 55 50",
+                Email = "Steven@gmail.com"
+            }
+            );
+            modelBuilder.Entity<Room>().HasData(
+            new Room()
+            {
+                Id = roomId1,
+                HotelId = hotelId1,
+                RoomTypeId = roomTypeId1,
+                Status = "Boş"
+            },
+            new Room()
+            {
+                Id = roomId2,
+                HotelId = hotelId2,
+                RoomTypeId = roomTypeId2,
+                Status = "Boş"
+            },
+            new Room()
+            {
+                Id = roomId3,
+                HotelId = hotelId3,
+                RoomTypeId = roomTypeId3,
+                Status = "Boş"
+            },
+            new Room()
+            {
+                Id = roomId4,
+                HotelId = hotelId2,
+                RoomTypeId = roomTypeId4,
+                Status = "Boş"
+            });
         }
     }
 }
