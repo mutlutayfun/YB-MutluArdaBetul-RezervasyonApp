@@ -12,12 +12,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.Entities.Models
         public DateTime CheckinDate { get; set; }
         public DateTime CheckoutDate { get; set; }
         public decimal? TotalPrice { get; set; }
-        public Guid GuestId { get; set; }
-        public Guest? Guest { get; set; }
-
         public Guid RoomId { get; set; }
         public Room? Room { get; set; }
         
         ICollection<Payment>? Payments { get; set; }
+        ICollection<GuestBooking>? GuestBookings { get; set; }
     }
 }
