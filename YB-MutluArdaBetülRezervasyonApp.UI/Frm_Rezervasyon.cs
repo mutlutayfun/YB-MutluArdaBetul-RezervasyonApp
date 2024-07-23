@@ -140,6 +140,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 int days = (dtpCikisTarihi.Value - dtpGirisTarihi.Value).Days;
                 if (days > 0)
                 {
+                    lblGun.Text = $"{days}-Gece";
                     decimal? total = days * selectedRoomType.PricePerNight;
                     lblTotalPrice.Text = $"{total}TL";
                 }
@@ -159,7 +160,17 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         {
             GetAllHotels();
             GetAllRoomTypes();
+            GetPaymentMethod();
             BookingList();
+            ClearControls();
+        }
+
+        private void GetPaymentMethod()
+        {
+
+            cmbPaymentMethod.Items.Add("Kredi Kartı");
+            cmbPaymentMethod.Items.Add("Nakit");
+
         }
 
         private void nmrGuestNumber_ValueChanged(object sender, EventArgs e)
@@ -198,11 +209,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private void dtpGirisTarihi_ValueChanged(object sender, EventArgs e)
         {
             CalculateTotal();
-        }
-
-        private void btnOluştur_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void btnListele_Click(object sender, EventArgs e)
@@ -352,6 +358,14 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             txtGuestAddress.Clear();
             txtGuestPhone.Clear();
             txtGuestMail.Clear();
+            dtpCikisTarihi.Value = DateTime.Now;
+            dtpCikisTarihi.Value = DateTime.Now;
+            lblGun.Text= string.Empty;
+            lblPricePerNight.Text= string.Empty;
+            lblTotalPrice.Text= string.Empty;
+            lbllabelDescription.Text= string.Empty;
+            lblCapacity.Text= string.Empty;
+
         }
 
         private void dgvList_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -395,7 +409,22 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                     MessageBox.Show("Seçili satır alınamadı.");
                 }
             }
-                    
+
+        }
+
+        private void cmbPaymentMethod_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            ClearControls();
+        }
+
+        private void btnOlustur_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

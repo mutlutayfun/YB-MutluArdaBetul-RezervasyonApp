@@ -49,6 +49,8 @@
             lblGecelikUcret = new Label();
             label1 = new Label();
             grpRezervasyon = new GroupBox();
+            cmbPaymentMethod = new ComboBox();
+            lblPaymentMethod = new Label();
             lblCapacity = new Label();
             lbllabelDescription = new Label();
             label3 = new Label();
@@ -63,7 +65,7 @@
             lblCksTarih = new Label();
             lblHName = new Label();
             dtpGirisTarihi = new DateTimePicker();
-            btnOluştur = new Button();
+            btnOlustur = new Button();
             btnGuncelle = new Button();
             btnListele = new Button();
             btnSil = new Button();
@@ -75,7 +77,8 @@
             lblGuestNum = new Label();
             txtSearch = new TextBox();
             btnSearch = new Button();
-            lblPaymentMethod = new Label();
+            btnClear = new Button();
+            lblGun = new Label();
             grpGuest.SuspendLayout();
             grpRezervasyon.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -293,6 +296,8 @@
             // 
             // grpRezervasyon
             // 
+            grpRezervasyon.Controls.Add(lblGun);
+            grpRezervasyon.Controls.Add(cmbPaymentMethod);
             grpRezervasyon.Controls.Add(lblPaymentMethod);
             grpRezervasyon.Controls.Add(lblCapacity);
             grpRezervasyon.Controls.Add(lbllabelDescription);
@@ -309,7 +314,7 @@
             grpRezervasyon.Controls.Add(lblHName);
             grpRezervasyon.Controls.Add(dtpGirisTarihi);
             grpRezervasyon.Controls.Add(cmbOdaTipi);
-            grpRezervasyon.Controls.Add(btnOluştur);
+            grpRezervasyon.Controls.Add(btnOlustur);
             grpRezervasyon.Controls.Add(label1);
             grpRezervasyon.Controls.Add(lblGecelikUcret);
             grpRezervasyon.Font = new Font("Segoe UI", 10.2F);
@@ -321,6 +326,26 @@
             grpRezervasyon.TabIndex = 7;
             grpRezervasyon.TabStop = false;
             grpRezervasyon.Text = "Rezervasyon";
+            // 
+            // cmbPaymentMethod
+            // 
+            cmbPaymentMethod.FormattingEnabled = true;
+            cmbPaymentMethod.Location = new Point(138, 372);
+            cmbPaymentMethod.Margin = new Padding(3, 4, 3, 4);
+            cmbPaymentMethod.Name = "cmbPaymentMethod";
+            cmbPaymentMethod.Size = new Size(158, 31);
+            cmbPaymentMethod.TabIndex = 24;
+            cmbPaymentMethod.SelectedIndexChanged += cmbPaymentMethod_SelectedIndexChanged_1;
+            // 
+            // lblPaymentMethod
+            // 
+            lblPaymentMethod.AutoSize = true;
+            lblPaymentMethod.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            lblPaymentMethod.Location = new Point(10, 375);
+            lblPaymentMethod.Name = "lblPaymentMethod";
+            lblPaymentMethod.Size = new Size(122, 23);
+            lblPaymentMethod.TabIndex = 23;
+            lblPaymentMethod.Text = "Ödeme Şekli :";
             // 
             // lblCapacity
             // 
@@ -469,18 +494,18 @@
             dtpGirisTarihi.TabIndex = 10;
             dtpGirisTarihi.ValueChanged += dtpGirisTarihi_ValueChanged;
             // 
-            // btnOluştur
+            // btnOlustur
             // 
-            btnOluştur.BackColor = Color.LimeGreen;
-            btnOluştur.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnOluştur.Location = new Point(258, 360);
-            btnOluştur.Margin = new Padding(3, 4, 3, 4);
-            btnOluştur.Name = "btnOluştur";
-            btnOluştur.Size = new Size(222, 57);
-            btnOluştur.TabIndex = 9;
-            btnOluştur.Text = "Oluştur";
-            btnOluştur.UseVisualStyleBackColor = false;
-            btnOluştur.Click += btnOluştur_Click;
+            btnOlustur.BackColor = Color.LimeGreen;
+            btnOlustur.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            btnOlustur.Location = new Point(323, 360);
+            btnOlustur.Margin = new Padding(3, 4, 3, 4);
+            btnOlustur.Name = "btnOlustur";
+            btnOlustur.Size = new Size(157, 57);
+            btnOlustur.TabIndex = 9;
+            btnOlustur.Text = "Oluştur";
+            btnOlustur.UseVisualStyleBackColor = false;
+            btnOlustur.Click += btnOlustur_Click_1;
             // 
             // btnGuncelle
             // 
@@ -606,15 +631,30 @@
             btnSearch.Text = "Ara";
             btnSearch.UseVisualStyleBackColor = false;
             // 
-            // lblPaymentMethod
+            // btnClear
             // 
-            lblPaymentMethod.AutoSize = true;
-            lblPaymentMethod.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            lblPaymentMethod.Location = new Point(10, 375);
-            lblPaymentMethod.Name = "lblPaymentMethod";
-            lblPaymentMethod.Size = new Size(122, 23);
-            lblPaymentMethod.TabIndex = 23;
-            lblPaymentMethod.Text = "Ödeme Şekli :";
+            btnClear.BackColor = Color.FromArgb(255, 128, 255);
+            btnClear.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            btnClear.Location = new Point(923, 425);
+            btnClear.Margin = new Padding(3, 4, 3, 4);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new Size(222, 65);
+            btnClear.TabIndex = 19;
+            btnClear.Text = "Temizle";
+            btnClear.UseVisualStyleBackColor = false;
+            btnClear.Click += btnClear_Click;
+            // 
+            // lblGun
+            // 
+            lblGun.AutoSize = true;
+            lblGun.BackColor = Color.Wheat;
+            lblGun.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold | FontStyle.Italic);
+            lblGun.ForeColor = Color.Black;
+            lblGun.Location = new Point(165, 303);
+            lblGun.Name = "lblGun";
+            lblGun.Size = new Size(65, 23);
+            lblGun.TabIndex = 25;
+            lblGun.Text = "           ";
             // 
             // Frm_Rezervasyon
             // 
@@ -622,6 +662,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Wheat;
             ClientSize = new Size(1182, 908);
+            Controls.Add(btnClear);
             Controls.Add(btnSearch);
             Controls.Add(txtSearch);
             Controls.Add(lblGuestNum);
@@ -672,7 +713,7 @@
         private Label lblCksTarih;
         private Label lblHName;
         private DateTimePicker dtpGirisTarihi;
-        private Button btnOluştur;
+        private Button btnOlustur;
         private Button btnGuncelle;
         private Button btnListele;
         private Button btnSil;
@@ -700,5 +741,8 @@
         private ListBox lstList;
         private DataGridView dgvList;
         private Label lblPaymentMethod;
+        private ComboBox cmbPaymentMethod;
+        private Button btnClear;
+        private Label lblGun;
     }
 }
