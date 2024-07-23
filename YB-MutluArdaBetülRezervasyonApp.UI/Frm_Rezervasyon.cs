@@ -61,7 +61,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 {
                     Guest guest = new Guest()
                     {
-                       // Id = Guid.NewGuid(),
+                        // Id = Guid.NewGuid(),
                         TCNo = txtTCNo.Text,
                         FirstName = txtGuestName.Text,
                         LastName = txtGuestSurname.Text,
@@ -283,6 +283,11 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             {
                 MessageBox.Show("Hata var :" + ex.Message);
             }
+        }
+
+        private void cmbPaymentMethod_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

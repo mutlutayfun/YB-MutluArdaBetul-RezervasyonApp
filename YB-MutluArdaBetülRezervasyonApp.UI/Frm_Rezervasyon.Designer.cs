@@ -539,11 +539,11 @@
             // dgvList
             // 
             dgvList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvList.Location = new Point(11, 29);
+            dgvList.Location = new Point(11, 31);
             dgvList.Margin = new Padding(3, 4, 3, 4);
             dgvList.Name = "dgvList";
             dgvList.RowHeadersWidth = 51;
-            dgvList.Size = new Size(1113, 315);
+            dgvList.Size = new Size(1113, 313);
             dgvList.TabIndex = 1;
             // 
             // lstList
@@ -624,6 +624,7 @@
             cmbPaymentMethod.Name = "cmbPaymentMethod";
             cmbPaymentMethod.Size = new Size(158, 31);
             cmbPaymentMethod.TabIndex = 24;
+            cmbPaymentMethod.SelectedIndexChanged += cmbPaymentMethod_SelectedIndexChanged;
             // 
             // Frm_Rezervasyon
             // 
