@@ -37,7 +37,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+
 
         }
 
@@ -105,12 +105,23 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private void GetAllHotels()
         {
             var hotels = _hotelService.GetAll();
+
+            cmbHName.DataSource = null;
             cmbHName.DataSource = hotels;
             cmbHName.DisplayMember = "Name";
             cmbHName.ValueMember = "Id";
+            cmbHName.Refresh();
         }
 
-
+        private void cmbHName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedHotel = cmbHName.SelectedItem as Hotel; 
+            if (selectedHotel != null) 
+            {
+                MessageBox.Show($"Seçilen Otel: {selectedHotel.Name}");
+            }
+            GetAllHotels();
+        }
         private void BookingList()
         {
             var bookingList = _bookingService.GetBookingsWithGuests();
@@ -127,5 +138,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         {
 
         }
+
+        
     }
 }
