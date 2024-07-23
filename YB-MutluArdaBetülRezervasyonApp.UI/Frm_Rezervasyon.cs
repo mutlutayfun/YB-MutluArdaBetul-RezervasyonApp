@@ -36,7 +36,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             GuestBookingRepository gbRepo = new GuestBookingRepository(_context);
             _guestBookingService = new GuestBookingService(gbRepo);
 
-            dgvList.SelectionChanged += dgvList_SelectionChanged;
+            dgvList.SelectionChanged += dgvList_SelectionChanged;//Seçili satırı ekrana getirmek için eklelndi.
             btnGuncelle.Click += btnGuncelle_Click;
         }
 
