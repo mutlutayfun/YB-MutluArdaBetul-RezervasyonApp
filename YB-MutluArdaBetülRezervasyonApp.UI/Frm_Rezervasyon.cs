@@ -10,6 +10,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private readonly AppDbContext _context;
         private readonly GuestService _guestService;
         private readonly BookingService _bookingService;
+        private readonly PaymentService _paymentService;
         public Frm_Rezervasyon()
         {
             InitializeComponent();
@@ -18,6 +19,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             _guestService = new GuestService(gRepo);
             BookingRepository bRepo = new BookingRepository(_context);
             _bookingService = new BookingService(bRepo);
+            PaymentRepository pRepo = new PaymentRepository(_context);
+            _paymentService = new PaymentService(pRepo);
         }
 
 
@@ -92,12 +95,22 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             {
                 BookingList();
             }
-            
+
         }
 
         private void BookingList()
         {
             throw new NotImplementedException();
+        }
+
+        private void Frm_Rezervasyon_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void nmrGuestNumber_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

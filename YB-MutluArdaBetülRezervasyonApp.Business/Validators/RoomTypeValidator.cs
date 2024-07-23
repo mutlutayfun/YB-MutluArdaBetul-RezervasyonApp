@@ -8,8 +8,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.Business.Validators
         public RoomTypeValidator()
         {
             RuleFor(rt => rt.Name)
-                .NotEmpty().WithMessage("Ad gerekli.")
-                .MaximumLength(50).WithMessage("Ad 50 karakterden uzun olamaz.");
+                .NotEmpty().WithMessage("Odanın tipi girilmelidir.")
+                .MaximumLength(50).WithMessage("Odanın tipi 50 karakterden uzun olamaz.");
 
             RuleFor(rt => rt.Description)
                 .MaximumLength(100).WithMessage("Açıklama 100 karakterden uzun olamaz.");

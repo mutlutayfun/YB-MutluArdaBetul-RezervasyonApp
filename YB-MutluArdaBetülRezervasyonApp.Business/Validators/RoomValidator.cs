@@ -8,8 +8,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.Business.Validators
         public RoomValidator()
         {
             RuleFor(r => r.Status)
-                .NotEmpty().WithMessage("Durum gerekli.")
-                .MaximumLength(50).WithMessage("Durum 50 karakterden uzun olamaz.");
+                .NotEmpty().WithMessage("Odanın durumu belirtilmelidir..")
+                .MaximumLength(50).WithMessage("Odanın durumu 50 karakterden uzun olamaz.");
         }
     }
 }

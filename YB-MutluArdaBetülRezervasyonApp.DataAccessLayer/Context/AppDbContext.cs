@@ -35,16 +35,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Context
             modelBuilder.Entity<GuestBooking>()
                 .HasKey(gb => new { gb.GuestId, gb.BookingId });
 
-            modelBuilder.Entity<Staff>()
-                .HasKey(s => new { s.HotelId });
-
-            modelBuilder.Entity<Room>()
-                .HasKey(r => new { r.HotelId, r.RoomTypeId });
-
-            modelBuilder.Entity<Payment>()
-               .HasKey(p => new { p.BookingId });
-
-
             modelBuilder.DefinedClasses();
 
 

@@ -16,7 +16,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.Entities.Models
         public string? Position { get; set; }
         public decimal Salary { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
         public string? Email { get; set; }
         public DateTime HireDate { get; set; }
     }

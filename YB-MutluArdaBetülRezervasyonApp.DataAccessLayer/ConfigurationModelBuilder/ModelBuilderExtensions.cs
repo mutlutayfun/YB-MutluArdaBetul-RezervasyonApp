@@ -26,8 +26,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
             var roomTypeId2 = guids[8];
             var roomTypeId3 = guids[9];
             var roomTypeId4 = guids[10];
-            var paymentId1 = guids[11];
-            var paymentId2 = guids[12];
             var roomId1 = guids[13];
             var roomId2 = guids[14];
             var roomId3 = guids[15];
