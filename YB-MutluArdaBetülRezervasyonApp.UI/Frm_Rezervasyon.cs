@@ -163,6 +163,12 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             GetPaymentMethod();
             BookingList();
             ClearControls();
+
+            cmbHName.SelectedIndexChanged += cmbHName_SelectedIndexChanged;
+            cmbOdaTipi.SelectedIndexChanged += cmbOdaTipi_SelectedIndexChanged;
+            dtpGirisTarihi.ValueChanged += dtpGirisTarihi_ValueChanged;
+            dtpCikisTarihi.ValueChanged += dtpCikisTarihi_ValueChanged;
+
         }
 
         private void GetPaymentMethod()
@@ -216,6 +222,18 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             GetAllReservationDetails();
             //GetAllGuest(); listbox için
             GetAllGuestList(); //datagrid için
+
+            var detailedBookings = _bookingService.GetDetailedBookings();
+
+            var bookingInfo = detailedBookings.Select(b => new
+            {
+                HotelName = b.Room.Hotel.Name,
+                GuestName = string.Join(", ", b.GuestBookings.Select(gb => gb.Guest.FirstName + " " + gb.Guest.LastName)),
+                RoomType = b.Room.RoomType.Name,
+                //Price = b.Room.RoomType.Price 
+            }).ToList();
+
+            dgvList.DataSource = bookingInfo;
 
 
         }
@@ -424,6 +442,43 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         private void btnOlustur_Click_1(object sender, EventArgs e)
         {
+            try
+            {
+                var selectedHotel = cmbHName.SelectedItem as Hotel;
+                var selectedRoomType = cmbOdaTipi.SelectedItem as RoomType;
+
+
+
+                if (selectedHotel == null)
+                {
+                    MessageBox.Show("Lütfen bir otel seçiniz.");
+                    return;
+                }
+
+                if (selectedRoomType == null)
+                {
+                    MessageBox.Show("Lütfen bir oda tipi seçiniz.");
+                    return;
+                }
+
+
+
+                Booking booking = new Booking()
+                {
+
+                    RoomTypeId = Guid.NewGuid(),
+                    CheckinDate = dtpGirisTarihi.Value,
+                    CheckoutDate = dtpCikisTarihi.Value,
+                    IsActive = true,
+                    //TotalPrice = total,
+                };
+                _bookingService.Add(booking);
+                MessageBox.Show("Rezervasyon başarıyla oluşturuldu.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Bir hata oluştu: " + ex.Message);
+            }
 
         }
     }

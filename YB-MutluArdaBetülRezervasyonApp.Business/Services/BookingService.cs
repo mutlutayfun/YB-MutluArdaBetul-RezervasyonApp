@@ -57,6 +57,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.Business.Services
         {
             return _bookingRepository.GetBookingsWithGuests();
         }
+        public IEnumerable<Booking> GetDetailedBookings()
+        {
+            return _bookingRepository.GetDetailedBookings();
+        }
     }
 
 }

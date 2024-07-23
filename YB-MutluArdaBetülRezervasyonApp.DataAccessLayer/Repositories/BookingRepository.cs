@@ -18,5 +18,16 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Repositories
                            .ThenInclude(gb => gb.Guest)
                            .ToList();
         }
+        public IEnumerable<Booking> GetDetailedBookings()
+        {
+            return _context.Bookings
+                           .Include(b => b.GuestBookings)
+                               .ThenInclude(gb => gb.Guest)
+                           .Include(b => b.Room)
+                               .ThenInclude(r => r.RoomType)
+                           .Include(b => b.Room)
+                               .ThenInclude(r => r.Hotel)
+                           .ToList();
+        }
     }
 }
