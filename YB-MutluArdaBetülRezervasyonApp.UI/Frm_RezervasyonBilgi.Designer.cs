@@ -28,7 +28,41 @@
         /// </summary>
         private void InitializeComponent()
         {
+            btnKapat = new Button();
+            lstRezervasyon = new ListBox();
+            label1 = new Label();
             SuspendLayout();
+            // 
+            // btnKapat
+            // 
+            btnKapat.BackColor = SystemColors.InactiveCaption;
+            btnKapat.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnKapat.Location = new Point(75, 476);
+            btnKapat.Name = "btnKapat";
+            btnKapat.Size = new Size(217, 44);
+            btnKapat.TabIndex = 0;
+            btnKapat.Text = "Kapat";
+            btnKapat.UseVisualStyleBackColor = false;
+            btnKapat.Click += btnKapat_Click;
+            // 
+            // lstRezervasyon
+            // 
+            lstRezervasyon.FormattingEnabled = true;
+            lstRezervasyon.Location = new Point(48, 53);
+            lstRezervasyon.Name = "lstRezervasyon";
+            lstRezervasyon.Size = new Size(274, 404);
+            lstRezervasyon.TabIndex = 1;
+            lstRezervasyon.SelectedIndexChanged += lstRezervasyon_SelectedIndexChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(59, 22);
+            label1.Name = "label1";
+            label1.Size = new Size(247, 28);
+            label1.TabIndex = 2;
+            label1.Text = "REZERVASYON BİLGİLERİ";
             // 
             // Frm_RezervasyonBilgi
             // 
@@ -36,12 +70,20 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Info;
             ClientSize = new Size(363, 542);
+            Controls.Add(label1);
+            Controls.Add(lstRezervasyon);
+            Controls.Add(btnKapat);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Frm_RezervasyonBilgi";
             Text = "Frm_RezervasyonBilgi";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private Button btnKapat;
+        private ListBox lstRezervasyon;
+        private Label label1;
     }
 }
