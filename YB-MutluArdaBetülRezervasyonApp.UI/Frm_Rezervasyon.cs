@@ -37,7 +37,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+
 
         }
 
@@ -126,6 +126,11 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private void nmrGuestNumber_ValueChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void cmbHName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }

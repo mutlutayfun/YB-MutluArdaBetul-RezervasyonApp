@@ -380,6 +380,7 @@
             cmbHName.Name = "cmbHName";
             cmbHName.Size = new Size(221, 31);
             cmbHName.TabIndex = 12;
+            cmbHName.SelectedIndexChanged += cmbHName_SelectedIndexChanged;
             // 
             // lblCksTarih
             // 
