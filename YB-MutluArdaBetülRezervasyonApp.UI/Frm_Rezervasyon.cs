@@ -105,8 +105,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             cmbHName.ValueMember = "Id";
             cmbHName.Refresh();
         }
-
-
         private void BookingList()
         {
             var bookingList = _bookingService.GetBookingsWithGuests();
