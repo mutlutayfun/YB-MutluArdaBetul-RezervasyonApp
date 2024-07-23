@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using YB_MutluArdaBetülRezervasyonApp.Business.Services;
 using YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Context;
 using YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Repositories;
+using YB_MutluArdaBetülRezervasyonApp.Entities.Models;
 
 namespace YB_MutluArdaBetülRezervasyonApp.UI
 {
@@ -35,7 +36,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             HotelRepository hRepo = new HotelRepository(_context);
             _hotelService = new HotelService(hRepo);
         }
-
         private void btnKapat_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -47,6 +47,24 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         }
         private void GetReservations()
         {
+
+            var reservations = from booking in _context.Bookings
+                               join hotel in _context.Hotels on booking.Id equals hotel.Id
+                               join roomType in _context.RoomTypes on booking.RoomTypeId equals roomType.Id
+                               join guestbooking in _context.GuestBookings on booking.Id equals guestbooking.Id
+                               join guest in _context.Guests on guestbooking.Id equals guest.Id
+                               select new
+                               {
+                                   ReferansNo=booking.Id,
+                                   Otel = hotel.Name,
+                                   OdaTipi = roomType.Name,
+                                   Giris=booking.CheckinDate,
+                                   Cıkıs=booking.CheckoutDate,
+                                   Tutar=booking.TotalPrice
+                               };
+
+            lstRezervasyon.DataSource = reservations.ToList();
+
 
         }
 
