@@ -32,6 +32,11 @@ namespace YB_MutluArdaBetülRezervasyonApp.Business.Validators
             RuleFor(g => g.Email)
                 .EmailAddress().WithMessage("Geçersiz e-posta formatı.")
                 .MaximumLength(100).WithMessage("E-posta 100 karakterden uzun olamaz.");
+
+            RuleFor(g => g.TCNo)
+                .NotEmpty().WithMessage("TC Kimlik Numarası boş olamaz.")
+                .Length(11).WithMessage("TC Kimlik Numarası 11 haneli olmalıdır.")
+                .Matches("[0-9]").WithMessage("TC Kimlik Numarası rakamlardan oluşmalıdır!!");
         }
     }
 }

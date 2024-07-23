@@ -9,7 +9,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.Entities.Models
 {
     public class Guest : BaseEntity
     {
-        public int TCNo { get; set; }
+        public string? TCNo { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public DateTime DateOfBirth { get; set; }

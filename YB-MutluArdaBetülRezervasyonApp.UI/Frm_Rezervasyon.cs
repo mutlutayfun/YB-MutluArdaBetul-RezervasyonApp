@@ -55,7 +55,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 {
                     Guest guest = new Guest()
                     {
-                        TCNo = Convert.ToInt32(txtTCNo.Text),
+                        TCNo = txtTCNo.Text,
                         FirstName = txtGuestName.Text,
                         LastName = txtGuestSurname.Text,
                         Address = txtGuestAddress.Text,
