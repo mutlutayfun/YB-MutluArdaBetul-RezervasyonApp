@@ -123,6 +123,17 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             cmbHName.Refresh();
         }
 
+        private void GetByGuest()
+        {
+            var guests = _guestService.GetAll();
+
+            cmbMusteriAdi.DataSource = null;
+            cmbMusteriAdi.DataSource= guests;
+            cmbMusteriAdi.DisplayMember = "FirstName";
+            cmbMusteriAdi.ValueMember = "Id";
+            cmbMusteriAdi.Refresh();
+        }
+
         private void GetAllRoomTypes()
         {
             var roomTypes = _roomTypeService.GetAll();
@@ -164,6 +175,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             GetPaymentMethod();
             BookingList();
             ClearControls();
+            GetByGuest();
 
             cmbHName.SelectedIndexChanged += cmbHName_SelectedIndexChanged;
             cmbOdaTipi.SelectedIndexChanged += cmbOdaTipi_SelectedIndexChanged;
