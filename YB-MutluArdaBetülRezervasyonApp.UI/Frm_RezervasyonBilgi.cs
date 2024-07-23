@@ -57,10 +57,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                                {
                                    ReferansNo=booking.Id,
                                    Otel = hotel.Name,
-                                   OdaTipi = roomType.Name,
-                                   Giris=booking.CheckinDate,
-                                   Cıkıs=booking.CheckoutDate,
-                                   Tutar=booking.TotalPrice
+                                   OdaTipi = roomType,
+                                   Giris=booking.CheckinDate.ToString(),
+                                   Cıkıs=booking.CheckoutDate.ToString(),
+                                   Tutar=booking.TotalPrice.ToString()
                                };
 
             lstRezervasyon.DataSource = reservations.ToList();
