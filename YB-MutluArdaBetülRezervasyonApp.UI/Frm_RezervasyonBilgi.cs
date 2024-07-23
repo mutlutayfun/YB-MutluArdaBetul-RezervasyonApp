@@ -48,22 +48,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private void GetReservations()
         {
 
-            var reservations = from booking in _context.Bookings
-                               join hotel in _context.Hotels on booking.Id equals hotel.Id
-                               join roomType in _context.RoomTypes on booking.RoomTypeId equals roomType.Id
-                               join guestbooking in _context.GuestBookings on booking.Id equals guestbooking.Id
-                               join guest in _context.Guests on guestbooking.Id equals guest.Id
-                               select new
-                               {
-                                   ReferansNo=booking.Id,
-                                   Otel = hotel.Name,
-                                   OdaTipi = roomType,
-                                   Giris=booking.CheckinDate.ToString(),
-                                   Cıkıs=booking.CheckoutDate.ToString(),
-                                   Tutar=booking.TotalPrice.ToString()
-                               };
-
-            lstRezervasyon.DataSource = reservations.ToList();
 
 
         }

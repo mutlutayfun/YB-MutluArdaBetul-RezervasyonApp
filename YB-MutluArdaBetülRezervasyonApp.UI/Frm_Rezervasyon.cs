@@ -95,16 +95,16 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
             if (!string.IsNullOrEmpty(searchText) && searchText.Length >= 2)
             {
-                var bookingList = _bookingService.GetBookingsWithGuests();
+                //var bookingList = _bookingService.GetBookingsWithGuests();
+                var guest = _guestService.GetAll();
 
-                var filteredList = bookingList
-                .Where(b => b.GuestBookings.Any(gb =>
-                    gb.Guest != null &&
-                    (gb.Guest.FirstName.ToLower().Contains(searchText) ||
-                    gb.Guest.LastName.ToLower().Contains(searchText))))
-                .ToList();
+                var filteredList = guest
+                    .Where(g => g.FirstName.ToLower().Contains(searchText) ||
+                        g.LastName.ToLower().Contains(searchText))
+                        .ToList();
 
-                lstList.DataSource = filteredList;
+                dgvList.DataSource = null;
+                dgvList.DataSource = filteredList;
             }
             else if (searchText.Length == 0)
             {
@@ -153,6 +153,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private void BookingList()
         {
             var bookingList = _bookingService.GetBookingsWithGuests();
+            
 
         }
 
@@ -223,17 +224,17 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             //GetAllGuest(); listbox için
             GetAllGuestList(); //datagrid için
 
-            var detailedBookings = _bookingService.GetDetailedBookings();
+            //var detailedBookings = _bookingService.GetDetailedBookings();
 
-            var bookingInfo = detailedBookings.Select(b => new
-            {
-                HotelName = b.Room.Hotel.Name,
-                GuestName = string.Join(", ", b.GuestBookings.Select(gb => gb.Guest.FirstName + " " + gb.Guest.LastName)),
-                RoomType = b.Room.RoomType.Name,
-                //Price = b.Room.RoomType.Price 
-            }).ToList();
+            //var bookingInfo = detailedBookings.Select(b => new
+            //{
+            //    HotelName = b.Room.Hotel.Name,
+            //    GuestName = string.Join(", ", b.GuestBookings.Select(gb => gb.Guest.FirstName + " " + gb.Guest.LastName)),
+            //    RoomType = b.Room.RoomType.Name,
+            //    //Price = b.Room.RoomType.Price 
+            //}).ToList();
 
-            dgvList.DataSource = bookingInfo;
+            //dgvList.DataSource = bookingInfo;
 
 
         }
@@ -466,7 +467,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 Booking booking = new Booking()
                 {
 
-                    RoomTypeId = Guid.NewGuid(),
+
                     CheckinDate = dtpGirisTarihi.Value,
                     CheckoutDate = dtpCikisTarihi.Value,
                     IsActive = true,
