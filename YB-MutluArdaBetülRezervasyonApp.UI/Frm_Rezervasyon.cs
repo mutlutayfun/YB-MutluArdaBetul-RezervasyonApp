@@ -34,8 +34,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            
 
         }
+
         private int maxGuestCount = 0;
         private void btnGuestSave_Click(object sender, EventArgs e)
         {
@@ -100,7 +102,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         private void BookingList()
         {
-            throw new NotImplementedException();
+            var bookingList = _bookingService.GetBookingsWithGuests();
+
         }
 
         private void Frm_Rezervasyon_Load(object sender, EventArgs e)
