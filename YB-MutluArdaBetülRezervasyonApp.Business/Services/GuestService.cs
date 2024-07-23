@@ -35,10 +35,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.Business.Services
         {
             var guest = _guestRepository.GetByID(id);
 
-            if (guest.IsActive)
-            {
-                throw new Exception("Aktif misafir silinemez!!");
-            }
             _guestRepository.Delete(id);
         }
 
