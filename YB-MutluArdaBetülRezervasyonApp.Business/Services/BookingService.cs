@@ -6,11 +6,11 @@ using FluentValidation.Results;
 
 namespace YB_MutluArdaBetülRezervasyonApp.Business.Services
 {
-    public class IBookingService : IService<Booking>
+    public class BookingService : IService<Booking>
     {
-        private readonly IBookingRepository _bookingRepository;
+        private readonly BookingRepository _bookingRepository;
 
-        public IBookingService(IBookingRepository bRepo)
+        public BookingService(BookingRepository bRepo)
         {
             _bookingRepository = bRepo;
         }
@@ -56,6 +56,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.Business.Services
             {
                 _bookingRepository.Update(entity);
             }
+        }
+        public IEnumerable<Booking> GetBookingsWithGuests()
+        {
+            return _bookingRepository.GetBookingsWithGuests();
         }
     }
 

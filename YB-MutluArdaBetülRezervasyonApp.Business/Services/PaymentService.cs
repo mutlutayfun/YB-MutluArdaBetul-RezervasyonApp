@@ -6,11 +6,11 @@ using FluentValidation.Results;
 
 namespace YB_MutluArdaBetülRezervasyonApp.Business.Services
 {
-    public class IPaymentService : IService<Payment>
+    public class PaymentService : IService<Payment>
     {
-        private readonly IPaymentRepository _paymentRepository;
+        private readonly PaymentRepository _paymentRepository;
 
-        public IPaymentService(IPaymentRepository gRepo)
+        public PaymentService(PaymentRepository gRepo)
         {
             _paymentRepository = gRepo;
         }

@@ -6,11 +6,11 @@ using FluentValidation.Results;
 
 namespace YB_MutluArdaBetülRezervasyonApp.Business.Services
 {
-    public class IHotelService : IService<Hotel>
+    public class HotelService : IService<Hotel>
     {
-        private readonly IHotelRepository _hotelRepository;
+        private readonly HotelRepository _hotelRepository;
 
-        public IHotelService(IHotelRepository gRepo)
+        public HotelService(HotelRepository gRepo)
         {
             _hotelRepository = gRepo;
         }

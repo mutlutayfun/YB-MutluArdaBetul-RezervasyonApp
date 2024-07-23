@@ -6,11 +6,11 @@ using FluentValidation.Results;
 
 namespace YB_MutluArdaBetülRezervasyonApp.Business.Services
 {
-    public class IRoomService : IService<Room>
+    public class RoomService : IService<Room>
     {
-        private readonly IRoomRepository _roomRepository;
+        private readonly RoomRepository _roomRepository;
 
-        public IRoomService(IRoomRepository rRepo)
+        public RoomService(RoomRepository rRepo)
         {
             _roomRepository = rRepo;
         }

@@ -14,7 +14,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
     {
         public static void DefinedClasses(this ModelBuilder modelBuilder)
         {
-            var guids = Helper.GenerateGuids(11);
+            var guids = Helper.GenerateGuids(17);
             var hotelId1 = guids[0];
             var hotelId2 = guids[1];
             var hotelId3 = guids[2];
@@ -26,16 +26,12 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
             var roomTypeId2 = guids[8];
             var roomTypeId3 = guids[9];
             var roomTypeId4 = guids[10];
-            var guestId1 = guids[11];
-            var guestId2 = guids[12];
-            var guestId3 = guids[13];
-            var guestId4 = guids[14];
-            var paymentId1 = guids[15];
-            var paymentId2 = guids[16];
-            var roomId1 = guids[17];
-            var roomId2 = guids[18];
-            var roomId3 = guids[19];
-            var roomId4 = guids[20];
+            var paymentId1 = guids[11];
+            var paymentId2 = guids[12];
+            var roomId1 = guids[13];
+            var roomId2 = guids[14];
+            var roomId3 = guids[15];
+            var roomId4 = guids[16];
 
             modelBuilder.Entity<Hotel>().HasData(
             new Hotel()
@@ -47,7 +43,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 Email = "CheersLighthouse@gmail.com",
                 Stars = 4,
                 CheckinTime = DateTime.Now,
-                CheckoutTime = DateTime.Now
+                CheckoutTime = DateTime.Now,
+                IsActive = true
             },
             new Hotel()
             {
@@ -58,7 +55,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 Email = "Raffles@gmail.com",
                 Stars = 5,
                 CheckinTime = DateTime.Now,
-                CheckoutTime = DateTime.Now
+                CheckoutTime = DateTime.Now,
+                IsActive = true
             },
             new Hotel()
             {
@@ -69,7 +67,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 Email = "Hilton@gmail.com",
                 Stars = 5,
                 CheckinTime = DateTime.Now,
-                CheckoutTime = DateTime.Now
+                CheckoutTime = DateTime.Now,
+                IsActive = true
             }
             );
 
@@ -85,7 +84,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 DateOfBirth = new DateTime(1963, 08, 30),
                 Phone = "(505) 555 55 50",
                 Email = "marie@gmail.com",
-                HireDate = new DateTime(1992, 1, 1)
+                HireDate = new DateTime(1992, 1, 1),
+                IsActive = true
             },
             new Staff()
             {
@@ -98,7 +98,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 DateOfBirth = new DateTime(1955, 03, 04),
                 Phone = "(71) 555-7773",
                 Email = "Steven@gmail.com",
-                HireDate = new DateTime(1990, 10, 17)
+                HireDate = new DateTime(1990, 10, 17),
+                IsActive = true
             },
             new Staff()
             {
@@ -111,7 +112,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 DateOfBirth = new DateTime(1963, 07, 02),
                 Phone = "(536) 555-7773",
                 Email = "Michael@gmail.com",
-                HireDate = new DateTime(1993, 10, 17)
+                HireDate = new DateTime(1993, 10, 17),
+                IsActive = true
             },
             new Staff()
             {
@@ -124,7 +126,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 DateOfBirth = new DateTime(1960, 05, 29),
                 Phone = "(71) 555-5598",
                 Email = "Robert@gmail.com",
-                HireDate = new DateTime(1994, 01, 02)
+                HireDate = new DateTime(1994, 01, 02),
+                IsActive = true
             }
             );
 
@@ -135,7 +138,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 Name = "Tek kişilik",
                 Description = "Şık ve ferah",
                 PricePerNight = 1500,
-                Capacity = 1
+                Capacity = 1,
+                IsActive = true
             },
             new RoomType()
             {
@@ -143,7 +147,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 Name = "Çift kişilik",
                 Description = "Geniş ve ferah",
                 PricePerNight = 2500,
-                Capacity = 2
+                Capacity = 2,
+                IsActive = true
             },
             new RoomType()
             {
@@ -151,7 +156,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 Name = "Üç kişilik",
                 Description = "3 kişinin kalabileceği genişlikte bir oda",
                 PricePerNight = 3500,
-                Capacity = 3
+                Capacity = 3,
+                IsActive = true
             },
             new RoomType()
             {
@@ -159,79 +165,43 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 Name = "Dört kişilik",
                 Description = "Geniş oda tasarımı",
                 PricePerNight = 4200,
-                Capacity = 4
+                Capacity = 4,
+                IsActive = true
             }
             );
-            modelBuilder.Entity<Guest>().HasData(
-            new Guest()
-            {
-                Id = guestId1,
-                FirstName = "Nancy",
-                LastName = "Davolio",
-                DateOfBirth = new DateTime(1963, 07, 02),
-                Address = "507 - 20th Ave. E.Apt. 2A",
-                Phone = "(505) 555 55 50",
-                Email = "Nancy@gmail.com"
-            },
-            new Guest()
-            {
-                Id = guestId2,
-                FirstName = "Andrew",
-                LastName = "Fuller",
-                DateOfBirth = new DateTime(1963, 07, 02),
-                Address = "908 W. Capital Way",
-                Phone = "(505) 555 55 50",
-                Email = "Andrew@gmail.com"
-            },
-            new Guest()
-            {
-                Id = guestId3,
-                FirstName = "Janet",
-                LastName = "Leverling",
-                DateOfBirth = new DateTime(1963, 07, 02),
-                Address = "722 Moss Bay Blvd.",
-                Phone = "(505) 555 55 50",
-                Email = "Janet@gmail.com"
-            },
-            new Guest()
-            {
-                Id = guestId4,
-                FirstName = "Steven",
-                LastName = "Buchanan",
-                DateOfBirth = new DateTime(1963, 07, 02),
-                Address = "4110 Old Redmond Rd.",
-                Phone = "(505) 555 55 50",
-                Email = "Steven@gmail.com"
-            }
-            );
+            
             modelBuilder.Entity<Room>().HasData(
             new Room()
             {
                 Id = roomId1,
                 HotelId = hotelId1,
                 RoomTypeId = roomTypeId1,
-                Status = "Boş"
+                Status = "Boş",
+                IsActive = true
             },
             new Room()
             {
                 Id = roomId2,
                 HotelId = hotelId2,
                 RoomTypeId = roomTypeId2,
-                Status = "Boş"
+                Status = "Boş",
+                IsActive = true
             },
             new Room()
             {
                 Id = roomId3,
                 HotelId = hotelId3,
                 RoomTypeId = roomTypeId3,
-                Status = "Boş"
+                Status = "Boş",
+                IsActive = true
             },
             new Room()
             {
                 Id = roomId4,
                 HotelId = hotelId2,
                 RoomTypeId = roomTypeId4,
-                Status = "Boş"
+                Status = "Boş",
+                IsActive = true
             });
         }
     }

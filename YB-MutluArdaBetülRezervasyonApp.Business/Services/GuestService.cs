@@ -11,11 +11,11 @@ using FluentValidation.Results;
 
 namespace YB_MutluArdaBetülRezervasyonApp.Business.Services
 {
-    public class IGuestService : IService<Guest>
+    public class GuestService : IService<Guest>
     {
-        private readonly IGuestRepository _guestRepository;
+        private readonly GuestRepository _guestRepository;
 
-        public IGuestService(IGuestRepository gRepo)
+        public GuestService(GuestRepository gRepo)
         {
             _guestRepository = gRepo;
         }

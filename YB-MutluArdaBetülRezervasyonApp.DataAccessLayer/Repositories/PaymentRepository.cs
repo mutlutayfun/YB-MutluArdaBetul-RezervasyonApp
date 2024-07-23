@@ -3,9 +3,9 @@ using YB_MutluArdaBetülRezervasyonApp.Entities.Models;
 
 namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Repositories
 {
-    public class IRoomTypeRepository : IGenericRepository<RoomType>
+    public class PaymentRepository : GenericRepository<Payment>
     {
-        public IRoomTypeRepository(AppDbContext context) : base(context)
+        public PaymentRepository(AppDbContext context) : base(context)
         {
         }
     }
