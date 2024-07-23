@@ -34,13 +34,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             Application.Exit();
         }
 
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-
-        }
-
         private int maxGuestCount = 0;
         private void btnGuestSave_Click(object sender, EventArgs e)
         {
@@ -105,9 +98,12 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private void GetAllHotels()
         {
             var hotels = _hotelService.GetAll();
+
+            cmbHName.DataSource = null;
             cmbHName.DataSource = hotels;
             cmbHName.DisplayMember = "Name";
             cmbHName.ValueMember = "Id";
+            cmbHName.Refresh();
         }
 
 
@@ -128,6 +124,9 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         }
 
-
+        private void cmbHName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedHotel = cmbHName.SelectedItem as Hotel;
+        }
     }
 }
