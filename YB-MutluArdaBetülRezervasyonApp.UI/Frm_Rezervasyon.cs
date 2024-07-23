@@ -128,9 +128,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         }
 
-        private void cmbHName_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-        }
+
     }
 }
