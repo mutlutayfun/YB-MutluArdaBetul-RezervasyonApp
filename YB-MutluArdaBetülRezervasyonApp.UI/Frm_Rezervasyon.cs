@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using System.Windows.Forms;
 using YB_MutluArdaBetülRezervasyonApp.Business.Abstractions;
 using YB_MutluArdaBetülRezervasyonApp.Business.Services;
@@ -16,6 +17,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private readonly HotelService _hotelService;
         private readonly RoomTypeService _roomTypeService;
         private readonly GuestBookingService _guestBookingService;
+        private Guest _guest;
 
         public Frm_Rezervasyon()
         {
@@ -33,6 +35,9 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             _roomTypeService = new RoomTypeService(rtRepo);
             GuestBookingRepository gbRepo = new GuestBookingRepository(_context);
             _guestBookingService = new GuestBookingService(gbRepo);
+
+            dgvList.SelectionChanged += dgvList_SelectionChanged;
+            btnGuncelle.Click += btnGuncelle_Click;
         }
 
 
@@ -61,7 +66,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 {
                     Guest guest = new Guest()
                     {
-                        // Id = Guid.NewGuid(),
                         TCNo = txtTCNo.Text,
                         FirstName = txtGuestName.Text,
                         LastName = txtGuestSurname.Text,
@@ -153,8 +157,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         private void Frm_Rezervasyon_Load(object sender, EventArgs e)
         {
-            GetAllRoomTypes();
             GetAllHotels();
+            GetAllRoomTypes();
             BookingList();
         }
 
@@ -268,7 +272,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 if (dgvList.SelectedRows.Count > 0)
                 {
                     var selectedRow = dgvList.SelectedRows[0];
-                    var guestId = (Guid)selectedRow.Cells["Id"].Value;
+                    var guestId = (Guid)selectedRow.Cells["Id"].Value; // "Id" sütun adınız olmalı
 
                     _guestService.Delete(guestId);
                     GetAllGuestList();
@@ -285,9 +289,116 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             }
         }
 
-        private void cmbPaymentMethod_SelectedIndexChanged(object sender, EventArgs e)
+        private void btnGuncelle_Click(object sender, EventArgs e)
+        {
+            //_guest = _guestService.GetByID(txtGuestName.Text);
+            //if (_guest != null)
+            //{
+            //    _guest.TCNo = txtGuestName.Text;
+            //    _guest.FullName = txtGuestName.Text;
+            //    _guest.sur
+            //}
+            //_guestService.Update(_guest);
+            //ClearControls();
+            try
+            {
+                if (dgvList.SelectedRows.Count > 0)
+                {
+                    var selectedRow = dgvList.SelectedRows[0];
+                    var guestId = (Guid)selectedRow.Cells["Id"].Value;
+
+                    var existingGuest = _guestService.GetByID(guestId);
+                    if (existingGuest != null)
+                    {
+                        _context.Entry(existingGuest).State = EntityState.Detached;
+                    }
+
+                    var guest = new Guest
+                    {
+                        Id = guestId,
+                        TCNo = txtTCNo.Text,
+                        FirstName = txtGuestName.Text,
+                        LastName = txtGuestSurname.Text,
+                        Address = txtGuestAddress.Text,
+                        DateOfBirth = dtpDogumTarihi.Value,
+                        Phone = txtGuestPhone.Text,
+                        Email = txtGuestMail.Text,
+                        UpdateAt = DateTime.Now,
+                        IsActive = true
+                    };
+
+                    _guestService.Update(guest);
+                    GetAllGuestList();
+                    MessageBox.Show("Misafir Güncellendi.");
+                }
+                else
+                {
+                    MessageBox.Show("Güncellenecek bir misafir seç.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hata var :" + ex.Message);
+            }
+            ClearControls();
+        }
+
+        private void ClearControls()
+        {
+            txtTCNo.Clear();
+            txtGuestName.Clear();
+            txtGuestSurname.Clear();
+            dtpDogumTarihi.Value = DateTime.Now;
+            txtGuestAddress.Clear();
+            txtGuestPhone.Clear();
+            txtGuestMail.Clear();
+        }
+
+        private void dgvList_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
+        private void dgvList_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvList.SelectedRows.Count > 0)
+            {
+                var selectedRow = dgvList.SelectedRows[0];
+
+                if (selectedRow != null)
+                {
+                    var guestId = selectedRow.Cells["Id"].Value;
+                    if (guestId != null)
+                    {
+                        var guest = _guestService.GetByID(Guid.Parse(guestId.ToString()));
+                        if (guest != null)
+                        {
+                            txtTCNo.Text = guest.TCNo;
+                            txtGuestName.Text = guest.FirstName;
+                            txtGuestSurname.Text = guest.LastName;
+                            txtGuestAddress.Text = guest.Address;
+                            dtpDogumTarihi.Value = guest.DateOfBirth;
+                            txtGuestPhone.Text = guest.Phone;
+                            txtGuestMail.Text = guest.Email;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Seçili misafir bulunamadı.");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Misafir ID alınamadı.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Seçili satır alınamadı.");
+                }
+            }
+                    
+        }
     }
 }
+
+
+    

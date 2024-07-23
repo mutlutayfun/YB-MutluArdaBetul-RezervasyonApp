@@ -12,7 +12,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.Entities.Models
         public string? TCNo { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public string FullName => $"{FirstName} {LastName}";
         public DateTime DateOfBirth { get; set; }
         public string? Address { get; set; }
         public string? Phone { get; set; }
@@ -22,7 +21,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.Entities.Models
 
         public override string ToString()
         {
-            return $"{FullName}  /  {TCNo}  /   {DateOfBirth}  /  {Email}  /  {Phone}  /  {Address}  /  {CreateAt}";
+            return $"{FirstName}  /  {LastName}  /  {TCNo}  /   {DateOfBirth}  /  {Email}  /  {Phone}  /  {Address}  /  {CreateAt}";
         }
     }
 }

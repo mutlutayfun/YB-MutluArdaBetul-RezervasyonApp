@@ -69,7 +69,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.Business.Services
             {
                 _guestRepository.Update(entity);
             }
+            else
+            {
+                throw new Exception(string.Join("\n", result.Errors));
+            }
         }
     }
-
 }

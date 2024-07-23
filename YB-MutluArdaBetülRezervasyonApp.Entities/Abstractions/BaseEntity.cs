@@ -8,10 +8,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.Entities.Abstractions
 {
     public abstract class BaseEntity
     {
-        protected BaseEntity()
-        {
-            Id = Guid.NewGuid();
-        }
+        
         public Guid Id { get; set; }
         public DateTime? CreateAt { get; set; }
         public DateTime? UpdateAt { get; set; }
