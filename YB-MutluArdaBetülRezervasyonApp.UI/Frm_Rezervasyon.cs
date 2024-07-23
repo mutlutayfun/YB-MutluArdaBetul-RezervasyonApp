@@ -153,7 +153,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         private void Frm_Rezervasyon_Load(object sender, EventArgs e)
         {
-            
+            GetAllRoomTypes();
+            GetAllHotels();
             BookingList();
         }
 
@@ -267,7 +268,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 if (dgvList.SelectedRows.Count > 0)
                 {
                     var selectedRow = dgvList.SelectedRows[0];
-                    var guestId = (Guid)selectedRow.Cells["Id"].Value; // "Id" sütun adınız olmalı
+                    var guestId = (Guid)selectedRow.Cells["Id"].Value;
 
                     _guestService.Delete(guestId);
                     GetAllGuestList();
