@@ -76,6 +76,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "Frm_RezervasyonBilgi";
             Text = "Frm_RezervasyonBilgi";
+            Load += Frm_RezervasyonBilgi_Load;
             ResumeLayout(false);
             PerformLayout();
         }
