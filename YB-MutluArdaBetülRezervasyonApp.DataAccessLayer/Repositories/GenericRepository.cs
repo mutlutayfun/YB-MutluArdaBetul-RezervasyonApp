@@ -29,8 +29,17 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Repositories
 
         public void Delete(Guid id)
         {
-            _dbSet.Remove(GetByID(id));
+            var entity = GetByID(id);
+            if (entity == null)
+            {
+                throw new Exception("Geçersiz Misafir ID: Misafir bulunamadı.");
+            }
+
+            _dbSet.Remove(entity);
             _context.SaveChanges();
+
+            //_dbSet.Remove(GetByID(id));
+            //_context.SaveChanges();
         }
 
         public IEnumerable<T> GetAll()
@@ -45,6 +54,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Repositories
 
         public void Update(T entity)
         {
+            _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();
         }
     }

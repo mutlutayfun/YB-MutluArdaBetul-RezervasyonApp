@@ -33,11 +33,18 @@ namespace YB_MutluArdaBetülRezervasyonApp.Business.Services
 
         public void Delete(Guid id)
         {
-            var guest = _guestRepository.GetByID(id);
+            //var guest = _guestRepository.GetByID(id);
             
-            if (guest.IsActive)
+            //if (guest.IsActive)
+            //{
+            //    throw new Exception("Aktif misafir silinemez!!");
+            //}
+
+            var guest = _guestRepository.GetByID(id);
+
+            if (guest == null)
             {
-                throw new Exception("Aktif misafir silinemez!!");
+                throw new Exception("Geçersiz Misafir ID: Misafir bulunamadı.");
             }
 
             _guestRepository.Delete(id);

@@ -1,3 +1,5 @@
+using System.Windows.Forms;
+using YB_MutluArdaBetülRezervasyonApp.Business.Abstractions;
 using YB_MutluArdaBetülRezervasyonApp.Business.Services;
 using YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Context;
 using YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Repositories;
@@ -13,6 +15,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private readonly PaymentService _paymentService;
         private readonly HotelService _hotelService;
         private readonly RoomTypeService _roomTypeService;
+        private readonly GuestBookingService _guestBookingService;
+
         public Frm_Rezervasyon()
         {
             InitializeComponent();
@@ -27,6 +31,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             _hotelService = new HotelService(hRepo);
             RoomTypeRepository rtRepo = new RoomTypeRepository(_context);
             _roomTypeService = new RoomTypeService(rtRepo);
+            GuestBookingRepository gbRepo = new GuestBookingRepository(_context);
+            _guestBookingService = new GuestBookingService(gbRepo);
         }
 
 
@@ -55,11 +61,13 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 {
                     Guest guest = new Guest()
                     {
+                       // Id = Guid.NewGuid(),
                         TCNo = txtTCNo.Text,
                         FirstName = txtGuestName.Text,
                         LastName = txtGuestSurname.Text,
                         Address = txtGuestAddress.Text,
                         DateOfBirth = DateTime.Parse(dtpDogumTarihi.Text),
+                        CreateAt = DateTime.Now,
                         Phone = txtGuestPhone.Text,
                         Email = txtGuestMail.Text,
                         IsActive = true
@@ -68,6 +76,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 }
                 maxGuestCount += guestCount;
                 MessageBox.Show($"{guestCount} misafir başarıyla eklendi.");
+                GetAllGuestList();
 
             }
             catch (Exception ex)
@@ -91,7 +100,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                     gb.Guest.LastName.ToLower().Contains(searchText))))
                 .ToList();
 
-                dgvListe.DataSource = filteredList;
+                lstList.DataSource = filteredList;
             }
             else if (searchText.Length == 0)
             {
@@ -144,8 +153,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         private void Frm_Rezervasyon_Load(object sender, EventArgs e)
         {
-            GetAllHotels();
-            GetAllRoomTypes();
+            
             BookingList();
         }
 
@@ -190,6 +198,90 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private void btnOluştur_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnListele_Click(object sender, EventArgs e)
+        {
+            GetAllReservationDetails();
+            //GetAllGuest(); listbox için
+            GetAllGuestList(); //datagrid için
+
+
+        }
+
+        private void GetAllReservationDetails()
+        {
+            var booking = _bookingService.GetAll();
+            lstList.DataSource = booking;
+        }
+        private void GetAllGuestList()
+        {
+            var guests = _guestService.GetAll();
+            dgvList.DataSource = null;
+            dgvList.DataSource = guests;
+        }
+
+        #region listbox kullanırsak bunu kullanıcaz
+        /* private void GetAllGuest()
+         {
+             var guests = _guestService.GetAll();
+             lstList.DataSource = null;
+             lstList.DataSource = guests;
+             lstList.DisplayMember = "FullName" + "TCNo" + "DateOfBirth" + "Address" + "Phone" + "Email" + "CreateAt" + "UpdateAt"; // Bu tür bir özellik tanımladığınızdan emin olun
+             lstList.ValueMember = "Id"; // `Guid`'in kullanıldığı ID alanı
+         }*/
+        #endregion
+
+        private void btnSil_Click(object sender, EventArgs e)
+        {
+            #region listbox da silme
+            //try
+            //{
+            //    if (lstList.SelectedIndex != -1)
+            //    {
+            //        var selectedValue = lstList.SelectedValue;
+            //        if (selectedValue != null && Guid.TryParse(selectedValue.ToString(), out Guid guestId))
+            //        {
+            //            _guestService.Delete(guestId);
+            //            GetAllGuest();
+            //            MessageBox.Show("Misafir Silindi.");
+            //        }
+            //        else
+            //        {
+            //            MessageBox.Show("Geçersiz misafir ID.");
+            //        }
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Silinecek bir misafir seç.");
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Hata var :" + ex.Message);
+            //}
+            #endregion
+
+            try
+            {
+                if (dgvList.SelectedRows.Count > 0)
+                {
+                    var selectedRow = dgvList.SelectedRows[0];
+                    var guestId = (Guid)selectedRow.Cells["Id"].Value; // "Id" sütun adınız olmalı
+
+                    _guestService.Delete(guestId);
+                    GetAllGuestList();
+                    MessageBox.Show("Misafir Silindi.");
+                }
+                else
+                {
+                    MessageBox.Show("Silinecek bir misafir seç.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hata var :" + ex.Message);
+            }
         }
     }
 }

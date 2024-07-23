@@ -68,7 +68,8 @@
             btnListele = new Button();
             btnSil = new Button();
             groupBox4 = new GroupBox();
-            dgvListe = new DataGridView();
+            dgvList = new DataGridView();
+            lstList = new ListBox();
             lblSearch = new Label();
             nmrGuestNumber = new NumericUpDown();
             lblGuestNum = new Label();
@@ -77,7 +78,7 @@
             grpGuest.SuspendLayout();
             grpRezervasyon.SuspendLayout();
             groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvListe).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvList).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nmrGuestNumber).BeginInit();
             SuspendLayout();
             // 
@@ -482,6 +483,7 @@
             btnListele.TabIndex = 11;
             btnListele.Text = "Listele";
             btnListele.UseVisualStyleBackColor = false;
+            btnListele.Click += btnListele_Click;
             // 
             // btnSil
             // 
@@ -493,10 +495,12 @@
             btnSil.TabIndex = 12;
             btnSil.Text = "Sil";
             btnSil.UseVisualStyleBackColor = false;
+            btnSil.Click += btnSil_Click;
             // 
             // groupBox4
             // 
-            groupBox4.Controls.Add(dgvListe);
+            groupBox4.Controls.Add(dgvList);
+            groupBox4.Controls.Add(lstList);
             groupBox4.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             groupBox4.Location = new Point(18, 409);
             groupBox4.Name = "groupBox4";
@@ -505,15 +509,22 @@
             groupBox4.TabStop = false;
             groupBox4.Text = "Rezervasyon Listesi";
             // 
-            // dgvListe
+            // dgvList
             // 
-            dgvListe.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvListe.Dock = DockStyle.Fill;
-            dgvListe.Location = new Point(3, 22);
-            dgvListe.Name = "dgvListe";
-            dgvListe.RowHeadersWidth = 51;
-            dgvListe.Size = new Size(987, 238);
-            dgvListe.TabIndex = 0;
+            dgvList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvList.Location = new Point(10, 22);
+            dgvList.Name = "dgvList";
+            dgvList.Size = new Size(974, 236);
+            dgvList.TabIndex = 1;
+            // 
+            // lstList
+            // 
+            lstList.FormattingEnabled = true;
+            lstList.ItemHeight = 19;
+            lstList.Location = new Point(10, 22);
+            lstList.Name = "lstList";
+            lstList.Size = new Size(974, 80);
+            lstList.TabIndex = 0;
             // 
             // lblSearch
             // 
@@ -589,7 +600,7 @@
             grpRezervasyon.ResumeLayout(false);
             grpRezervasyon.PerformLayout();
             groupBox4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dgvListe).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvList).EndInit();
             ((System.ComponentModel.ISupportInitialize)nmrGuestNumber).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -622,7 +633,6 @@
         private Button btnListele;
         private Button btnSil;
         private GroupBox groupBox4;
-        private DataGridView dgvListe;
         private Label lblSearch;
         private NumericUpDown nmrGuestNumber;
         private Label lblGuestNum;
@@ -643,5 +653,7 @@
         private Label lbllabelDescription;
         private Label label3;
         private Label label2;
+        private ListBox lstList;
+        private DataGridView dgvList;
     }
 }
