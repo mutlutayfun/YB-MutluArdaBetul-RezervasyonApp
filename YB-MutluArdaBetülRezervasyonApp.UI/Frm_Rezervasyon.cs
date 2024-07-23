@@ -11,6 +11,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private readonly GuestService _guestService;
         private readonly BookingService _bookingService;
         private readonly PaymentService _paymentService;
+        private readonly HotelService _hotelService;
         public Frm_Rezervasyon()
         {
             InitializeComponent();
@@ -21,6 +22,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             _bookingService = new BookingService(bRepo);
             PaymentRepository pRepo = new PaymentRepository(_context);
             _paymentService = new PaymentService(pRepo);
+            HotelRepository hRepo = new HotelRepository(_context);
+            _hotelService = new HotelService(hRepo);
         }
 
 
@@ -99,6 +102,14 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             }
 
         }
+        private void GetAllHotels()
+        {
+            var hotels = _hotelService.GetAll();
+            cmbHName.DataSource = hotels;
+            cmbHName.DisplayMember = "Name";
+            cmbHName.ValueMember = "Id";
+        }
+
 
         private void BookingList()
         {
@@ -108,7 +119,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         private void Frm_Rezervasyon_Load(object sender, EventArgs e)
         {
-
+            GetAllHotels();
+            BookingList();
         }
 
         private void nmrGuestNumber_ValueChanged(object sender, EventArgs e)
