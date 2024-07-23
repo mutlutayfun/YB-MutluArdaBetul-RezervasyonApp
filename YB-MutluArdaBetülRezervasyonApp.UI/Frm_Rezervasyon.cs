@@ -12,6 +12,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private readonly BookingService _bookingService;
         private readonly PaymentService _paymentService;
         private readonly HotelService _hotelService;
+        private readonly RoomTypeService _roomTypeService;
         public Frm_Rezervasyon()
         {
             InitializeComponent();
@@ -24,15 +25,18 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             _paymentService = new PaymentService(pRepo);
             HotelRepository hRepo = new HotelRepository(_context);
             _hotelService = new HotelService(hRepo);
+            RoomTypeRepository rtRepo = new RoomTypeRepository(_context);
+            _roomTypeService = new RoomTypeService(rtRepo);
         }
 
 
 
         private void btnExit_Click_1(object sender, EventArgs e)
         {
-            MessageBox.Show(" Mutlu Günler... ");
+            MessageBox.Show(" Hoşçakal... ");
             Application.Exit();
         }
+
 
         private int maxGuestCount = 0;
         private void btnGuestSave_Click(object sender, EventArgs e)
@@ -105,6 +109,33 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             cmbHName.ValueMember = "Id";
             cmbHName.Refresh();
         }
+
+        private void GetAllRoomTypes()
+        {
+            var roomTypes = _roomTypeService.GetAll();
+            cmbOdaTipi.DataSource = null;
+            cmbOdaTipi.DataSource = roomTypes;
+            cmbOdaTipi.DisplayMember = "Name";
+            cmbOdaTipi.ValueMember = "Id";
+        }
+
+        private void CalculateTotal()
+        {
+            var selectedRoomType = cmbOdaTipi.SelectedItem as RoomType;
+            if (selectedRoomType != null)
+            {
+                int days = (dtpCikisTarihi.Value - dtpGirisTarihi.Value).Days;
+                if (days > 0)
+                {
+                    decimal? total = days * selectedRoomType.PricePerNight;
+                    lblTotalPrice.Text = $"{total}TL";
+                }
+                else
+                {
+                    lblTotalPrice.Text = "Geçersiz tarih aralığı.";
+                }
+            }
+        }
         private void BookingList()
         {
             var bookingList = _bookingService.GetBookingsWithGuests();
@@ -114,6 +145,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private void Frm_Rezervasyon_Load(object sender, EventArgs e)
         {
             GetAllHotels();
+            GetAllRoomTypes();
             BookingList();
         }
 
@@ -125,6 +157,39 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private void cmbHName_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedHotel = cmbHName.SelectedItem as Hotel;
+        }
+
+        private void cmbOdaTipi_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedRoomType = cmbOdaTipi.SelectedItem as RoomType;
+            if (selectedRoomType != null)
+            {
+                lblPricePerNight.Text = $"{selectedRoomType.PricePerNight} TL";
+                lblCapacity.Text = $"{selectedRoomType.Capacity} kişi";
+                lbllabelDescription.Text = $"{selectedRoomType.Description}";
+            }
+            CalculateTotal();
+        }
+
+        private void lblTotalPrice_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dtpCikisTarihi_ValueChanged(object sender, EventArgs e)
+        {
+
+            CalculateTotal();
+        }
+
+        private void dtpGirisTarihi_ValueChanged(object sender, EventArgs e)
+        {
+            CalculateTotal();
+        }
+
+        private void btnOluştur_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
