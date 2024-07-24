@@ -30,6 +30,8 @@
         {
             btnExit = new Button();
             grpGuest = new GroupBox();
+            lblIleri = new Label();
+            lblGeri = new Label();
             txtTCNo = new TextBox();
             lblTcNo = new Label();
             txtGuestMail = new TextBox();
@@ -49,8 +51,10 @@
             lblGecelikUcret = new Label();
             label1 = new Label();
             grpRezervasyon = new GroupBox();
-            cmbMusteriAdi = new ComboBox();
-            lblMusteriName = new Label();
+            cmbOdaNo = new ComboBox();
+            label4 = new Label();
+            lblGuestNum = new Label();
+            nmrGuestNumber = new NumericUpDown();
             lblGun = new Label();
             cmbPaymentMethod = new ComboBox();
             lblPaymentMethod = new Label();
@@ -76,16 +80,13 @@
             dgvList = new DataGridView();
             lstList = new ListBox();
             lblSearch = new Label();
-            nmrGuestNumber = new NumericUpDown();
-            lblGuestNum = new Label();
             txtSearch = new TextBox();
-            btnSearch = new Button();
             btnClear = new Button();
             grpGuest.SuspendLayout();
             grpRezervasyon.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nmrGuestNumber).BeginInit();
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvList).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)nmrGuestNumber).BeginInit();
             SuspendLayout();
             // 
             // btnExit
@@ -103,6 +104,8 @@
             // 
             // grpGuest
             // 
+            grpGuest.Controls.Add(lblIleri);
+            grpGuest.Controls.Add(lblGeri);
             grpGuest.Controls.Add(txtTCNo);
             grpGuest.Controls.Add(lblTcNo);
             grpGuest.Controls.Add(txtGuestMail);
@@ -125,6 +128,27 @@
             grpGuest.TabIndex = 1;
             grpGuest.TabStop = false;
             grpGuest.Text = "Misafir";
+            // 
+            // lblIleri
+            // 
+            lblIleri.AutoSize = true;
+            lblIleri.BackColor = Color.Wheat;
+            lblIleri.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold);
+            lblIleri.Location = new Point(243, 238);
+            lblIleri.Name = "lblIleri";
+            lblIleri.Size = new Size(38, 25);
+            lblIleri.TabIndex = 20;
+            lblIleri.Text = ">>";
+            // 
+            // lblGeri
+            // 
+            lblGeri.AutoSize = true;
+            lblGeri.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold);
+            lblGeri.Location = new Point(179, 238);
+            lblGeri.Name = "lblGeri";
+            lblGeri.Size = new Size(38, 25);
+            lblGeri.TabIndex = 20;
+            lblGeri.Text = "<<";
             // 
             // txtTCNo
             // 
@@ -260,7 +284,7 @@
             // cmbOdaTipi
             // 
             cmbOdaTipi.FormattingEnabled = true;
-            cmbOdaTipi.Location = new Point(171, 81);
+            cmbOdaTipi.Location = new Point(170, 71);
             cmbOdaTipi.Name = "cmbOdaTipi";
             cmbOdaTipi.Size = new Size(194, 27);
             cmbOdaTipi.TabIndex = 5;
@@ -270,7 +294,7 @@
             // 
             lblGecelikUcret.AutoSize = true;
             lblGecelikUcret.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            lblGecelikUcret.Location = new Point(5, 107);
+            lblGecelikUcret.Location = new Point(5, 155);
             lblGecelikUcret.Name = "lblGecelikUcret";
             lblGecelikUcret.Size = new Size(110, 19);
             lblGecelikUcret.TabIndex = 2;
@@ -286,8 +310,10 @@
             // 
             // grpRezervasyon
             // 
-            grpRezervasyon.Controls.Add(cmbMusteriAdi);
-            grpRezervasyon.Controls.Add(lblMusteriName);
+            grpRezervasyon.Controls.Add(cmbOdaNo);
+            grpRezervasyon.Controls.Add(label4);
+            grpRezervasyon.Controls.Add(lblGuestNum);
+            grpRezervasyon.Controls.Add(nmrGuestNumber);
             grpRezervasyon.Controls.Add(lblGun);
             grpRezervasyon.Controls.Add(cmbPaymentMethod);
             grpRezervasyon.Controls.Add(lblPaymentMethod);
@@ -310,30 +336,49 @@
             grpRezervasyon.Controls.Add(label1);
             grpRezervasyon.Controls.Add(lblGecelikUcret);
             grpRezervasyon.Font = new Font("Segoe UI", 10.2F);
-            grpRezervasyon.Location = new Point(376, 18);
+            grpRezervasyon.Location = new Point(376, -4);
             grpRezervasyon.Name = "grpRezervasyon";
-            grpRezervasyon.Size = new Size(426, 354);
+            grpRezervasyon.Size = new Size(426, 376);
             grpRezervasyon.TabIndex = 7;
             grpRezervasyon.TabStop = false;
             grpRezervasyon.Text = "Rezervasyon";
+            grpRezervasyon.Enter += grpRezervasyon_Enter;
             // 
-            // cmbMusteriAdi
+            // cmbOdaNo
             // 
-            cmbMusteriAdi.FormattingEnabled = true;
-            cmbMusteriAdi.Location = new Point(170, 20);
-            cmbMusteriAdi.Name = "cmbMusteriAdi";
-            cmbMusteriAdi.Size = new Size(194, 27);
-            cmbMusteriAdi.TabIndex = 27;
+            cmbOdaNo.FormattingEnabled = true;
+            cmbOdaNo.Location = new Point(170, 97);
+            cmbOdaNo.Name = "cmbOdaNo";
+            cmbOdaNo.Size = new Size(194, 27);
+            cmbOdaNo.TabIndex = 29;
             // 
-            // lblMusteriName
+            // label4
             // 
-            lblMusteriName.AutoSize = true;
-            lblMusteriName.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            lblMusteriName.Location = new Point(9, 26);
-            lblMusteriName.Name = "lblMusteriName";
-            lblMusteriName.Size = new Size(136, 19);
-            lblMusteriName.TabIndex = 26;
-            lblMusteriName.Text = "Müsteri Ad Soyad :";
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            label4.Location = new Point(9, 100);
+            label4.Name = "label4";
+            label4.Size = new Size(69, 19);
+            label4.TabIndex = 28;
+            label4.Text = "Oda No :";
+            // 
+            // lblGuestNum
+            // 
+            lblGuestNum.AutoSize = true;
+            lblGuestNum.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            lblGuestNum.Location = new Point(5, 25);
+            lblGuestNum.Name = "lblGuestNum";
+            lblGuestNum.Size = new Size(105, 19);
+            lblGuestNum.TabIndex = 16;
+            lblGuestNum.Text = "Misafir Sayısı :";
+            // 
+            // nmrGuestNumber
+            // 
+            nmrGuestNumber.Location = new Point(170, 18);
+            nmrGuestNumber.Name = "nmrGuestNumber";
+            nmrGuestNumber.Size = new Size(58, 26);
+            nmrGuestNumber.TabIndex = 15;
+            nmrGuestNumber.ValueChanged += nmrGuestNumber_ValueChanged;
             // 
             // lblGun
             // 
@@ -341,7 +386,7 @@
             lblGun.BackColor = Color.Wheat;
             lblGun.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold | FontStyle.Italic);
             lblGun.ForeColor = Color.Black;
-            lblGun.Location = new Point(307, 238);
+            lblGun.Location = new Point(307, 286);
             lblGun.Name = "lblGun";
             lblGun.Size = new Size(53, 19);
             lblGun.TabIndex = 25;
@@ -350,7 +395,7 @@
             // cmbPaymentMethod
             // 
             cmbPaymentMethod.FormattingEnabled = true;
-            cmbPaymentMethod.Location = new Point(121, 286);
+            cmbPaymentMethod.Location = new Point(121, 334);
             cmbPaymentMethod.Name = "cmbPaymentMethod";
             cmbPaymentMethod.Size = new Size(139, 27);
             cmbPaymentMethod.TabIndex = 24;
@@ -360,7 +405,7 @@
             // 
             lblPaymentMethod.AutoSize = true;
             lblPaymentMethod.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            lblPaymentMethod.Location = new Point(9, 289);
+            lblPaymentMethod.Location = new Point(9, 337);
             lblPaymentMethod.Name = "lblPaymentMethod";
             lblPaymentMethod.Size = new Size(102, 19);
             lblPaymentMethod.TabIndex = 23;
@@ -372,7 +417,7 @@
             lblCapacity.BackColor = Color.Wheat;
             lblCapacity.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold | FontStyle.Italic);
             lblCapacity.ForeColor = Color.Black;
-            lblCapacity.Location = new Point(171, 157);
+            lblCapacity.Location = new Point(171, 205);
             lblCapacity.Name = "lblCapacity";
             lblCapacity.Size = new Size(121, 19);
             lblCapacity.TabIndex = 22;
@@ -384,7 +429,7 @@
             lbllabelDescription.BackColor = Color.Wheat;
             lbllabelDescription.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold | FontStyle.Italic);
             lbllabelDescription.ForeColor = Color.Black;
-            lbllabelDescription.Location = new Point(171, 128);
+            lbllabelDescription.Location = new Point(171, 176);
             lbllabelDescription.Name = "lbllabelDescription";
             lbllabelDescription.Size = new Size(121, 19);
             lbllabelDescription.TabIndex = 21;
@@ -394,7 +439,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            label3.Location = new Point(7, 157);
+            label3.Location = new Point(7, 205);
             label3.Name = "label3";
             label3.Size = new Size(74, 19);
             label3.TabIndex = 20;
@@ -404,7 +449,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            label2.Location = new Point(6, 128);
+            label2.Location = new Point(6, 176);
             label2.Name = "label2";
             label2.Size = new Size(79, 19);
             label2.TabIndex = 19;
@@ -416,7 +461,7 @@
             lblTotalPrice.BackColor = Color.Wheat;
             lblTotalPrice.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold | FontStyle.Italic);
             lblTotalPrice.ForeColor = Color.Red;
-            lblTotalPrice.Location = new Point(170, 253);
+            lblTotalPrice.Location = new Point(170, 301);
             lblTotalPrice.Name = "lblTotalPrice";
             lblTotalPrice.Size = new Size(93, 19);
             lblTotalPrice.TabIndex = 18;
@@ -429,7 +474,7 @@
             lblPricePerNight.BackColor = Color.Wheat;
             lblPricePerNight.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold | FontStyle.Italic);
             lblPricePerNight.ForeColor = Color.Black;
-            lblPricePerNight.Location = new Point(171, 107);
+            lblPricePerNight.Location = new Point(170, 159);
             lblPricePerNight.Name = "lblPricePerNight";
             lblPricePerNight.Size = new Size(121, 19);
             lblPricePerNight.TabIndex = 18;
@@ -439,7 +484,7 @@
             // 
             lblGrsTarih.AutoSize = true;
             lblGrsTarih.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            lblGrsTarih.Location = new Point(7, 185);
+            lblGrsTarih.Location = new Point(7, 233);
             lblGrsTarih.Name = "lblGrsTarih";
             lblGrsTarih.Size = new Size(88, 19);
             lblGrsTarih.TabIndex = 17;
@@ -459,7 +504,7 @@
             // 
             lblTutar.AutoSize = true;
             lblTutar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            lblTutar.Location = new Point(9, 253);
+            lblTutar.Location = new Point(9, 301);
             lblTutar.Name = "lblTutar";
             lblTutar.Size = new Size(51, 19);
             lblTutar.TabIndex = 15;
@@ -467,7 +512,7 @@
             // 
             // dtpCikisTarihi
             // 
-            dtpCikisTarihi.Location = new Point(170, 213);
+            dtpCikisTarihi.Location = new Point(170, 261);
             dtpCikisTarihi.Name = "dtpCikisTarihi";
             dtpCikisTarihi.Size = new Size(194, 26);
             dtpCikisTarihi.TabIndex = 13;
@@ -476,7 +521,7 @@
             // cmbHName
             // 
             cmbHName.FormattingEnabled = true;
-            cmbHName.Location = new Point(171, 52);
+            cmbHName.Location = new Point(170, 46);
             cmbHName.Name = "cmbHName";
             cmbHName.Size = new Size(194, 27);
             cmbHName.TabIndex = 12;
@@ -486,7 +531,7 @@
             // 
             lblCksTarih.AutoSize = true;
             lblCksTarih.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            lblCksTarih.Location = new Point(7, 215);
+            lblCksTarih.Location = new Point(7, 263);
             lblCksTarih.Name = "lblCksTarih";
             lblCksTarih.Size = new Size(89, 19);
             lblCksTarih.TabIndex = 6;
@@ -504,7 +549,7 @@
             // 
             // dtpGirisTarihi
             // 
-            dtpGirisTarihi.Location = new Point(170, 184);
+            dtpGirisTarihi.Location = new Point(170, 232);
             dtpGirisTarihi.Name = "dtpGirisTarihi";
             dtpGirisTarihi.Size = new Size(195, 26);
             dtpGirisTarihi.TabIndex = 10;
@@ -514,7 +559,7 @@
             // 
             btnOlustur.BackColor = Color.LimeGreen;
             btnOlustur.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnOlustur.Location = new Point(283, 278);
+            btnOlustur.Location = new Point(283, 326);
             btnOlustur.Name = "btnOlustur";
             btnOlustur.Size = new Size(137, 43);
             btnOlustur.TabIndex = 9;
@@ -578,7 +623,7 @@
             dgvList.RowHeadersWidth = 51;
             dgvList.Size = new Size(974, 236);
             dgvList.TabIndex = 1;
-            dgvList.CellContentClick += dgvList_CellContentClick;
+            dgvList.CellDoubleClick += dgvList_CellDoubleClick;
             // 
             // lstList
             // 
@@ -599,24 +644,6 @@
             lblSearch.TabIndex = 14;
             lblSearch.Text = "Rezervasyon Ara :";
             // 
-            // nmrGuestNumber
-            // 
-            nmrGuestNumber.Location = new Point(134, 18);
-            nmrGuestNumber.Name = "nmrGuestNumber";
-            nmrGuestNumber.Size = new Size(58, 23);
-            nmrGuestNumber.TabIndex = 15;
-            nmrGuestNumber.ValueChanged += nmrGuestNumber_ValueChanged;
-            // 
-            // lblGuestNum
-            // 
-            lblGuestNum.AutoSize = true;
-            lblGuestNum.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            lblGuestNum.Location = new Point(18, 18);
-            lblGuestNum.Name = "lblGuestNum";
-            lblGuestNum.Size = new Size(105, 19);
-            lblGuestNum.TabIndex = 16;
-            lblGuestNum.Text = "Misafir Sayısı :";
-            // 
             // txtSearch
             // 
             txtSearch.Location = new Point(306, 382);
@@ -624,17 +651,6 @@
             txtSearch.Size = new Size(212, 23);
             txtSearch.TabIndex = 17;
             txtSearch.TextChanged += txtSearch_TextChanged;
-            // 
-            // btnSearch
-            // 
-            btnSearch.BackColor = Color.LimeGreen;
-            btnSearch.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnSearch.Location = new Point(523, 378);
-            btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(65, 28);
-            btnSearch.TabIndex = 18;
-            btnSearch.Text = "Ara";
-            btnSearch.UseVisualStyleBackColor = false;
             // 
             // btnClear
             // 
@@ -655,10 +671,7 @@
             BackColor = Color.Wheat;
             ClientSize = new Size(1034, 681);
             Controls.Add(btnClear);
-            Controls.Add(btnSearch);
             Controls.Add(txtSearch);
-            Controls.Add(lblGuestNum);
-            Controls.Add(nmrGuestNumber);
             Controls.Add(lblSearch);
             Controls.Add(groupBox4);
             Controls.Add(btnSil);
@@ -675,9 +688,9 @@
             grpGuest.PerformLayout();
             grpRezervasyon.ResumeLayout(false);
             grpRezervasyon.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nmrGuestNumber).EndInit();
             groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvList).EndInit();
-            ((System.ComponentModel.ISupportInitialize)nmrGuestNumber).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -724,7 +737,6 @@
         private Label lblGrsTarih;
         private Label lblTotalPrice;
         private Label lblPricePerNight;
-        private Button btnSearch;
         private Label lblCapacity;
         private Label lbllabelDescription;
         private Label label3;
@@ -735,7 +747,9 @@
         private ComboBox cmbPaymentMethod;
         private Button btnClear;
         private Label lblGun;
-        private ComboBox cmbMusteriAdi;
-        private Label lblMusteriName;
+        private ComboBox cmbOdaNo;
+        private Label label4;
+        private Label lblIleri;
+        private Label lblGeri;
     }
 }

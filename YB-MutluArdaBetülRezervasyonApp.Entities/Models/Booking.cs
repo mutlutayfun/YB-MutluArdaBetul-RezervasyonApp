@@ -14,7 +14,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.Entities.Models
         public decimal? TotalPrice { get; set; }
         public Guid RoomId { get; set; }
         public Room? Room { get; set; }
-        
+        public Guid RoomTypeId { get; set; }
         public ICollection<Payment>? Payments { get; set; }
         public ICollection<GuestBooking>? GuestBookings { get; set; }
     }

@@ -14,6 +14,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.Entities.Models
         public Guid RoomTypeId{ get; set; }
         public RoomType? RoomType { get; set; }
         public string? Status { get; set; }
+        public string? RoomNo { get; set; }
         public ICollection<Booking>? Bookings { get; set; }
     }
 }

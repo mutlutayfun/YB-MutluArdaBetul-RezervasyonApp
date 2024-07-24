@@ -23,6 +23,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.Business.Services
             {
                 throw new Exception(string.Join("\n", result.Errors));
             }
+            
             _roomRepository.Add(entity);
         }
 
@@ -53,6 +54,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.Business.Services
                 _roomRepository.Update(entity);
             }
         }
+
     }
 
 }

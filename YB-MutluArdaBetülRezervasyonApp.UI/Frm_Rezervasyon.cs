@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using System.Windows.Forms;
 using YB_MutluArdaBetülRezervasyonApp.Business.Abstractions;
 using YB_MutluArdaBetülRezervasyonApp.Business.Services;
@@ -17,6 +18,9 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private readonly HotelService _hotelService;
         private readonly RoomTypeService _roomTypeService;
         private readonly GuestBookingService _guestBookingService;
+        private readonly RoomService _roomService;
+
+        private List<Guest> _guestList;
         private Guest _guest;
 
         public Frm_Rezervasyon()
@@ -35,12 +39,23 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             _roomTypeService = new RoomTypeService(rtRepo);
             GuestBookingRepository gbRepo = new GuestBookingRepository(_context);
             _guestBookingService = new GuestBookingService(gbRepo);
+            RoomRepository rRepo = new RoomRepository(_context);
+            _roomService = new RoomService(rRepo);
+            _guestList = new List<Guest>();
+
 
             dgvList.SelectionChanged += dgvList_SelectionChanged;//Seçili satırı ekrana getirmek için eklelndi.
             btnGuncelle.Click += btnGuncelle_Click;
         }
 
-
+        private void AddGuest(Guest guest)
+        {
+            if (_guestList == null)
+            {
+                _guestList = new List<Guest>();
+            }
+            _guestList.Add(guest);
+        }
 
         private void btnExit_Click_1(object sender, EventArgs e)
         {
@@ -56,31 +71,41 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             {
                 var guestCount = (int)nmrGuestNumber.Value;
 
-                if (maxGuestCount + guestCount > 5)
+                if (guestCount > 0)
                 {
-                    MessageBox.Show("Maksimum misafir sayısına ulaşıldı. Daha fazla misafir eklenemez.");
-                    return;
-                }
-
-                for (int i = 0; i < guestCount; i++)
-                {
-                    Guest guest = new Guest()
+                    if (maxGuestCount + guestCount > 5)
                     {
-                        TCNo = txtTCNo.Text,
-                        FirstName = txtGuestName.Text,
-                        LastName = txtGuestSurname.Text,
-                        Address = txtGuestAddress.Text,
-                        DateOfBirth = DateTime.Parse(dtpDogumTarihi.Text),
-                        CreateAt = DateTime.Now,
-                        Phone = txtGuestPhone.Text,
-                        Email = txtGuestMail.Text,
-                        IsActive = true
-                    };
-                    _guestService.Add(guest);
+                        MessageBox.Show("Maksimum misafir sayısına ulaşıldı. Daha fazla misafir eklenemez.");
+                        return;
+                    }
+
+                    for (int i = 0; i < guestCount; i++)
+                    {
+                        Guest guest = new Guest()
+                        {
+                            TCNo = txtTCNo.Text,
+                            FirstName = txtGuestName.Text,
+                            LastName = txtGuestSurname.Text,
+                            Address = txtGuestAddress.Text,
+                            DateOfBirth = DateTime.Parse(dtpDogumTarihi.Text),
+                            CreateAt = DateTime.Now,
+                            Phone = txtGuestPhone.Text,
+                            Email = txtGuestMail.Text,
+                            IsActive = true
+                        };
+                        _guestList.Add(guest);
+                        _guestService.Add(guest);
+                        AddGuest(guest);
+
+                    }
+                    maxGuestCount += guestCount;
+                    MessageBox.Show($"{guestCount} misafir başarıyla eklendi.");
+                    //GetByGuest();
                 }
-                maxGuestCount += guestCount;
-                MessageBox.Show($"{guestCount} misafir başarıyla eklendi.");
-                GetAllGuestList();
+                else
+                {
+                    MessageBox.Show("Misafir sayısını giriniz");
+                }
 
             }
             catch (Exception ex)
@@ -123,16 +148,16 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             cmbHName.Refresh();
         }
 
-        private void GetByGuest()
-        {
-            var guests = _guestService.GetAll();
+        //private void GetByGuest()
+        //{
+        //    var guests = _guestService.GetAll();
 
-            cmbMusteriAdi.DataSource = null;
-            cmbMusteriAdi.DataSource= guests;
-            cmbMusteriAdi.DisplayMember = "FirstName";
-            cmbMusteriAdi.ValueMember = "Id";
-            cmbMusteriAdi.Refresh();
-        }
+        //    cmbMusteriAdi.DataSource = null;
+        //    cmbMusteriAdi.DataSource = guests;
+        //    cmbMusteriAdi.DisplayMember = "FirstName";
+        //    cmbMusteriAdi.ValueMember = "Id";
+
+        //}
 
         private void GetAllRoomTypes()
         {
@@ -143,6 +168,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             cmbOdaTipi.ValueMember = "Id";
         }
 
+        private decimal? _totalPrice;
         private void CalculateTotal()
         {
             var selectedRoomType = cmbOdaTipi.SelectedItem as RoomType;
@@ -151,20 +177,24 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 int days = (dtpCikisTarihi.Value - dtpGirisTarihi.Value).Days;
                 if (days > 0)
                 {
-                    lblGun.Text = $"{days}-Gece";
-                    decimal? total = days * selectedRoomType.PricePerNight;
-                    lblTotalPrice.Text = $"{total}TL";
+                    lblGun.Text = $"{days} Gece";
+
+                    decimal? pricePerNight = selectedRoomType.PricePerNight;
+                    _totalPrice = (pricePerNight ?? 0) * days;
+
+                    lblTotalPrice.Text = $"{_totalPrice:0.##} TL";
                 }
                 else
                 {
                     lblTotalPrice.Text = "Geçersiz tarih aralığı.";
+                    _totalPrice = null;
                 }
             }
         }
         private void BookingList()
         {
             var bookingList = _bookingService.GetBookingsWithGuests();
-            
+
 
         }
 
@@ -175,7 +205,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             GetPaymentMethod();
             BookingList();
             ClearControls();
-            GetByGuest();
+            //GetByGuest();
+            GetAllRoomList();
+
+            grpGuest.Visible = false;
 
             cmbHName.SelectedIndexChanged += cmbHName_SelectedIndexChanged;
             cmbOdaTipi.SelectedIndexChanged += cmbOdaTipi_SelectedIndexChanged;
@@ -254,13 +287,22 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private void GetAllReservationDetails()
         {
             var booking = _bookingService.GetAll();
-            lstList.DataSource = booking;
+            dgvList.DataSource = booking;
         }
         private void GetAllGuestList()
         {
             var guests = _guestService.GetAll();
             dgvList.DataSource = null;
             dgvList.DataSource = guests;
+        }
+        private void GetAllRoomList()
+        {
+            var room = _roomService.GetAll();
+            cmbOdaNo.DataSource = null;
+            cmbOdaNo.DataSource = room;
+            cmbOdaNo.DisplayMember = "RoomNo";
+            cmbOdaNo.ValueMember = "Id";
+
         }
 
         #region listbox kullanırsak bunu kullanıcaz
@@ -367,6 +409,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                     _guestService.Update(guest);
                     GetAllGuestList();
                     MessageBox.Show("Misafir Güncellendi.");
+                    //GetByGuest();
                 }
                 else
                 {
@@ -391,18 +434,15 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             txtGuestMail.Clear();
             dtpCikisTarihi.Value = DateTime.Now;
             dtpCikisTarihi.Value = DateTime.Now;
-            lblGun.Text= string.Empty;
-            lblPricePerNight.Text= string.Empty;
-            lblTotalPrice.Text= string.Empty;
-            lbllabelDescription.Text= string.Empty;
-            lblCapacity.Text= string.Empty;
+            lblGun.Text = string.Empty;
+            lblPricePerNight.Text = string.Empty;
+            lblTotalPrice.Text = string.Empty;
+            lbllabelDescription.Text = string.Empty;
+            lblCapacity.Text = string.Empty;
 
         }
 
-        private void dgvList_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
 
-        }
         private void dgvList_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvList.SelectedRows.Count > 0)
@@ -457,41 +497,64 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         {
             try
             {
-                var selectedHotel = cmbHName.SelectedItem as Hotel;
-                var selectedRoomType = cmbOdaTipi.SelectedItem as RoomType;
-
-
-
-                if (selectedHotel == null)
-                {
-                    MessageBox.Show("Lütfen bir otel seçiniz.");
-                    return;
-                }
-
-                if (selectedRoomType == null)
-                {
-                    MessageBox.Show("Lütfen bir oda tipi seçiniz.");
-                    return;
-                }
+                /*var selectedGuest = cmbMusteriAdi.SelectedItem as Guest*/
+                ;
 
 
 
                 Booking booking = new Booking()
                 {
-
-
+                    RoomId = Guid.Parse(cmbOdaNo.SelectedValue.ToString()),
+                    Room = _roomService.GetByID(Guid.Parse(cmbOdaNo.SelectedValue.ToString())),
+                    RoomTypeId = Guid.Parse(cmbOdaTipi.SelectedValue.ToString()),
                     CheckinDate = dtpGirisTarihi.Value,
                     CheckoutDate = dtpCikisTarihi.Value,
                     IsActive = true,
-                    //TotalPrice = total,
+                    TotalPrice = _totalPrice,
                 };
+
+
+
+                Payment payment = new Payment()
+                {
+                    BookingId = booking.Id,
+                    Amount = _totalPrice,
+                    PaymentDate = DateTime.Now,
+                    PaymentMethod = cmbPaymentMethod.Text,
+                };
+
+
+
                 _bookingService.Add(booking);
-                MessageBox.Show("Rezervasyon başarıyla oluşturuldu.");
+
+                foreach (var item in _guestList)
+                {
+                    GuestBooking guestBooking = new GuestBooking()
+                    {
+                        BookingId = booking.Id,
+                        GuestId = item.Id,
+                    };
+                    _guestBookingService.Add(guestBooking);
+                }
+                _paymentService.Add(payment);
+                MessageBox.Show($"{nmrGuestNumber.Value} adet Misafir girişi yapınız.");
+                grpGuest.Visible = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Bir hata oluştu: " + ex.Message);
             }
+            
+
+        }
+
+        private void dgvList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            grpGuest.Visible = true;
+        }
+
+        private void grpRezervasyon_Enter(object sender, EventArgs e)
+        {
 
         }
     }

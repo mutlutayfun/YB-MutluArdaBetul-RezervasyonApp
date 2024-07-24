@@ -23,8 +23,16 @@ namespace YB_MutluArdaBetülRezervasyonApp.Business.Services
             {
                 throw new Exception(string.Join("\n", result.Errors));
             }
+            RoomValidator rVal = new();
+            ValidationResult result1 = rVal.Validate(entity.Room);
+            if (!result1.IsValid)
+            {
+                throw new Exception(string.Join("\n", result1.Errors));
+            }
             _bookingRepository.Add(entity);
+
         }
+
 
         public void Delete(Guid id)
         {
@@ -61,6 +69,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.Business.Services
         {
             return _bookingRepository.GetDetailedBookings();
         }
+
+
     }
 
 }
