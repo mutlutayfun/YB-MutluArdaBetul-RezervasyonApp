@@ -14,7 +14,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
     {
         public static void DefinedClasses(this ModelBuilder modelBuilder)
         {
-            var guids = Helper.GenerateGuids(24);
+            var guids = Helper.GenerateGuids(31);
             var hotelId1 = guids[0];
             var hotelId2 = guids[1];
             var hotelId3 = guids[2];
@@ -38,6 +38,13 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
             var roomId10 = guids[21];
             var roomId11 = guids[22];
             var roomId12 = guids[23];
+            var roomId13 = guids[24];
+            var roomId14 = guids[25];
+            var roomId15 = guids[26];
+            var roomId16 = guids[27];
+            var roomId17 = guids[28];
+            var roomId18 = guids[29];
+            var roomId19 = guids[30];
 
             modelBuilder.Entity<Hotel>().HasData(
             new Hotel()
@@ -182,7 +189,16 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 HotelId =hotelId1,
                 RoomTypeId = roomTypeId1,
                 Status = "Boş",
-                RoomNo ="Single Oda",
+                RoomNo ="Single Oda-1",
+                IsActive = true
+            },
+            new Room()
+            {
+                Id = roomId13,
+                HotelId = hotelId1,
+                RoomTypeId = roomTypeId1,
+                Status = "Boş",
+                RoomNo = "Single Oda-2",
                 IsActive = true
             },
             new Room()
@@ -191,7 +207,16 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 HotelId = hotelId1,
                 RoomTypeId = roomTypeId2,
                 Status = "Boş",
-                RoomNo = "Double Oda",
+                RoomNo = "Double Oda-1",
+                IsActive = true
+            },
+            new Room()
+            {
+                Id = roomId14,
+                HotelId = hotelId1,
+                RoomTypeId = roomTypeId2,
+                Status = "Boş",
+                RoomNo = "Double Oda-2",
                 IsActive = true
             },
             new Room()
@@ -218,7 +243,16 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 HotelId = hotelId2,
                 RoomTypeId = roomTypeId1,
                 Status = "Boş",
-                RoomNo = "Single Oda",
+                RoomNo = "Single Oda-1",
+                IsActive = true
+            },
+            new Room()
+            {
+                Id = roomId15,
+                HotelId = hotelId2,
+                RoomTypeId = roomTypeId1,
+                Status = "Boş",
+                RoomNo = "Single Oda-2",
                 IsActive = true
             },
             new Room()
@@ -227,7 +261,16 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 HotelId = hotelId2,
                 RoomTypeId = roomTypeId2,
                 Status = "Boş",
-                RoomNo = "Double Oda",
+                RoomNo = "Double Oda-1",
+                IsActive = true
+            },
+            new Room()
+            {
+                Id = roomId16,
+                HotelId = hotelId2,
+                RoomTypeId = roomTypeId2,
+                Status = "Boş",
+                RoomNo = "Double Oda-2",
                 IsActive = true
             },
             new Room()
@@ -254,7 +297,16 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 HotelId = hotelId3,
                 RoomTypeId = roomTypeId1,
                 Status = "Boş",
-                RoomNo = "Single Oda",
+                RoomNo = "Single Oda-1",
+                IsActive = true
+            },
+            new Room()
+            {
+                Id = roomId17,
+                HotelId = hotelId3,
+                RoomTypeId = roomTypeId1,
+                Status = "Boş",
+                RoomNo = "Single Oda-2",
                 IsActive = true
             },
             new Room()
@@ -263,7 +315,16 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 HotelId = hotelId3,
                 RoomTypeId = roomTypeId2,
                 Status = "Boş",
-                RoomNo = "Double Oda",
+                RoomNo = "Double Oda-1",
+                IsActive = true
+            },
+            new Room()
+            {
+                Id = roomId18,
+                HotelId = hotelId3,
+                RoomTypeId = roomTypeId2,
+                Status = "Boş",
+                RoomNo = "Double Oda-2",
                 IsActive = true
             },
             new Room()

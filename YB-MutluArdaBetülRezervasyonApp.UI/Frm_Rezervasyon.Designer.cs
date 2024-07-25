@@ -285,7 +285,7 @@
             // cmbOdaTipi
             // 
             cmbOdaTipi.FormattingEnabled = true;
-            cmbOdaTipi.Location = new Point(194, 95);
+            cmbOdaTipi.Location = new Point(194, 102);
             cmbOdaTipi.Margin = new Padding(3, 4, 3, 4);
             cmbOdaTipi.Name = "cmbOdaTipi";
             cmbOdaTipi.Size = new Size(221, 31);
@@ -296,7 +296,7 @@
             // 
             lblGecelikUcret.AutoSize = true;
             lblGecelikUcret.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            lblGecelikUcret.Location = new Point(6, 207);
+            lblGecelikUcret.Location = new Point(6, 191);
             lblGecelikUcret.Name = "lblGecelikUcret";
             lblGecelikUcret.Size = new Size(131, 23);
             lblGecelikUcret.TabIndex = 2;
@@ -351,7 +351,7 @@
             // cmbOdaNo
             // 
             cmbOdaNo.FormattingEnabled = true;
-            cmbOdaNo.Location = new Point(194, 129);
+            cmbOdaNo.Location = new Point(194, 146);
             cmbOdaNo.Margin = new Padding(3, 4, 3, 4);
             cmbOdaNo.Name = "cmbOdaNo";
             cmbOdaNo.Size = new Size(221, 31);
@@ -362,7 +362,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            label4.Location = new Point(10, 133);
+            label4.Location = new Point(8, 154);
             label4.Name = "label4";
             label4.Size = new Size(81, 23);
             label4.TabIndex = 28;
@@ -437,7 +437,7 @@
             lbllabelDescription.BackColor = Color.Wheat;
             lbllabelDescription.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold | FontStyle.Italic);
             lbllabelDescription.ForeColor = Color.Black;
-            lbllabelDescription.Location = new Point(195, 235);
+            lbllabelDescription.Location = new Point(182, 235);
             lbllabelDescription.Name = "lbllabelDescription";
             lbllabelDescription.Size = new Size(150, 23);
             lbllabelDescription.TabIndex = 21;
@@ -457,7 +457,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            label2.Location = new Point(7, 235);
+            label2.Location = new Point(8, 235);
             label2.Name = "label2";
             label2.Size = new Size(94, 23);
             label2.TabIndex = 19;
@@ -482,7 +482,7 @@
             lblPricePerNight.BackColor = Color.Wheat;
             lblPricePerNight.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold | FontStyle.Italic);
             lblPricePerNight.ForeColor = Color.Black;
-            lblPricePerNight.Location = new Point(194, 212);
+            lblPricePerNight.Location = new Point(194, 191);
             lblPricePerNight.Name = "lblPricePerNight";
             lblPricePerNight.Size = new Size(150, 23);
             lblPricePerNight.TabIndex = 18;
@@ -502,7 +502,7 @@
             // 
             lblRoomType.AutoSize = true;
             lblRoomType.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            lblRoomType.Location = new Point(10, 103);
+            lblRoomType.Location = new Point(6, 110);
             lblRoomType.Name = "lblRoomType";
             lblRoomType.Size = new Size(89, 23);
             lblRoomType.TabIndex = 16;
@@ -551,7 +551,7 @@
             // 
             lblHName.AutoSize = true;
             lblHName.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            lblHName.Location = new Point(10, 69);
+            lblHName.Location = new Point(6, 69);
             lblHName.Name = "lblHName";
             lblHName.Size = new Size(87, 23);
             lblHName.TabIndex = 11;
