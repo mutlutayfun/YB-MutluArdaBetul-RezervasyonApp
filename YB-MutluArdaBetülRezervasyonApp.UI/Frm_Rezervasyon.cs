@@ -48,14 +48,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             btnGuncelle.Click += btnGuncelle_Click;
         }
 
-        private void AddGuest(Guest guest)
-        {
-            if (_guestList == null)
-            {
-                _guestList = new List<Guest>();
-            }
-            _guestList.Add(guest);
-        }
+
 
         private void btnExit_Click_1(object sender, EventArgs e)
         {
@@ -64,7 +57,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         }
 
 
-        private int maxGuestCount = 0;
+        private int maxGuestCount = 1;
         private void btnGuestSave_Click(object sender, EventArgs e)
         {
             try
@@ -73,13 +66,13 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
                 if (guestCount > 0)
                 {
-                    if (maxGuestCount + guestCount > 5)
+                    if (guestCount > 5)
                     {
                         MessageBox.Show("Maksimum misafir sayısına ulaşıldı. Daha fazla misafir eklenemez.");
                         return;
                     }
 
-                    for (int i = 0; i < guestCount; i++)
+                    if (guestCount >= maxGuestCount)
                     {
                         Guest guest = new Guest()
                         {
@@ -94,13 +87,16 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                             IsActive = true
                         };
                         _guestList.Add(guest);
-                        _guestService.Add(guest);
-                        AddGuest(guest);
-
+                        maxGuestCount++;
                     }
-                    maxGuestCount += guestCount;
-                    MessageBox.Show($"{guestCount} misafir başarıyla eklendi.");
-                    //GetByGuest();
+                    else
+                    {
+                        MessageBox.Show("Maksimum misafir sayısına ulaşıldı. Daha fazla misafir eklenemez.");
+                        ClearSpecificTextBoxes();
+                        return;
+                    }
+                    ClearSpecificTextBoxes();
+                    GetBtnGuestSave();
                 }
                 else
                 {
@@ -113,7 +109,22 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 MessageBox.Show($"Bir hata oluştu : {ex.Message}");
             }
         }
-
+        private void GetBtnGuestSave()
+        {
+            var guestSaveList = _guestList.ToList();
+            dgvList.DataSource = null;
+            dgvList.DataSource = guestSaveList;
+        }
+        private void ClearSpecificTextBoxes()
+        {
+            txtTCNo.Clear();
+            txtGuestName.Clear();
+            txtGuestSurname.Clear();
+            dtpDogumTarihi.Value = DateTime.Now;
+            txtGuestAddress.Clear();
+            txtGuestPhone.Clear();
+            txtGuestMail.Clear();
+        }
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             string searchText = txtSearch.Text.ToLower();
@@ -442,6 +453,23 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         }
 
+        private void btnSaveAllGuests_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                foreach (var guest in _guestList)
+                {
+                    _guestService.Add(guest);
+                }
+                _guestList.Clear();
+                MessageBox.Show("Tüm misafirler başarıyla kaydedildi.");
+                GetAllGuestList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Bir hata oluştu: {ex.Message}");
+            }
+        }
 
         private void dgvList_SelectionChanged(object sender, EventArgs e)
         {
@@ -497,11 +525,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         {
             try
             {
-                /*var selectedGuest = cmbMusteriAdi.SelectedItem as Guest*/
-                ;
-
-
-
                 Booking booking = new Booking()
                 {
                     RoomId = Guid.Parse(cmbOdaNo.SelectedValue.ToString()),
@@ -539,12 +562,13 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 _paymentService.Add(payment);
                 MessageBox.Show($"{nmrGuestNumber.Value} adet Misafir girişi yapınız.");
                 grpGuest.Visible = true;
+                grpRezervasyon.Visible = false;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Bir hata oluştu: " + ex.Message);
             }
-            
+
 
         }
 
@@ -557,6 +581,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         {
 
         }
+
     }
 }
 

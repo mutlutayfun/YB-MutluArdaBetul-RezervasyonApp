@@ -30,8 +30,6 @@
         {
             btnExit = new Button();
             grpGuest = new GroupBox();
-            lblIleri = new Label();
-            lblGeri = new Label();
             txtTCNo = new TextBox();
             lblTcNo = new Label();
             txtGuestMail = new TextBox();
@@ -82,6 +80,7 @@
             lblSearch = new Label();
             txtSearch = new TextBox();
             btnClear = new Button();
+            btnSaveAllGuests = new Button();
             grpGuest.SuspendLayout();
             grpRezervasyon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nmrGuestNumber).BeginInit();
@@ -104,8 +103,7 @@
             // 
             // grpGuest
             // 
-            grpGuest.Controls.Add(lblIleri);
-            grpGuest.Controls.Add(lblGeri);
+            grpGuest.Controls.Add(btnSaveAllGuests);
             grpGuest.Controls.Add(txtTCNo);
             grpGuest.Controls.Add(lblTcNo);
             grpGuest.Controls.Add(txtGuestMail);
@@ -122,33 +120,12 @@
             grpGuest.Controls.Add(lblSoyad);
             grpGuest.Controls.Add(lblIsim);
             grpGuest.Font = new Font("Segoe UI", 10.2F);
-            grpGuest.Location = new Point(18, 53);
+            grpGuest.Location = new Point(462, 13);
             grpGuest.Name = "grpGuest";
-            grpGuest.Size = new Size(340, 319);
+            grpGuest.Size = new Size(340, 355);
             grpGuest.TabIndex = 1;
             grpGuest.TabStop = false;
             grpGuest.Text = "Misafir";
-            // 
-            // lblIleri
-            // 
-            lblIleri.AutoSize = true;
-            lblIleri.BackColor = Color.Wheat;
-            lblIleri.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold);
-            lblIleri.Location = new Point(243, 238);
-            lblIleri.Name = "lblIleri";
-            lblIleri.Size = new Size(38, 25);
-            lblIleri.TabIndex = 20;
-            lblIleri.Text = ">>";
-            // 
-            // lblGeri
-            // 
-            lblGeri.AutoSize = true;
-            lblGeri.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold);
-            lblGeri.Location = new Point(179, 238);
-            lblGeri.Name = "lblGeri";
-            lblGeri.Size = new Size(38, 25);
-            lblGeri.TabIndex = 20;
-            lblGeri.Text = "<<";
             // 
             // txtTCNo
             // 
@@ -206,7 +183,7 @@
             // 
             btnGuestSave.BackColor = Color.LimeGreen;
             btnGuestSave.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnGuestSave.Location = new Point(140, 270);
+            btnGuestSave.Location = new Point(125, 247);
             btnGuestSave.Name = "btnGuestSave";
             btnGuestSave.Size = new Size(194, 39);
             btnGuestSave.TabIndex = 12;
@@ -336,7 +313,7 @@
             grpRezervasyon.Controls.Add(label1);
             grpRezervasyon.Controls.Add(lblGecelikUcret);
             grpRezervasyon.Font = new Font("Segoe UI", 10.2F);
-            grpRezervasyon.Location = new Point(376, -4);
+            grpRezervasyon.Location = new Point(18, 12);
             grpRezervasyon.Name = "grpRezervasyon";
             grpRezervasyon.Size = new Size(426, 376);
             grpRezervasyon.TabIndex = 7;
@@ -386,7 +363,7 @@
             lblGun.BackColor = Color.Wheat;
             lblGun.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold | FontStyle.Italic);
             lblGun.ForeColor = Color.Black;
-            lblGun.Location = new Point(307, 286);
+            lblGun.Location = new Point(311, 291);
             lblGun.Name = "lblGun";
             lblGun.Size = new Size(53, 19);
             lblGun.TabIndex = 25;
@@ -541,7 +518,7 @@
             // 
             lblHName.AutoSize = true;
             lblHName.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            lblHName.Location = new Point(9, 54);
+            lblHName.Location = new Point(9, 52);
             lblHName.Name = "lblHName";
             lblHName.Size = new Size(72, 19);
             lblHName.TabIndex = 11;
@@ -638,7 +615,7 @@
             // 
             lblSearch.AutoSize = true;
             lblSearch.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            lblSearch.Location = new Point(168, 382);
+            lblSearch.Location = new Point(630, 387);
             lblSearch.Name = "lblSearch";
             lblSearch.Size = new Size(131, 19);
             lblSearch.TabIndex = 14;
@@ -646,7 +623,7 @@
             // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(306, 382);
+            txtSearch.Location = new Point(790, 383);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(212, 23);
             txtSearch.TabIndex = 17;
@@ -663,6 +640,18 @@
             btnClear.Text = "Temizle";
             btnClear.UseVisualStyleBackColor = false;
             btnClear.Click += btnClear_Click;
+            // 
+            // btnSaveAllGuests
+            // 
+            btnSaveAllGuests.BackColor = Color.Turquoise;
+            btnSaveAllGuests.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            btnSaveAllGuests.Location = new Point(125, 300);
+            btnSaveAllGuests.Name = "btnSaveAllGuests";
+            btnSaveAllGuests.Size = new Size(194, 38);
+            btnSaveAllGuests.TabIndex = 20;
+            btnSaveAllGuests.Text = "Listeye Ekle";
+            btnSaveAllGuests.UseVisualStyleBackColor = false;
+            btnSaveAllGuests.Click += btnSaveAllGuests_Click;
             // 
             // Frm_Rezervasyon
             // 
@@ -749,7 +738,6 @@
         private Label lblGun;
         private ComboBox cmbOdaNo;
         private Label label4;
-        private Label lblIleri;
-        private Label lblGeri;
+        private Button btnSaveAllGuests;
     }
 }
