@@ -138,7 +138,7 @@
             btnSaveAllGuests.Name = "btnSaveAllGuests";
             btnSaveAllGuests.Size = new Size(222, 51);
             btnSaveAllGuests.TabIndex = 20;
-            btnSaveAllGuests.Text = "Listeye Ekle";
+            btnSaveAllGuests.Text = "Tüm Misafirleri Kaydet";
             btnSaveAllGuests.UseVisualStyleBackColor = false;
             btnSaveAllGuests.Click += btnSaveAllGuests_Click;
             // 
@@ -209,7 +209,7 @@
             btnGuestSave.Name = "btnGuestSave";
             btnGuestSave.Size = new Size(222, 52);
             btnGuestSave.TabIndex = 12;
-            btnGuestSave.Text = "Kaydet";
+            btnGuestSave.Text = "Listeye Ekle";
             btnGuestSave.UseVisualStyleBackColor = false;
             btnGuestSave.Click += btnGuestSave_Click;
             // 

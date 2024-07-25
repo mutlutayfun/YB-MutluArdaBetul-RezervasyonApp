@@ -51,14 +51,27 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         }
 
 
+        private void Frm_Rezervasyon_Load(object sender, EventArgs e)
+        {
+            GetAllHotels();
+            GetAllRoomTypes();
+            GetPaymentMethod();
+            BookingList();
+            ClearControls();
 
+            grpGuest.Visible = false;
+
+            cmbHName.SelectedIndexChanged += cmbHName_SelectedIndexChanged;
+            cmbOdaTipi.SelectedIndexChanged += cmbOdaTipi_SelectedIndexChanged;
+            dtpGirisTarihi.ValueChanged += dtpGirisTarihi_ValueChanged;
+            dtpCikisTarihi.ValueChanged += dtpCikisTarihi_ValueChanged;
+
+        }
         private void btnExit_Click_1(object sender, EventArgs e)
         {
             MessageBox.Show(" Hoşçakal... ");
             Application.Exit();
         }
-
-
 
         private int maxGuestCount = 1;
         private void btnGuestSave_Click(object sender, EventArgs e)
@@ -112,22 +125,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 MessageBox.Show($"Bir hata oluştu : {ex.Message}");
             }
         }
-        private void GetBtnGuestSave()
-        {
-            var guestSaveList = _guestList.ToList();
-            dgvList.DataSource = null;
-            dgvList.DataSource = guestSaveList;
-        }
-        private void ClearSpecificTextBoxes()
-        {
-            txtTCNo.Clear();
-            txtGuestName.Clear();
-            txtGuestSurname.Clear();
-            dtpDogumTarihi.Value = DateTime.Now;
-            txtGuestAddress.Clear();
-            txtGuestPhone.Clear();
-            txtGuestMail.Clear();
-        }
+        
+
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             string searchText = txtSearch.Text.ToLower();
@@ -139,7 +138,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                                 join rt in _context.RoomTypes on b.RoomTypeId equals rt.Id
                                 join h in _context.Hotels on r.HotelId equals h.Id
                                 join p in _context.Payments on b.Id equals p.BookingId
-                                //where b.CheckinDate >= checkinDate && b.CheckoutDate <= checkoutDate
                                 orderby b.CheckinDate.Date
                                 select new
                                 {
@@ -179,85 +177,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 BookingList();
             }
         }
-        private void GetAllHotels()
-        {
-            var hotels = _hotelService.GetAll();
 
-            cmbHName.DataSource = null;
-            cmbHName.DataSource = hotels;
-            cmbHName.DisplayMember = "Name";
-            cmbHName.ValueMember = "Id";
-            cmbHName.Refresh();
-        }
-
-        private void GetAllRoomTypes()
-        {
-            var roomTypes = _roomTypeService.GetAll();
-            cmbOdaTipi.DataSource = null;
-            cmbOdaTipi.DataSource = roomTypes;
-            cmbOdaTipi.DisplayMember = "Name";
-            cmbOdaTipi.ValueMember = "Id";
-        }
-
-        private decimal? _totalPrice;
-        private void CalculateTotal()
-        {
-            var selectedRoomType = cmbOdaTipi.SelectedItem as RoomType;
-            if (selectedRoomType != null)
-            {
-                int days = (dtpCikisTarihi.Value - dtpGirisTarihi.Value).Days;
-                if (days > 0)
-                {
-                    lblGun.Text = $"{days} Gece";
-
-                    decimal? pricePerNight = selectedRoomType.PricePerNight;
-                    _totalPrice = (pricePerNight ?? 0) * days;
-
-                    lblTotalPrice.Text = $"{_totalPrice:0.##} TL";
-                }
-                else
-                {
-                    lblTotalPrice.Text = "Geçersiz tarih aralığı.";
-                    _totalPrice = null;
-                }
-            }
-        }
-        private void BookingList()
-        {
-            var bookingList = _bookingService.GetBookingsWithGuests();
-
-
-        }
-        private void Frm_Rezervasyon_Load(object sender, EventArgs e)
-        {
-            GetAllHotels();
-            GetAllRoomTypes();
-            GetPaymentMethod();
-            BookingList();
-            ClearControls();
-            //GetByGuest();
-
-            grpGuest.Visible = false;
-
-            cmbHName.SelectedIndexChanged += cmbHName_SelectedIndexChanged;
-            cmbOdaTipi.SelectedIndexChanged += cmbOdaTipi_SelectedIndexChanged;
-            dtpGirisTarihi.ValueChanged += dtpGirisTarihi_ValueChanged;
-            dtpCikisTarihi.ValueChanged += dtpCikisTarihi_ValueChanged;
-
-        }
-
-        private void GetPaymentMethod()
-        {
-
-            cmbPaymentMethod.Items.Add("Kredi Kartı");
-            cmbPaymentMethod.Items.Add("Nakit");
-
-        }
-
-        private void nmrGuestNumber_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void cmbHName_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -296,81 +216,9 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         }
 
-        private void GetAllReservationDetails()
-        {
-            var booking = _bookingService.GetAll();
-            dgvList.DataSource = booking;
-        }
-        private void GetAllGuestList()
-        {
-            var guests = _guestService.GetAll();
-            dgvList.DataSource = null;
-            dgvList.DataSource = guests;
-        }
-        private void GetAllRoomList()
-        {
-            var selectedHotel = cmbHName.SelectedItem as Hotel;
-            var selectedRoomType = cmbOdaTipi.SelectedItem as RoomType;
-
-            if (selectedHotel != null && selectedRoomType != null)
-            {
-                // Seçilen otel ve oda tipine göre filtreleme yap
-                var filteredRooms = _roomService.GetAll()
-                                    .Where(r => r.HotelId == selectedHotel.Id && r.RoomTypeId == selectedRoomType.Id)
-                                    .ToList();
-
-                cmbOdaNo.DataSource = null;
-                cmbOdaNo.DataSource = filteredRooms;
-                cmbOdaNo.DisplayMember = "RoomNo";
-                cmbOdaNo.ValueMember = "Id";
-            }
-            else
-            {
-                // Eğer seçilen bir otel veya oda tipi yoksa, listeyi boş bırak
-                cmbOdaNo.DataSource = null;
-            }
-        }
-
-        #region listbox kullanırsak bunu kullanıcaz
-        /* private void GetAllGuest()
-         {
-             var guests = _guestService.GetAll();
-             lstList.DataSource = null;
-             lstList.DataSource = guests;
-             lstList.DisplayMember = "FullName" + "TCNo" + "DateOfBirth" + "Address" + "Phone" + "Email" + "CreateAt" + "UpdateAt"; // Bu tür bir özellik tanımladığınızdan emin olun
-             lstList.ValueMember = "Id"; // `Guid`'in kullanıldığı ID alanı
-         }*/
-        #endregion
 
         private void btnSil_Click(object sender, EventArgs e)
         {
-            #region listbox da silme
-            //try
-            //{
-            //    if (lstList.SelectedIndex != -1)
-            //    {
-            //        var selectedValue = lstList.SelectedValue;
-            //        if (selectedValue != null && Guid.TryParse(selectedValue.ToString(), out Guid guestId))
-            //        {
-            //            _guestService.Delete(guestId);
-            //            GetAllGuest();
-            //            MessageBox.Show("Misafir Silindi.");
-            //        }
-            //        else
-            //        {
-            //            MessageBox.Show("Geçersiz misafir ID.");
-            //        }
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("Silinecek bir misafir seç.");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("Hata var :" + ex.Message);
-            //}
-            #endregion
 
             try
             {
@@ -410,6 +258,15 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                         {
                             var guestBookings = _guestBookingService.GetByBookingID(booking.Id);
                             var guestBooking = guestBookings.FirstOrDefault();
+                            try
+                            {
+                                DateControl();
+                            }
+                            catch (Exception ex)
+                            {
+
+                                MessageBox.Show("Tarih giriniz. :" + ex.Message);
+                            }     
                             if (guestBooking != null)
                             {
                                 var guest = guestBooking.Guest;
@@ -465,39 +322,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             }
         }
 
-        private void UpdateClearControls()
-        {
-            txtTCNo.Clear();
-            txtGuestName.Clear();
-            txtGuestSurname.Clear();
-            dtpDogumTarihi.Value = DateTime.Now;
-            txtGuestAddress.Clear();
-            txtGuestPhone.Clear();
-            txtGuestMail.Clear();
-            dtpCikisTarihi.Value = DateTime.Now;
-            dtpCikisTarihi.Value = DateTime.Now;
-            cmbOdaNo.SelectedIndex = -1;
-            cmbOdaTipi.SelectedIndex = -1;
-        }
-
-        private void ClearControls()
-        {
-            txtTCNo.Clear();
-            txtGuestName.Clear();
-            txtGuestSurname.Clear();
-            dtpDogumTarihi.Value = DateTime.Now;
-            txtGuestAddress.Clear();
-            txtGuestPhone.Clear();
-            txtGuestMail.Clear();
-            dtpCikisTarihi.Value = DateTime.Now;
-            dtpCikisTarihi.Value = DateTime.Now;
-            lblGun.Text = string.Empty;
-            lblPricePerNight.Text = string.Empty;
-            lblTotalPrice.Text = string.Empty;
-            lbllabelDescription.Text = string.Empty;
-            lblCapacity.Text = string.Empty;
-
-        }
 
         private void btnSaveAllGuests_Click(object sender, EventArgs e)
         {
@@ -556,9 +380,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             Frm_RezervasyonBilgi frmRezerBilgi = new Frm_RezervasyonBilgi();
             frmRezerBilgi.Show();
             ClearControls();
+            maxGuestCount = 0;
         }
-
-
 
         private void dgvList_SelectionChanged(object sender, EventArgs e)
         {
@@ -629,16 +452,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         }
 
-        private void cmbPaymentMethod_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnClear_Click(object sender, EventArgs e)
         {
             ClearControls();
             grpGuest.Visible = false;
-
 
         }
 
@@ -653,6 +470,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 {
                     try
                     {
+                        DateControl();
                         // Oda ID'sini ve tarih aralığını alıyoruz
                         Guid roomId = Guid.Parse(cmbOdaNo.SelectedValue.ToString());
                         DateTime checkinDate = dtpGirisTarihi.Value;
@@ -700,27 +518,41 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             }
 
         }
+        private void DateControl()
+        {
+            
+            Guid roomId = Guid.Parse(cmbOdaNo.SelectedValue.ToString());
+            DateTime checkinDate = dtpGirisTarihi.Value;
+            DateTime checkoutDate = dtpCikisTarihi.Value;
+
+            
+            var existingBookings = _bookingService.GetAll()
+                .Where(b => b.RoomId == roomId &&
+                            ((checkinDate >= b.CheckinDate && checkinDate < b.CheckoutDate) ||
+                             (checkoutDate > b.CheckinDate && checkoutDate <= b.CheckoutDate) ||
+                             (checkinDate <= b.CheckinDate && checkoutDate >= b.CheckoutDate)))
+                .ToList();
+
+            if (existingBookings.Any())
+            {
+                MessageBox.Show($"Seçtiğiniz oda {checkinDate.Date}-{checkoutDate.Date} tarihleri aralığında doludur. Lütfen başka bir tarih veya oda seçiniz.");
+                return;
+            }
+        }
 
         private void GetAllBookingData()
         {
 
             try
             {
-                //// Oda ID'sini ve tarih aralığını alıyoruz
-                //Guid roomId = Guid.Parse(cmbOdaNo.SelectedValue.ToString());
-                //DateTime checkinDate = dtpGirisTarihi.Value;
-                //DateTime checkoutDate = dtpCikisTarihi.Value;
-
-                // Verileri sorgulama
-
+ 
                 var bookingsQuery = from gb in _context.GuestBookings
                                     join b in _context.Bookings on gb.BookingId equals b.Id
                                     join g in _context.Guests on gb.GuestId equals g.Id
                                     join r in _context.Rooms on b.RoomId equals r.Id
                                     join rt in _context.RoomTypes on b.RoomTypeId equals rt.Id
                                     join h in _context.Hotels on r.HotelId equals h.Id
-                                    join p in _context.Payments on b.Id equals p.BookingId
-                                    //where b.CheckinDate >= checkinDate && b.CheckoutDate <= checkoutDate
+                                    join p in _context.Payments on b.Id equals p.BookingId    
                                     orderby b.CheckinDate.Date
                                     select new
                                     {
@@ -738,18 +570,18 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                                         RoomTypeId = rt.Id,
                                         HotelId = h.Id,
                                         PaymentId = p.Id,
-                                        OdemeSekli = p.PaymentMethod // Ödeme yöntemi
+                                        OdemeSekli = p.PaymentMethod 
                                     };
 
                 var bookings = bookingsQuery.ToList();
 
-                //// Verileri kontrol etme
+                
                 if (bookings.Count == 0)
                 {
                     MessageBox.Show("Veri bulunamadı.");
                 }
 
-                // DataGridView'e veri ekleme
+                
                 dgvList.DataSource = bookings;
                 dgvList.Columns["RoomId"].Visible = false;
                 dgvList.Columns["RoomTypeId"].Visible = false;
@@ -803,6 +635,146 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             var cmbUpdateSelected = dgvList.CurrentRow.Cells["HotelId"].Value;
             cmbHName.SelectedValue = cmbUpdateSelected;
         }
+        private void GetBtnGuestSave()
+        {
+            var guestSaveList = _guestList.ToList();
+            dgvList.DataSource = null;
+            dgvList.DataSource = guestSaveList;
+        }
+        private void GetAllRoomList()
+        {
+            var selectedHotel = cmbHName.SelectedItem as Hotel;
+            var selectedRoomType = cmbOdaTipi.SelectedItem as RoomType;
+
+            if (selectedHotel != null && selectedRoomType != null)
+            {
+                
+                var filteredRooms = _roomService.GetAll()
+                                    .Where(r => r.HotelId == selectedHotel.Id && r.RoomTypeId == selectedRoomType.Id)
+                                    .ToList();
+
+                cmbOdaNo.DataSource = null;
+                cmbOdaNo.DataSource = filteredRooms;
+                cmbOdaNo.DisplayMember = "RoomNo";
+                cmbOdaNo.ValueMember = "Id";
+            }
+            else
+            {
+                
+                cmbOdaNo.DataSource = null;
+            }
+        }
+        private void UpdateClearControls()
+        {
+            txtTCNo.Clear();
+            txtGuestName.Clear();
+            txtGuestSurname.Clear();
+            dtpDogumTarihi.Value = DateTime.Now;
+            txtGuestAddress.Clear();
+            txtGuestPhone.Clear();
+            txtGuestMail.Clear();
+            dtpCikisTarihi.Value = DateTime.Now;
+            dtpCikisTarihi.Value = DateTime.Now;
+            cmbOdaNo.SelectedIndex = -1;
+            cmbOdaTipi.SelectedIndex = -1;
+        }
+
+        private void ClearControls()
+        {
+            txtTCNo.Clear();
+            txtGuestName.Clear();
+            txtGuestSurname.Clear();
+            dtpDogumTarihi.Value = DateTime.Now;
+            txtGuestAddress.Clear();
+            txtGuestPhone.Clear();
+            txtGuestMail.Clear();
+            dtpCikisTarihi.Value = DateTime.Now;
+            dtpCikisTarihi.Value = DateTime.Now;
+            lblGun.Text = string.Empty;
+            lblPricePerNight.Text = string.Empty;
+            lblTotalPrice.Text = string.Empty;
+            lbllabelDescription.Text = string.Empty;
+            lblCapacity.Text = string.Empty;
+
+        }
+        private void GetAllReservationDetails()
+        {
+            var booking = _bookingService.GetAll();
+            dgvList.DataSource = booking;
+        }
+        private void GetAllGuestList()
+        {
+            var guests = _guestService.GetAll();
+            dgvList.DataSource = null;
+            dgvList.DataSource = guests;
+        }
+        private void GetPaymentMethod()
+        {
+
+            cmbPaymentMethod.Items.Add("Kredi Kartı");
+            cmbPaymentMethod.Items.Add("Nakit");
+
+        }
+        private void ClearSpecificTextBoxes()
+        {
+            txtTCNo.Clear();
+            txtGuestName.Clear();
+            txtGuestSurname.Clear();
+            dtpDogumTarihi.Value = DateTime.Now;
+            txtGuestAddress.Clear();
+            txtGuestPhone.Clear();
+            txtGuestMail.Clear();
+        }
+        private void GetAllHotels()
+        {
+            var hotels = _hotelService.GetAll();
+
+            cmbHName.DataSource = null;
+            cmbHName.DataSource = hotels;
+            cmbHName.DisplayMember = "Name";
+            cmbHName.ValueMember = "Id";
+            cmbHName.Refresh();
+        }
+
+        private void GetAllRoomTypes()
+        {
+            var roomTypes = _roomTypeService.GetAll();
+            cmbOdaTipi.DataSource = null;
+            cmbOdaTipi.DataSource = roomTypes;
+            cmbOdaTipi.DisplayMember = "Name";
+            cmbOdaTipi.ValueMember = "Id";
+        }
+
+        private decimal? _totalPrice;
+        private void CalculateTotal()
+        {
+            var selectedRoomType = cmbOdaTipi.SelectedItem as RoomType;
+            if (selectedRoomType != null)
+            {
+                int days = (dtpCikisTarihi.Value - dtpGirisTarihi.Value).Days;
+                if (days > 0)
+                {
+                    lblGun.Text = $"{days} Gece";
+
+                    decimal? pricePerNight = selectedRoomType.PricePerNight;
+                    _totalPrice = (pricePerNight ?? 0) * days;
+
+                    lblTotalPrice.Text = $"{_totalPrice:0.##} TL";
+                }
+                else
+                {
+                    lblTotalPrice.Text = "Geçersiz tarih aralığı.";
+                    _totalPrice = null;
+                }
+            }
+        }
+        private void BookingList()
+        {
+            var bookingList = _bookingService.GetBookingsWithGuests();
+
+
+        }
+
 
     }
 }

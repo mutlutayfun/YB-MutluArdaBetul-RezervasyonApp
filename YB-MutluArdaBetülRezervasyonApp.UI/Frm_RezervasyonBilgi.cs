@@ -54,7 +54,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                                 join rt in _context.RoomTypes on b.RoomTypeId equals rt.Id
                                 join h in _context.Hotels on r.HotelId equals h.Id
                                 join p in _context.Payments on b.Id equals p.BookingId
-                                orderby b.CreateAt descending // En son eklenen kaydı almak için sıralama
+                                orderby g.CreateAt descending// En son eklenen kaydı almak için sıralama
                                 select new
                                 {
                                     TcNo = g.TCNo,
@@ -80,6 +80,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 lstRezervasyon.Items.Add($"TC No: {lastBooking.TcNo}");
                 lstRezervasyon.Items.Add($"Misafir Adı: {lastBooking.MisafirAdi}");
                 lstRezervasyon.Items.Add($"Misafir Soyadı: {lastBooking.MisafirSoyad}");
+                lstRezervasyon.Items.Add($"Misafir Sayısı: {lastBooking.OtelAdi}");
                 lstRezervasyon.Items.Add($"Otel Adı: {lastBooking.OtelAdi}");
                 lstRezervasyon.Items.Add($"Oda Tipi: {lastBooking.OdaTipi}");
                 lstRezervasyon.Items.Add($"Oda No: {lastBooking.OdaNo}");
@@ -97,6 +98,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         private void Frm_RezervasyonBilgi_Load(object sender, EventArgs e)
         {
+            _context.SaveChanges();
             GetReservations();
         }
     }
