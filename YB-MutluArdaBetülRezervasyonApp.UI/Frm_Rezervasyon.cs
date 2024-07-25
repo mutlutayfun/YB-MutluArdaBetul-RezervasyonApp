@@ -159,17 +159,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             cmbHName.Refresh();
         }
 
-        //private void GetByGuest()
-        //{
-        //    var guests = _guestService.GetAll();
-
-        //    cmbMusteriAdi.DataSource = null;
-        //    cmbMusteriAdi.DataSource = guests;
-        //    cmbMusteriAdi.DisplayMember = "FirstName";
-        //    cmbMusteriAdi.ValueMember = "Id";
-
-        //}
-
         private void GetAllRoomTypes()
         {
             var roomTypes = _roomTypeService.GetAll();
@@ -208,7 +197,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
 
         }
-
         private void Frm_Rezervasyon_Load(object sender, EventArgs e)
         {
             GetAllHotels();
@@ -217,7 +205,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             BookingList();
             ClearControls();
             //GetByGuest();
-            GetAllRoomList();
 
             grpGuest.Visible = false;
 
@@ -244,6 +231,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private void cmbHName_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedHotel = cmbHName.SelectedItem as Hotel;
+            if (selectedHotel != null)
+            {
+                GetAllRoomList(selectedHotel.Id);
+            }
         }
 
         private void cmbOdaTipi_SelectedIndexChanged(object sender, EventArgs e)
@@ -306,13 +297,14 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             dgvList.DataSource = null;
             dgvList.DataSource = guests;
         }
-        private void GetAllRoomList()
+        private void GetAllRoomList(Guid selectedHotelId)
         {
             var room = _roomService.GetAll();
+            var filteredRooms = _context.Rooms.Where(r => r.HotelId == selectedHotelId).ToList();
             cmbOdaNo.DataSource = null;
-            cmbOdaNo.DataSource = room;
+            cmbOdaNo.DataSource = filteredRooms;
             cmbOdaNo.DisplayMember = "RoomNo";
-            cmbOdaNo.ValueMember = "Id";
+            cmbOdaNo.ValueMember = "HotelId";
 
         }
 
@@ -582,6 +574,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         }
 
+        private void cmbOdaNo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

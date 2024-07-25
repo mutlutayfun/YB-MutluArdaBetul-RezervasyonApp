@@ -46,6 +46,9 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                     b.Property<Guid>("RoomId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("RoomTypeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal?>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -179,10 +182,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c38a5895-cb90-4650-a93f-4eb11591c301"),
+                            Id = new Guid("9c4eaa5f-d2b7-4ed3-9c3a-4d1a81c14d48"),
                             Address = "Küçük Ayasofya, Çayıroğlu Sk. No:18, 34122 Fatih/İstanbul",
-                            CheckinTime = new DateTime(2024, 7, 23, 21, 24, 9, 742, DateTimeKind.Local).AddTicks(2184),
-                            CheckoutTime = new DateTime(2024, 7, 23, 21, 24, 9, 742, DateTimeKind.Local).AddTicks(2201),
+                            CheckinTime = new DateTime(2024, 7, 25, 9, 20, 45, 66, DateTimeKind.Local).AddTicks(8577),
+                            CheckoutTime = new DateTime(2024, 7, 25, 9, 20, 45, 66, DateTimeKind.Local).AddTicks(8592),
                             Email = "CheersLighthouse@gmail.com",
                             IsActive = true,
                             Name = "Cheers Lighthouse",
@@ -191,10 +194,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c02e151d-5270-4cb6-a668-73f0bba2ecc3"),
+                            Id = new Guid("aaa8869d-f923-4abf-bbb4-44d4fce509a8"),
                             Address = "Levazım, Vadi Caddesi Zorlu Center, 34340 Beşiktaş/İstanbul",
-                            CheckinTime = new DateTime(2024, 7, 23, 21, 24, 9, 742, DateTimeKind.Local).AddTicks(2206),
-                            CheckoutTime = new DateTime(2024, 7, 23, 21, 24, 9, 742, DateTimeKind.Local).AddTicks(2207),
+                            CheckinTime = new DateTime(2024, 7, 25, 9, 20, 45, 66, DateTimeKind.Local).AddTicks(8600),
+                            CheckoutTime = new DateTime(2024, 7, 25, 9, 20, 45, 66, DateTimeKind.Local).AddTicks(8600),
                             Email = "Raffles@gmail.com",
                             IsActive = true,
                             Name = "Hotel Raffles Istanbul",
@@ -203,10 +206,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = new Guid("50849fff-4abc-4c2c-a157-853cf7828ee5"),
+                            Id = new Guid("92d14418-2deb-4813-bf2d-4b3ab0b5951e"),
                             Address = "Harbiye, Cumhuriyet Cd. No:50, 34367 Şişli/İstanbul",
-                            CheckinTime = new DateTime(2024, 7, 23, 21, 24, 9, 742, DateTimeKind.Local).AddTicks(2210),
-                            CheckoutTime = new DateTime(2024, 7, 23, 21, 24, 9, 742, DateTimeKind.Local).AddTicks(2211),
+                            CheckinTime = new DateTime(2024, 7, 25, 9, 20, 45, 66, DateTimeKind.Local).AddTicks(8602),
+                            CheckoutTime = new DateTime(2024, 7, 25, 9, 20, 45, 66, DateTimeKind.Local).AddTicks(8603),
                             Email = "Hilton@gmail.com",
                             IsActive = true,
                             Name = "Hilton İstanbul Bosphorus",
@@ -221,7 +224,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Amount")
+                    b.Property<decimal?>("Amount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("BookingId")
@@ -270,6 +273,9 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RoomNo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("RoomTypeId")
                         .HasColumnType("uniqueidentifier");
 
@@ -290,34 +296,110 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("64640c4f-9cc9-4f36-99ff-44c4f6132220"),
-                            HotelId = new Guid("c38a5895-cb90-4650-a93f-4eb11591c301"),
+                            Id = new Guid("4ae5bee7-4e61-48b1-8079-66d4f2f8c948"),
+                            HotelId = new Guid("9c4eaa5f-d2b7-4ed3-9c3a-4d1a81c14d48"),
                             IsActive = true,
-                            RoomTypeId = new Guid("c0ca3878-5814-45d1-880b-3858085e8ea2"),
+                            RoomNo = "Single Oda",
+                            RoomTypeId = new Guid("e0a585f2-79a4-4db8-95af-348e549f53eb"),
                             Status = "Boş"
                         },
                         new
                         {
-                            Id = new Guid("fe831796-7b6b-48dd-ab55-2c33423420ac"),
-                            HotelId = new Guid("c02e151d-5270-4cb6-a668-73f0bba2ecc3"),
+                            Id = new Guid("cdc72f83-9375-4f01-90ef-60e2e80adde5"),
+                            HotelId = new Guid("9c4eaa5f-d2b7-4ed3-9c3a-4d1a81c14d48"),
                             IsActive = true,
-                            RoomTypeId = new Guid("6c1d47e8-ed6f-4462-8e10-335bf931f2c6"),
+                            RoomNo = "Double Oda",
+                            RoomTypeId = new Guid("5f3b1e9a-4ace-4ba7-b10f-2fb5911db8ac"),
                             Status = "Boş"
                         },
                         new
                         {
-                            Id = new Guid("b0d6d50b-5ead-4236-9841-82ddb8f66c33"),
-                            HotelId = new Guid("50849fff-4abc-4c2c-a157-853cf7828ee5"),
+                            Id = new Guid("916b12c9-7819-4fc0-b61b-a6f6388890c6"),
+                            HotelId = new Guid("9c4eaa5f-d2b7-4ed3-9c3a-4d1a81c14d48"),
                             IsActive = true,
-                            RoomTypeId = new Guid("4df84194-3996-466f-b64f-34eddc5a926f"),
+                            RoomNo = "Queen Oda",
+                            RoomTypeId = new Guid("b4515eb4-bcfc-46f4-ad8c-2a90f05843ab"),
                             Status = "Boş"
                         },
                         new
                         {
-                            Id = new Guid("d934a5fa-6b6f-453a-a9f2-4fc3f4f56a8b"),
-                            HotelId = new Guid("c02e151d-5270-4cb6-a668-73f0bba2ecc3"),
+                            Id = new Guid("a2b60f7e-2b27-47b8-ade2-d5659453b563"),
+                            HotelId = new Guid("9c4eaa5f-d2b7-4ed3-9c3a-4d1a81c14d48"),
                             IsActive = true,
-                            RoomTypeId = new Guid("ebb24ebe-8204-4266-88ed-6d4a69200561"),
+                            RoomNo = "King Oda",
+                            RoomTypeId = new Guid("accdac0c-7382-41f5-a4ca-92e41435acf4"),
+                            Status = "Boş"
+                        },
+                        new
+                        {
+                            Id = new Guid("6a61756a-1b2f-4dfc-ac73-e16051aa566c"),
+                            HotelId = new Guid("aaa8869d-f923-4abf-bbb4-44d4fce509a8"),
+                            IsActive = true,
+                            RoomNo = "Single Oda",
+                            RoomTypeId = new Guid("e0a585f2-79a4-4db8-95af-348e549f53eb"),
+                            Status = "Boş"
+                        },
+                        new
+                        {
+                            Id = new Guid("90b18030-ee56-48aa-aac3-1892e85c552b"),
+                            HotelId = new Guid("aaa8869d-f923-4abf-bbb4-44d4fce509a8"),
+                            IsActive = true,
+                            RoomNo = "Double Oda",
+                            RoomTypeId = new Guid("5f3b1e9a-4ace-4ba7-b10f-2fb5911db8ac"),
+                            Status = "Boş"
+                        },
+                        new
+                        {
+                            Id = new Guid("5703c195-4a5a-496f-aa5d-913af0d042ea"),
+                            HotelId = new Guid("aaa8869d-f923-4abf-bbb4-44d4fce509a8"),
+                            IsActive = true,
+                            RoomNo = "Queen Oda",
+                            RoomTypeId = new Guid("b4515eb4-bcfc-46f4-ad8c-2a90f05843ab"),
+                            Status = "Boş"
+                        },
+                        new
+                        {
+                            Id = new Guid("fcce1af5-8123-4f01-a075-af5331a6ef3a"),
+                            HotelId = new Guid("aaa8869d-f923-4abf-bbb4-44d4fce509a8"),
+                            IsActive = true,
+                            RoomNo = "King Oda",
+                            RoomTypeId = new Guid("accdac0c-7382-41f5-a4ca-92e41435acf4"),
+                            Status = "Boş"
+                        },
+                        new
+                        {
+                            Id = new Guid("8cd0098e-ccd3-4ec7-86f5-711c7c3e1787"),
+                            HotelId = new Guid("92d14418-2deb-4813-bf2d-4b3ab0b5951e"),
+                            IsActive = true,
+                            RoomNo = "Single Oda",
+                            RoomTypeId = new Guid("e0a585f2-79a4-4db8-95af-348e549f53eb"),
+                            Status = "Boş"
+                        },
+                        new
+                        {
+                            Id = new Guid("0c4de357-d7ba-40a0-9f75-24fd7afc3058"),
+                            HotelId = new Guid("92d14418-2deb-4813-bf2d-4b3ab0b5951e"),
+                            IsActive = true,
+                            RoomNo = "Double Oda",
+                            RoomTypeId = new Guid("5f3b1e9a-4ace-4ba7-b10f-2fb5911db8ac"),
+                            Status = "Boş"
+                        },
+                        new
+                        {
+                            Id = new Guid("48145034-afb7-4395-bcfc-3ec41bb9acaf"),
+                            HotelId = new Guid("92d14418-2deb-4813-bf2d-4b3ab0b5951e"),
+                            IsActive = true,
+                            RoomNo = "Queen Oda",
+                            RoomTypeId = new Guid("b4515eb4-bcfc-46f4-ad8c-2a90f05843ab"),
+                            Status = "Boş"
+                        },
+                        new
+                        {
+                            Id = new Guid("24618811-b859-4103-a858-e1cdbf8e41c4"),
+                            HotelId = new Guid("92d14418-2deb-4813-bf2d-4b3ab0b5951e"),
+                            IsActive = true,
+                            RoomNo = "King Oda",
+                            RoomTypeId = new Guid("accdac0c-7382-41f5-a4ca-92e41435acf4"),
                             Status = "Boş"
                         });
                 });
@@ -359,7 +441,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c0ca3878-5814-45d1-880b-3858085e8ea2"),
+                            Id = new Guid("e0a585f2-79a4-4db8-95af-348e549f53eb"),
                             Capacity = 1,
                             Description = "Şık ve ferah",
                             IsActive = true,
@@ -368,7 +450,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6c1d47e8-ed6f-4462-8e10-335bf931f2c6"),
+                            Id = new Guid("5f3b1e9a-4ace-4ba7-b10f-2fb5911db8ac"),
                             Capacity = 2,
                             Description = "Geniş ve ferah",
                             IsActive = true,
@@ -377,16 +459,16 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = new Guid("4df84194-3996-466f-b64f-34eddc5a926f"),
+                            Id = new Guid("b4515eb4-bcfc-46f4-ad8c-2a90f05843ab"),
                             Capacity = 3,
-                            Description = "3 kişinin kalabileceği genişlikte bir oda",
+                            Description = "Geniş ve şık oda",
                             IsActive = true,
                             Name = "Üç kişilik",
                             PricePerNight = 3500m
                         },
                         new
                         {
-                            Id = new Guid("ebb24ebe-8204-4266-88ed-6d4a69200561"),
+                            Id = new Guid("accdac0c-7382-41f5-a4ca-92e41435acf4"),
                             Capacity = 4,
                             Description = "Geniş oda tasarımı",
                             IsActive = true,
@@ -449,12 +531,12 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b164efac-081d-4293-8336-31e0b6a28ea4"),
+                            Id = new Guid("736e9c48-d42e-4583-b92e-96f5b216917d"),
                             DateOfBirth = new DateTime(1963, 8, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "marie@gmail.com",
                             FirstName = "Marie",
                             HireDate = new DateTime(1992, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            HotelId = new Guid("c38a5895-cb90-4650-a93f-4eb11591c301"),
+                            HotelId = new Guid("9c4eaa5f-d2b7-4ed3-9c3a-4d1a81c14d48"),
                             IsActive = true,
                             LastName = "Bertrand",
                             Phone = "(505) 555 55 50",
@@ -463,12 +545,12 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = new Guid("60f7a6c3-0231-4f44-9999-fc30b9be4293"),
+                            Id = new Guid("4eee4875-4361-4954-b906-02d55eee4b40"),
                             DateOfBirth = new DateTime(1955, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Steven@gmail.com",
                             FirstName = "Steven",
                             HireDate = new DateTime(1990, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            HotelId = new Guid("c38a5895-cb90-4650-a93f-4eb11591c301"),
+                            HotelId = new Guid("9c4eaa5f-d2b7-4ed3-9c3a-4d1a81c14d48"),
                             IsActive = true,
                             LastName = "Buchanan",
                             Phone = "(71) 555-7773",
@@ -477,12 +559,12 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2755b14b-31c4-4c0c-a90d-410e064c3347"),
+                            Id = new Guid("4bea088f-b8d6-41b8-a7b6-4fd78b63fb81"),
                             DateOfBirth = new DateTime(1963, 7, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Michael@gmail.com",
                             FirstName = "Michael",
                             HireDate = new DateTime(1993, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            HotelId = new Guid("c02e151d-5270-4cb6-a668-73f0bba2ecc3"),
+                            HotelId = new Guid("aaa8869d-f923-4abf-bbb4-44d4fce509a8"),
                             IsActive = true,
                             LastName = "Suyama",
                             Phone = "(536) 555-7773",
@@ -491,12 +573,12 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8b890467-ccb9-4be2-bc7f-04a1687f32ca"),
+                            Id = new Guid("f6e25595-84f3-402c-8211-9db116f57b23"),
                             DateOfBirth = new DateTime(1960, 5, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Robert@gmail.com",
                             FirstName = "Robert",
                             HireDate = new DateTime(1994, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            HotelId = new Guid("50849fff-4abc-4c2c-a157-853cf7828ee5"),
+                            HotelId = new Guid("92d14418-2deb-4813-bf2d-4b3ab0b5951e"),
                             IsActive = true,
                             LastName = "King",
                             Phone = "(71) 555-5598",

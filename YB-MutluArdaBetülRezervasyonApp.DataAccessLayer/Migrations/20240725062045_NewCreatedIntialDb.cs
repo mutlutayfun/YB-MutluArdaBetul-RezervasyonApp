@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class IntialCreated : Migration
+    public partial class NewCreatedIntialDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TCNo = table.Column<int>(type: "int", nullable: false),
+                    TCNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -114,6 +114,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                     HotelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RoomTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RoomNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreateAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: true),
@@ -196,7 +197,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BookingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -221,9 +222,9 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                 columns: new[] { "Id", "Address", "CheckinTime", "CheckoutTime", "CreateAt", "Email", "IsActive", "IsDeleted", "Name", "Phone", "Stars", "UpdateAt" },
                 values: new object[,]
                 {
-                    { new Guid("7cd503b4-00f9-4a23-bef3-d8397630458b"), "Harbiye, Cumhuriyet Cd. No:50, 34367 Şişli/İstanbul", new DateTime(2024, 7, 23, 11, 18, 48, 375, DateTimeKind.Local).AddTicks(6670), new DateTime(2024, 7, 23, 11, 18, 48, 375, DateTimeKind.Local).AddTicks(6670), null, "Hilton@gmail.com", true, null, "Hilton İstanbul Bosphorus", "02123156000", 5, null },
-                    { new Guid("7fdada21-43fc-48cd-a83d-ac8e7ce69ec2"), "Levazım, Vadi Caddesi Zorlu Center, 34340 Beşiktaş/İstanbul", new DateTime(2024, 7, 23, 11, 18, 48, 375, DateTimeKind.Local).AddTicks(6667), new DateTime(2024, 7, 23, 11, 18, 48, 375, DateTimeKind.Local).AddTicks(6668), null, "Raffles@gmail.com", true, null, "Hotel Raffles Istanbul", "02129240200", 5, null },
-                    { new Guid("a089bcd3-8b76-4b54-843a-bef3f4ee8491"), "Küçük Ayasofya, Çayıroğlu Sk. No:18, 34122 Fatih/İstanbul", new DateTime(2024, 7, 23, 11, 18, 48, 375, DateTimeKind.Local).AddTicks(6652), new DateTime(2024, 7, 23, 11, 18, 48, 375, DateTimeKind.Local).AddTicks(6664), null, "CheersLighthouse@gmail.com", true, null, "Cheers Lighthouse", "02124582324", 4, null }
+                    { new Guid("92d14418-2deb-4813-bf2d-4b3ab0b5951e"), "Harbiye, Cumhuriyet Cd. No:50, 34367 Şişli/İstanbul", new DateTime(2024, 7, 25, 9, 20, 45, 66, DateTimeKind.Local).AddTicks(8602), new DateTime(2024, 7, 25, 9, 20, 45, 66, DateTimeKind.Local).AddTicks(8603), null, "Hilton@gmail.com", true, null, "Hilton İstanbul Bosphorus", "02123156000", 5, null },
+                    { new Guid("9c4eaa5f-d2b7-4ed3-9c3a-4d1a81c14d48"), "Küçük Ayasofya, Çayıroğlu Sk. No:18, 34122 Fatih/İstanbul", new DateTime(2024, 7, 25, 9, 20, 45, 66, DateTimeKind.Local).AddTicks(8577), new DateTime(2024, 7, 25, 9, 20, 45, 66, DateTimeKind.Local).AddTicks(8592), null, "CheersLighthouse@gmail.com", true, null, "Cheers Lighthouse", "02124582324", 4, null },
+                    { new Guid("aaa8869d-f923-4abf-bbb4-44d4fce509a8"), "Levazım, Vadi Caddesi Zorlu Center, 34340 Beşiktaş/İstanbul", new DateTime(2024, 7, 25, 9, 20, 45, 66, DateTimeKind.Local).AddTicks(8600), new DateTime(2024, 7, 25, 9, 20, 45, 66, DateTimeKind.Local).AddTicks(8600), null, "Raffles@gmail.com", true, null, "Hotel Raffles Istanbul", "02129240200", 5, null }
                 });
 
             migrationBuilder.InsertData(
@@ -231,21 +232,29 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                 columns: new[] { "Id", "Capacity", "CreateAt", "Description", "IsActive", "IsDeleted", "Name", "PricePerNight", "UpdateAt" },
                 values: new object[,]
                 {
-                    { new Guid("2a97293d-5a13-4839-ab7c-f366ad621550"), 3, null, "3 kişinin kalabileceği genişlikte bir oda", true, null, "Üç kişilik", 3500m, null },
-                    { new Guid("71c5c113-7890-4041-a718-223459f33751"), 4, null, "Geniş oda tasarımı", true, null, "Dört kişilik", 4200m, null },
-                    { new Guid("9b3e2872-c57c-49ea-991d-17bf9fdc0e38"), 2, null, "Geniş ve ferah", true, null, "Çift kişilik", 2500m, null },
-                    { new Guid("bc8fb53e-30c2-4311-abad-ce802359fef9"), 1, null, "Şık ve ferah", true, null, "Tek kişilik", 1500m, null }
+                    { new Guid("5f3b1e9a-4ace-4ba7-b10f-2fb5911db8ac"), 2, null, "Geniş ve ferah", true, null, "Çift kişilik", 2500m, null },
+                    { new Guid("accdac0c-7382-41f5-a4ca-92e41435acf4"), 4, null, "Geniş oda tasarımı", true, null, "Dört kişilik", 4200m, null },
+                    { new Guid("b4515eb4-bcfc-46f4-ad8c-2a90f05843ab"), 3, null, "Geniş ve şık oda", true, null, "Üç kişilik", 3500m, null },
+                    { new Guid("e0a585f2-79a4-4db8-95af-348e549f53eb"), 1, null, "Şık ve ferah", true, null, "Tek kişilik", 1500m, null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Rooms",
-                columns: new[] { "Id", "CreateAt", "HotelId", "IsActive", "IsDeleted", "RoomTypeId", "Status", "UpdateAt" },
+                columns: new[] { "Id", "CreateAt", "HotelId", "IsActive", "IsDeleted", "RoomNo", "RoomTypeId", "Status", "UpdateAt" },
                 values: new object[,]
                 {
-                    { new Guid("2fb24fc0-655e-4883-b905-762d010ca163"), null, new Guid("7fdada21-43fc-48cd-a83d-ac8e7ce69ec2"), true, null, new Guid("9b3e2872-c57c-49ea-991d-17bf9fdc0e38"), "Boş", null },
-                    { new Guid("3ad8a0fd-fd3c-4a8c-8497-eaff0627e5fa"), null, new Guid("7cd503b4-00f9-4a23-bef3-d8397630458b"), true, null, new Guid("2a97293d-5a13-4839-ab7c-f366ad621550"), "Boş", null },
-                    { new Guid("886101f9-2388-4158-b378-a7edab3d9d3c"), null, new Guid("7fdada21-43fc-48cd-a83d-ac8e7ce69ec2"), true, null, new Guid("71c5c113-7890-4041-a718-223459f33751"), "Boş", null },
-                    { new Guid("a215e21c-2d2f-464d-aa96-5d6534dd8be1"), null, new Guid("a089bcd3-8b76-4b54-843a-bef3f4ee8491"), true, null, new Guid("bc8fb53e-30c2-4311-abad-ce802359fef9"), "Boş", null }
+                    { new Guid("0c4de357-d7ba-40a0-9f75-24fd7afc3058"), null, new Guid("92d14418-2deb-4813-bf2d-4b3ab0b5951e"), true, null, "Double Oda", new Guid("5f3b1e9a-4ace-4ba7-b10f-2fb5911db8ac"), "Boş", null },
+                    { new Guid("24618811-b859-4103-a858-e1cdbf8e41c4"), null, new Guid("92d14418-2deb-4813-bf2d-4b3ab0b5951e"), true, null, "King Oda", new Guid("accdac0c-7382-41f5-a4ca-92e41435acf4"), "Boş", null },
+                    { new Guid("48145034-afb7-4395-bcfc-3ec41bb9acaf"), null, new Guid("92d14418-2deb-4813-bf2d-4b3ab0b5951e"), true, null, "Queen Oda", new Guid("b4515eb4-bcfc-46f4-ad8c-2a90f05843ab"), "Boş", null },
+                    { new Guid("4ae5bee7-4e61-48b1-8079-66d4f2f8c948"), null, new Guid("9c4eaa5f-d2b7-4ed3-9c3a-4d1a81c14d48"), true, null, "Single Oda", new Guid("e0a585f2-79a4-4db8-95af-348e549f53eb"), "Boş", null },
+                    { new Guid("5703c195-4a5a-496f-aa5d-913af0d042ea"), null, new Guid("aaa8869d-f923-4abf-bbb4-44d4fce509a8"), true, null, "Queen Oda", new Guid("b4515eb4-bcfc-46f4-ad8c-2a90f05843ab"), "Boş", null },
+                    { new Guid("6a61756a-1b2f-4dfc-ac73-e16051aa566c"), null, new Guid("aaa8869d-f923-4abf-bbb4-44d4fce509a8"), true, null, "Single Oda", new Guid("e0a585f2-79a4-4db8-95af-348e549f53eb"), "Boş", null },
+                    { new Guid("8cd0098e-ccd3-4ec7-86f5-711c7c3e1787"), null, new Guid("92d14418-2deb-4813-bf2d-4b3ab0b5951e"), true, null, "Single Oda", new Guid("e0a585f2-79a4-4db8-95af-348e549f53eb"), "Boş", null },
+                    { new Guid("90b18030-ee56-48aa-aac3-1892e85c552b"), null, new Guid("aaa8869d-f923-4abf-bbb4-44d4fce509a8"), true, null, "Double Oda", new Guid("5f3b1e9a-4ace-4ba7-b10f-2fb5911db8ac"), "Boş", null },
+                    { new Guid("916b12c9-7819-4fc0-b61b-a6f6388890c6"), null, new Guid("9c4eaa5f-d2b7-4ed3-9c3a-4d1a81c14d48"), true, null, "Queen Oda", new Guid("b4515eb4-bcfc-46f4-ad8c-2a90f05843ab"), "Boş", null },
+                    { new Guid("a2b60f7e-2b27-47b8-ade2-d5659453b563"), null, new Guid("9c4eaa5f-d2b7-4ed3-9c3a-4d1a81c14d48"), true, null, "King Oda", new Guid("accdac0c-7382-41f5-a4ca-92e41435acf4"), "Boş", null },
+                    { new Guid("cdc72f83-9375-4f01-90ef-60e2e80adde5"), null, new Guid("9c4eaa5f-d2b7-4ed3-9c3a-4d1a81c14d48"), true, null, "Double Oda", new Guid("5f3b1e9a-4ace-4ba7-b10f-2fb5911db8ac"), "Boş", null },
+                    { new Guid("fcce1af5-8123-4f01-a075-af5331a6ef3a"), null, new Guid("aaa8869d-f923-4abf-bbb4-44d4fce509a8"), true, null, "King Oda", new Guid("accdac0c-7382-41f5-a4ca-92e41435acf4"), "Boş", null }
                 });
 
             migrationBuilder.InsertData(
@@ -253,10 +262,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Migrations
                 columns: new[] { "Id", "CreateAt", "DateOfBirth", "Email", "FirstName", "HireDate", "HotelId", "IsActive", "IsDeleted", "LastName", "Phone", "Position", "Salary", "UpdateAt" },
                 values: new object[,]
                 {
-                    { new Guid("1f6703db-544a-497f-ac7f-db5ec6d10f88"), null, new DateTime(1963, 8, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "marie@gmail.com", "Marie", new DateTime(1992, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("a089bcd3-8b76-4b54-843a-bef3f4ee8491"), true, null, "Bertrand", "(505) 555 55 50", "Teknik Müdür", 40.000m, null },
-                    { new Guid("7f26f510-2a70-4efd-a18c-f86c57579e57"), null, new DateTime(1955, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), "Steven@gmail.com", "Steven", new DateTime(1990, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("a089bcd3-8b76-4b54-843a-bef3f4ee8491"), true, null, "Buchanan", "(71) 555-7773", "Muhasebe Müdürü", 80.000m, null },
-                    { new Guid("a42ccd0e-afbb-43e6-8fa2-c6aedb69ece9"), null, new DateTime(1963, 7, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "Michael@gmail.com", "Michael", new DateTime(1993, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("7fdada21-43fc-48cd-a83d-ac8e7ce69ec2"), true, null, "Suyama", "(536) 555-7773", "Mutfak Şefi", 90.000m, null },
-                    { new Guid("fcdc9816-f953-486c-b721-3cd2467ff4fb"), null, new DateTime(1960, 5, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), "Robert@gmail.com", "Robert", new DateTime(1994, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("7cd503b4-00f9-4a23-bef3-d8397630458b"), true, null, "King", "(71) 555-5598", "Housekeeper", 75.000m, null }
+                    { new Guid("4bea088f-b8d6-41b8-a7b6-4fd78b63fb81"), null, new DateTime(1963, 7, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "Michael@gmail.com", "Michael", new DateTime(1993, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaa8869d-f923-4abf-bbb4-44d4fce509a8"), true, null, "Suyama", "(536) 555-7773", "Mutfak Şefi", 90.000m, null },
+                    { new Guid("4eee4875-4361-4954-b906-02d55eee4b40"), null, new DateTime(1955, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), "Steven@gmail.com", "Steven", new DateTime(1990, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("9c4eaa5f-d2b7-4ed3-9c3a-4d1a81c14d48"), true, null, "Buchanan", "(71) 555-7773", "Muhasebe Müdürü", 80.000m, null },
+                    { new Guid("736e9c48-d42e-4583-b92e-96f5b216917d"), null, new DateTime(1963, 8, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "marie@gmail.com", "Marie", new DateTime(1992, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("9c4eaa5f-d2b7-4ed3-9c3a-4d1a81c14d48"), true, null, "Bertrand", "(505) 555 55 50", "Teknik Müdür", 40.000m, null },
+                    { new Guid("f6e25595-84f3-402c-8211-9db116f57b23"), null, new DateTime(1960, 5, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), "Robert@gmail.com", "Robert", new DateTime(1994, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("92d14418-2deb-4813-bf2d-4b3ab0b5951e"), true, null, "King", "(71) 555-5598", "Housekeeper", 75.000m, null }
                 });
 
             migrationBuilder.CreateIndex(

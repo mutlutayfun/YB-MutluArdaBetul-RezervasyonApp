@@ -24,7 +24,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source = MUTLUTAYFUN; Initial Catalog = ReservasyonDB; Integrated Security = True; Trust Server Certificate = True;");
+            optionsBuilder.UseSqlServer(@"Data Source = MUTLUTAYFUN; Initial Catalog = ReservationDB; Integrated Security = True; Trust Server Certificate = True;");
         }
 
 

@@ -14,22 +14,30 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
     {
         public static void DefinedClasses(this ModelBuilder modelBuilder)
         {
-            var guids = Helper.GenerateGuids(17);
+            var guids = Helper.GenerateGuids(24);
             var hotelId1 = guids[0];
             var hotelId2 = guids[1];
             var hotelId3 = guids[2];
-            var staffId1 = guids[3];
-            var staffId2 = guids[4];
-            var staffId3 = guids[5];
-            var staffId4 = guids[6];
-            var roomTypeId1 = guids[7];
-            var roomTypeId2 = guids[8];
-            var roomTypeId3 = guids[9];
-            var roomTypeId4 = guids[10];
-            var roomId1 = guids[13];
-            var roomId2 = guids[14];
-            var roomId3 = guids[15];
-            var roomId4 = guids[16];
+            var staffId1 = guids[4];
+            var staffId2 = guids[5];
+            var staffId3 = guids[6];
+            var staffId4 = guids[7];
+            var roomTypeId1 = guids[8];
+            var roomTypeId2 = guids[9];
+            var roomTypeId3 = guids[10];
+            var roomTypeId4 = guids[11];
+            var roomId1 = guids[12];
+            var roomId2 = guids[13];
+            var roomId3 = guids[14];
+            var roomId4 = guids[15];
+            var roomId5 = guids[16];
+            var roomId6 = guids[17];
+            var roomId7 = guids[18];
+            var roomId8 = guids[19];
+            var roomId9 = guids[20];
+            var roomId10 = guids[21];
+            var roomId11 = guids[22];
+            var roomId12 = guids[23];
 
             modelBuilder.Entity<Hotel>().HasData(
             new Hotel()
@@ -67,8 +75,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
                 CheckinTime = DateTime.Now,
                 CheckoutTime = DateTime.Now,
                 IsActive = true
-            }
-            );
+            });
 
             modelBuilder.Entity<Staff>().HasData(
             new Staff()
@@ -152,7 +159,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
             {
                 Id = roomTypeId3,
                 Name = "Üç kişilik",
-                Description = "3 kişinin kalabileceği genişlikte bir oda",
+                Description = "Geniş ve şık oda",
                 PricePerNight = 3500,
                 Capacity = 3,
                 IsActive = true
@@ -172,33 +179,109 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.ConfigurationModelBui
             new Room()
             {
                 Id = roomId1,
-                HotelId = hotelId1,
+                HotelId =hotelId1,
                 RoomTypeId = roomTypeId1,
                 Status = "Boş",
+                RoomNo ="Single Oda",
                 IsActive = true
             },
             new Room()
             {
                 Id = roomId2,
-                HotelId = hotelId2,
+                HotelId = hotelId1,
                 RoomTypeId = roomTypeId2,
                 Status = "Boş",
+                RoomNo = "Double Oda",
                 IsActive = true
             },
             new Room()
             {
                 Id = roomId3,
-                HotelId = hotelId3,
+                HotelId = hotelId1,
                 RoomTypeId = roomTypeId3,
                 Status = "Boş",
+                RoomNo = "Queen Oda",
                 IsActive = true
             },
             new Room()
             {
                 Id = roomId4,
+                HotelId = hotelId1,
+                RoomTypeId = roomTypeId4,
+                Status = "Boş",
+                RoomNo = "King Oda",
+                IsActive = true
+            },
+            new Room()
+            {
+                Id = roomId5,
+                HotelId = hotelId2,
+                RoomTypeId = roomTypeId1,
+                Status = "Boş",
+                RoomNo = "Single Oda",
+                IsActive = true
+            },
+            new Room()
+            {
+                Id = roomId6,
+                HotelId = hotelId2,
+                RoomTypeId = roomTypeId2,
+                Status = "Boş",
+                RoomNo = "Double Oda",
+                IsActive = true
+            },
+            new Room()
+            {
+                Id = roomId7,
+                HotelId = hotelId2,
+                RoomTypeId = roomTypeId3,
+                Status = "Boş",
+                RoomNo = "Queen Oda",
+                IsActive = true
+            },
+            new Room()
+            {
+                Id = roomId8,
                 HotelId = hotelId2,
                 RoomTypeId = roomTypeId4,
                 Status = "Boş",
+                RoomNo = "King Oda",
+                IsActive = true
+            },
+            new Room()
+            {
+                Id = roomId9,
+                HotelId = hotelId3,
+                RoomTypeId = roomTypeId1,
+                Status = "Boş",
+                RoomNo = "Single Oda",
+                IsActive = true
+            },
+            new Room()
+            {
+                Id = roomId10,
+                HotelId = hotelId3,
+                RoomTypeId = roomTypeId2,
+                Status = "Boş",
+                RoomNo = "Double Oda",
+                IsActive = true
+            },
+            new Room()
+            {
+                Id = roomId11,
+                HotelId = hotelId3,
+                RoomTypeId = roomTypeId3,
+                Status = "Boş",
+                RoomNo = "Queen Oda",
+                IsActive = true
+            },
+            new Room()
+            {
+                Id = roomId12,
+                HotelId = hotelId3,
+                RoomTypeId = roomTypeId4,
+                Status = "Boş",
+                RoomNo = "King Oda",
                 IsActive = true
             });
         }
