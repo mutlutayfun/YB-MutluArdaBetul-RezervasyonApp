@@ -225,7 +225,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private void BookingList()
         {
             var bookingList = _bookingService.GetBookingsWithGuests();
-            
+
 
         }
         private void Frm_Rezervasyon_Load(object sender, EventArgs e)
@@ -434,6 +434,9 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                             booking.RoomTypeId = Guid.Parse(cmbOdaTipi.SelectedValue.ToString());
                             booking.CheckinDate = dtpGirisTarihi.Value;
                             booking.CheckoutDate = dtpCikisTarihi.Value;
+                            
+                            CalculateTotal();
+                            booking.TotalPrice = _totalPrice ?? 0;
 
                             _bookingService.Update(booking);
 
@@ -549,6 +552,9 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 };
                 _guestBookingService.Add(guestBooking);
             }
+            
+            Frm_RezervasyonBilgi frmRezerBilgi = new Frm_RezervasyonBilgi();
+            frmRezerBilgi.Show();
             ClearControls();
         }
 
@@ -619,6 +625,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                     MessageBox.Show("Seçili satır alınamadı.");
                 }
             }
+
 
         }
 
@@ -796,6 +803,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             var cmbUpdateSelected = dgvList.CurrentRow.Cells["HotelId"].Value;
             cmbHName.SelectedValue = cmbUpdateSelected;
         }
+
     }
 }
 
