@@ -135,7 +135,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 var guest = _guestService.GetAll();
 
                 var filteredList = guest
-                    .Where(g => g.FirstName.ToLower().Contains(searchText) ||g.TCNo.ToString().Contains(searchText)||
+                    .Where(g => g.FirstName.ToLower().Contains(searchText) || g.TCNo.ToString().Contains(searchText) ||
                         g.LastName.ToLower().Contains(searchText))
                         .ToList();
 
@@ -265,22 +265,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         private void btnListele_Click(object sender, EventArgs e)
         {
-            GetAllReservationDetails();
-            //GetAllGuest(); listbox için
-            GetAllGuestList(); //datagrid için
 
-            //var detailedBookings = _bookingService.GetDetailedBookings();
-
-            //var bookingInfo = detailedBookings.Select(b => new
-            //{
-            //    HotelName = b.Room.Hotel.Name,
-            //    GuestName = string.Join(", ", b.GuestBookings.Select(gb => gb.Guest.FirstName + " " + gb.Guest.LastName)),
-            //    RoomType = b.Room.RoomType.Name,
-            //    //Price = b.Room.RoomType.Price 
-            //}).ToList();
-
-            //dgvList.DataSource = bookingInfo;
-
+            GetAllBookingData();
 
         }
 
@@ -461,7 +447,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 {
                     _guestService.Add(guest);
                 }
-                _guestList.Clear();
+                //_guestList.Clear();
                 MessageBox.Show("Tüm misafirler başarıyla kaydedildi.");
                 GetAllGuestList();
             }
@@ -471,6 +457,42 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             }
             grpGuest.Visible = false;
             grpRezervasyon.Visible = true;
+
+            Booking booking = new Booking()
+            {
+                RoomId = Guid.Parse(cmbOdaNo.SelectedValue.ToString()),
+                Room = _roomService.GetByID(Guid.Parse(cmbOdaNo.SelectedValue.ToString())),
+                RoomTypeId = Guid.Parse(cmbOdaTipi.SelectedValue.ToString()),
+                CheckinDate = dtpGirisTarihi.Value,
+                CheckoutDate = dtpCikisTarihi.Value,
+                IsActive = true,
+                TotalPrice = _totalPrice,
+            };
+
+            _bookingService.Add(booking);
+
+            Payment payment = new Payment()
+            {
+                BookingId = booking.Id,
+                Amount = _totalPrice,
+                PaymentDate = DateTime.Now,
+                PaymentMethod = cmbPaymentMethod.Text,
+            };
+
+
+            _paymentService.Add(payment);
+
+
+            foreach (var item in _guestList)
+            {
+                GuestBooking guestBooking = new GuestBooking()
+                {
+                    BookingId = booking.Id,
+                    GuestId = item.Id,
+                };
+                _guestBookingService.Add(guestBooking);
+            }
+            ClearControls();
         }
 
         private void dgvList_SelectionChanged(object sender, EventArgs e)
@@ -525,79 +547,60 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         private void btnOlustur_Click_1(object sender, EventArgs e)
         {
-            try
+            var selectedRoom = cmbOdaNo.SelectedItem as Room;
+
+            if (selectedRoom != null)
             {
-                // Oda ID'sini ve tarih aralığını alıyoruz
-                Guid roomId = Guid.Parse(cmbOdaNo.SelectedValue.ToString());
-                DateTime checkinDate = dtpGirisTarihi.Value;
-                DateTime checkoutDate = dtpCikisTarihi.Value;
 
-                // Oda rezervasyonlarını kontrol ediyoruz
-                var existingBookings = _bookingService.GetAll()
-                    .Where(b => b.RoomId == roomId &&
-                                ((checkinDate >= b.CheckinDate && checkinDate < b.CheckoutDate) ||
-                                 (checkoutDate > b.CheckinDate && checkoutDate <= b.CheckoutDate) ||
-                                 (checkinDate <= b.CheckinDate && checkoutDate >= b.CheckoutDate)))
-                    .ToList();
-
-                if (existingBookings.Any())
+                if (cmbOdaNo.SelectedValue != null)
                 {
-                    MessageBox.Show($"Seçtiğiniz oda {checkinDate.Date}-{checkoutDate.Date} tarihleri aralığında doludur. Lütfen başka bir tarih veya oda seçiniz.");
-                    return;
-                }
-
-                Booking booking = new Booking()
-                {
-                    RoomId = Guid.Parse(cmbOdaNo.SelectedValue.ToString()),
-                    Room = _roomService.GetByID(Guid.Parse(cmbOdaNo.SelectedValue.ToString())),
-                    RoomTypeId = Guid.Parse(cmbOdaTipi.SelectedValue.ToString()),
-                    CheckinDate = dtpGirisTarihi.Value,
-                    CheckoutDate = dtpCikisTarihi.Value,
-                    IsActive = true,
-                    TotalPrice = _totalPrice,
-                };
-
-
-
-                Payment payment = new Payment()
-                {
-                    BookingId = booking.Id,
-                    Amount = _totalPrice,
-                    PaymentDate = DateTime.Now,
-                    PaymentMethod = cmbPaymentMethod.Text,
-                };
-
-
-
-                _bookingService.Add(booking);
-
-                foreach (var item in _guestList)
-                {
-                    GuestBooking guestBooking = new GuestBooking()
+                    try
                     {
-                        BookingId = booking.Id,
-                        GuestId = item.Id,
-                    };
-                    _guestBookingService.Add(guestBooking);
-                }
-                _paymentService.Add(payment);
-                if (nmrGuestNumber.Value !=0)
-                {
-                    MessageBox.Show($"{nmrGuestNumber.Value} adet Misafir girişi yapınız.");
-                    grpGuest.Visible = true;
-                    grpRezervasyon.Visible = false;
+                        // Oda ID'sini ve tarih aralığını alıyoruz
+                        Guid roomId = Guid.Parse(cmbOdaNo.SelectedValue.ToString());
+                        DateTime checkinDate = dtpGirisTarihi.Value;
+                        DateTime checkoutDate = dtpCikisTarihi.Value;
+
+                        // Oda rezervasyonlarını kontrol ediyoruz
+                        var existingBookings = _bookingService.GetAll()
+                            .Where(b => b.RoomId == roomId &&
+                                        ((checkinDate >= b.CheckinDate && checkinDate < b.CheckoutDate) ||
+                                         (checkoutDate > b.CheckinDate && checkoutDate <= b.CheckoutDate) ||
+                                         (checkinDate <= b.CheckinDate && checkoutDate >= b.CheckoutDate)))
+                            .ToList();
+
+                        if (existingBookings.Any())
+                        {
+                            MessageBox.Show($"Seçtiğiniz oda {checkinDate.Date}-{checkoutDate.Date} tarihleri aralığında doludur. Lütfen başka bir tarih veya oda seçiniz.");
+                            return;
+                        }
+
+                        if (nmrGuestNumber.Value != 0)
+                        {
+                            MessageBox.Show($"{nmrGuestNumber.Value} adet Misafir girişi yapınız.");
+                            grpGuest.Visible = true;
+                            grpRezervasyon.Visible = false;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Misafir Sayısı girşi yapınız.");
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Bir hata oluştu: " + ex.Message);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Misafir Sayısı girşi yapınız.");
+                    MessageBox.Show("Bir oda seçmediniz.");
                 }
-                
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Bir hata oluştu: " + ex.Message);
+                MessageBox.Show("Bir oda seçmediniz.");
             }
-
 
         }
 
@@ -613,10 +616,61 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         private void cmbOdaNo_SelectedIndexChanged(object sender, EventArgs e)
         {
-           
+
+        }
+
+        private void GetAllBookingData()
+        {
+
+            try
+            {
+                //// Oda ID'sini ve tarih aralığını alıyoruz
+                //Guid roomId = Guid.Parse(cmbOdaNo.SelectedValue.ToString());
+                //DateTime checkinDate = dtpGirisTarihi.Value;
+                //DateTime checkoutDate = dtpCikisTarihi.Value;
+
+                // Verileri sorgulama
+
+                var bookingsQuery = from gb in _context.GuestBookings
+                                    join b in _context.Bookings on gb.BookingId equals b.Id
+                                    join g in _context.Guests on gb.GuestId equals g.Id
+                                    join r in _context.Rooms on b.RoomId equals r.Id
+                                    join rt in _context.RoomTypes on b.RoomTypeId equals rt.Id
+                                    join h in _context.Hotels on r.HotelId equals h.Id
+                                    //join p in _context.Payments on b.Id equals p.BookingId 
+                                    //where b.CheckinDate >= checkinDate && b.CheckoutDate <= checkoutDate
+                                    select new
+                                    {
+                                        ıd = b.Id,
+                                        MisafirAdi = g.FirstName,
+                                        MisafirSoyad = g.LastName,
+                                        OtelAdi = h.Name,
+                                        OdaTipi = rt.Name,
+                                        OdaNo = r.RoomNo,
+                                        GecelikUcret = rt.PricePerNight,
+                                        Tutar = b.TotalPrice,
+                                        GirisTarihi = b.CheckinDate,
+                                        CikisTarihi = b.CheckoutDate,
+                                        //OdemeSekli = p.PaymentMethod // Ödeme yöntemi
+                                    };
+
+                var bookings = bookingsQuery.ToList();
+
+                //// Verileri kontrol etme
+                if (bookings.Count == 0)
+                {
+                    MessageBox.Show("Veri bulunamadı.");
+                }
+
+                // DataGridView'e veri ekleme
+                dgvList.DataSource = bookings;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Bir hata oluştu: " + ex.Message);
+            }
         }
     }
 }
 
 
-    
