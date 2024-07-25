@@ -205,7 +205,7 @@
             // 
             btnGuestSave.BackColor = Color.LimeGreen;
             btnGuestSave.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnGuestSave.Location = new Point(143, 329);
+            btnGuestSave.Location = new Point(142, 340);
             btnGuestSave.Margin = new Padding(3, 4, 3, 4);
             btnGuestSave.Name = "btnGuestSave";
             btnGuestSave.Size = new Size(222, 52);
