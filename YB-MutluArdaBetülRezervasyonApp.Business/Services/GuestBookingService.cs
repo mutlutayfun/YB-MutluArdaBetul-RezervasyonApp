@@ -43,6 +43,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.Business.Services
            _guestBookingRepository.Update(entity);
            
         }
+        public IEnumerable<GuestBooking> GetByBookingID(Guid bookingId)
+        {
+            return _guestBookingRepository.GetByBookingID(bookingId);
+        }
     }
 
 }

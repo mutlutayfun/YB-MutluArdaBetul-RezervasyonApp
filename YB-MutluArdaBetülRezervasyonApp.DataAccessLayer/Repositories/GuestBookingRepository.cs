@@ -8,5 +8,14 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Repositories
         public GuestBookingRepository(AppDbContext context) : base(context)
         {
         }
+
+        public IEnumerable<GuestBooking> GetByBookingID(Guid bookingId)
+        {
+            return _context.Set<GuestBooking>()
+                       .Where(gb => gb.BookingId == bookingId)
+                       .ToList();
+
+            
+        }
     }
 }

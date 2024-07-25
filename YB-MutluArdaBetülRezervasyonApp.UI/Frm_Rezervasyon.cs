@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using System.Net;
 using System.Windows.Forms;
 using YB_MutluArdaBetülRezervasyonApp.Business.Abstractions;
 using YB_MutluArdaBetülRezervasyonApp.Business.Services;
@@ -22,6 +23,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         private List<Guest> _guestList;
         private Guest _guest;
+        private Booking _booking;
 
         public Frm_Rezervasyon()
         {
@@ -57,6 +59,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         }
 
 
+        
         private int maxGuestCount = 1;
         private void btnGuestSave_Click(object sender, EventArgs e)
         {
@@ -370,15 +373,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         private void btnGuncelle_Click(object sender, EventArgs e)
         {
-            //_guest = _guestService.GetByID(txtGuestName.Text);
-            //if (_guest != null)
-            //{
-            //    _guest.TCNo = txtGuestName.Text;
-            //    _guest.FullName = txtGuestName.Text;
-            //    _guest.sur
-            //}
-            //_guestService.Update(_guest);
-            //ClearControls();
             try
             {
                 if (dgvList.SelectedRows.Count > 0)
@@ -495,9 +489,12 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             ClearControls();
         }
 
+        
+
         private void dgvList_SelectionChanged(object sender, EventArgs e)
         {
-            if (dgvList.SelectedRows.Count > 0)
+            #region
+          /*  if (dgvList.SelectedRows.Count > 0)
             {
                 var selectedRow = dgvList.SelectedRows[0];
 
@@ -525,6 +522,88 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                     else
                     {
                         MessageBox.Show("Misafir ID alınamadı.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Seçili satır alınamadı.");
+                }
+            } */
+            #endregion
+
+            if (dgvList.SelectedRows.Count > 0)
+            {
+                var selectedRow = dgvList.SelectedRows[0];
+
+                if (selectedRow != null)
+                {
+                    var bookingIdCellValue = selectedRow.Cells["Id"].Value;
+
+                    if (bookingIdCellValue != null)
+                    {
+                        Guid bookingId;
+                        if (Guid.TryParse(bookingIdCellValue.ToString(), out bookingId))
+                        {
+                            var booking = _bookingService.GetByID(bookingId);
+
+                            if (booking != null)
+                            {
+                                var guestBookings = _guestBookingService.GetByBookingID(booking.Id);
+                                var guestBooking = guestBookings.FirstOrDefault();
+                                if (guestBooking != null)
+                                {
+                                    var guest = guestBooking.Guest;
+
+                                    if (guest != null)
+                                    {
+                                        txtTCNo.Text = guest.TCNo;
+                                        txtGuestName.Text = guest.FirstName;
+                                        txtGuestSurname.Text = guest.LastName;
+                                        txtGuestAddress.Text = guest.Address;
+                                        dtpDogumTarihi.Value = guest.DateOfBirth;
+                                        txtGuestPhone.Text = guest.Phone;
+                                        txtGuestMail.Text = guest.Email;
+                                    }
+                                }
+                                var hotel = _hotelService.GetByID(booking.Id);
+                                if (hotel != null)
+                                {
+                                    cmbHName.SelectedItem=hotel.Name;
+                                }
+                                var room = _roomService.GetByID(booking.RoomId);
+                                if (room != null)
+                                {
+                                    cmbOdaNo.SelectedItem = room.RoomNo; 
+                                }
+
+                                var roomType = _roomTypeService.GetByID(booking.RoomTypeId);
+                                if (roomType != null)
+                                {
+                                    cmbOdaTipi.SelectedItem = roomType.Name; 
+                                }
+
+                                var payment = booking.Payments?.FirstOrDefault();
+                                if (payment != null)
+                                {
+                                    cmbPaymentMethod.SelectedItem = payment.PaymentMethod;
+                                }
+
+                                dtpGirisTarihi.Value = booking.CheckinDate;
+                                dtpCikisTarihi.Value = booking.CheckoutDate;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Seçili rezervasyon bulunamadı.");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Rezervasyon ID geçersiz.");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Rezervasyon ID alınamadı.");
                     }
                 }
                 else
@@ -609,6 +688,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             grpGuest.Visible = true;
         }
 
+        
+
         private void grpRezervasyon_Enter(object sender, EventArgs e)
         {
 
@@ -637,11 +718,12 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                                     join r in _context.Rooms on b.RoomId equals r.Id
                                     join rt in _context.RoomTypes on b.RoomTypeId equals rt.Id
                                     join h in _context.Hotels on r.HotelId equals h.Id
+                                    orderby b.CheckinDate.Date
                                     //join p in _context.Payments on b.Id equals p.BookingId 
                                     //where b.CheckinDate >= checkinDate && b.CheckoutDate <= checkoutDate
                                     select new
                                     {
-                                        ıd = b.Id,
+                                        Id = b.Id,
                                         MisafirAdi = g.FirstName,
                                         MisafirSoyad = g.LastName,
                                         OtelAdi = h.Name,

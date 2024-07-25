@@ -12,7 +12,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.DataAccessLayer.Repositories
 {
     public class GenericRepository<T> : IRepository<T> where T : BaseEntity
     {
-        private readonly AppDbContext _context;
+        protected readonly AppDbContext _context;
         private readonly DbSet<T> _dbSet;
 
         public GenericRepository(AppDbContext context)
