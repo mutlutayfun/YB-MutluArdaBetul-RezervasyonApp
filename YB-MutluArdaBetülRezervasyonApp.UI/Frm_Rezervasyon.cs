@@ -162,16 +162,17 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
             if (!string.IsNullOrEmpty(searchText) && searchText.Length >= 2)
             {
-                //var bookingList = _bookingService.GetBookingsWithGuests();
-                var guest = _guestService.GetAll();
-                var filteredList = guest
-                    .Where(g => g.FirstName.ToLower().Contains(searchText) || g.TCNo.ToString().Contains(searchText) ||
-                        g.LastName.ToLower().Contains(searchText))
-                        .ToList();
-
+                var filteredBookings = bookingsQuery
+            .Where(b => b.MisafirAdi.ToLower().Contains(searchText) ||
+                        b.MisafirSoyad.ToLower().Contains(searchText) ||
+                        b.OtelAdi.ToLower().Contains(searchText) ||
+                        b.OdaTipi.ToLower().Contains(searchText) ||
+                        b.OdaNo.ToString().Contains(searchText) ||
+                        b.OdemeSekli.ToLower().Contains(searchText))
+            .ToList();
 
                 dgvList.DataSource = null;
-                dgvList.DataSource = bookingsQuery;
+                dgvList.DataSource = filteredBookings;
             }
             else if (searchText.Length == 0)
             {
@@ -224,6 +225,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private void BookingList()
         {
             var bookingList = _bookingService.GetBookingsWithGuests();
+            
+
         }
         private void Frm_Rezervasyon_Load(object sender, EventArgs e)
         {
