@@ -401,40 +401,80 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 if (dgvList.SelectedRows.Count > 0)
                 {
                     var selectedRow = dgvList.SelectedRows[0];
-                    var guestId = (Guid)selectedRow.Cells["Id"].Value;
+                    var bookingIdCellValue = selectedRow.Cells["Id"].Value;
 
-                    var existingGuest = _guestService.GetByID(guestId);
-                    if (existingGuest != null)
+                    if (bookingIdCellValue != null && Guid.TryParse(bookingIdCellValue.ToString(), out Guid bookingId))
                     {
-                        _context.Entry(existingGuest).State = EntityState.Detached;
+                        var booking = _bookingService.GetByID(bookingId);
+                        if (booking != null)
+                        {
+                            var guestBookings = _guestBookingService.GetByBookingID(booking.Id);
+                            var guestBooking = guestBookings.FirstOrDefault();
+                            if (guestBooking != null)
+                            {
+                                var guest = guestBooking.Guest;
+
+                                if (guest != null)
+                                {
+                                    guest.TCNo = txtTCNo.Text;
+                                    guest.FirstName = txtGuestName.Text;
+                                    guest.LastName = txtGuestSurname.Text;
+                                    guest.Address = txtGuestAddress.Text;
+                                    guest.DateOfBirth = dtpDogumTarihi.Value;
+                                    guest.Phone = txtGuestPhone.Text;
+                                    guest.Email = txtGuestMail.Text;
+                                    guest.UpdateAt = DateTime.Now;
+                                    guest.IsActive = true;
+
+                                    _guestService.Update(guest);
+                                }
+                            }
+
+                            booking.RoomId = Guid.Parse(cmbOdaNo.SelectedValue.ToString());
+                            booking.RoomTypeId = Guid.Parse(cmbOdaTipi.SelectedValue.ToString());
+                            booking.CheckinDate = dtpGirisTarihi.Value;
+                            booking.CheckoutDate = dtpCikisTarihi.Value;
+
+                            _bookingService.Update(booking);
+
+                            MessageBox.Show("Misafir ve rezervasyon güncellendi.");
+                            GetAllGuestList();
+                            UpdateClearControls();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Geçersiz Rezervasyon ID.");
+                        }
                     }
-
-                    var guest = new Guest
+                    else
                     {
-                        Id = guestId,
-                        TCNo = txtTCNo.Text,
-                        FirstName = txtGuestName.Text,
-                        LastName = txtGuestSurname.Text,
-                        Address = txtGuestAddress.Text,
-                        DateOfBirth = dtpDogumTarihi.Value,
-                        Phone = txtGuestPhone.Text,
-                        Email = txtGuestMail.Text,
-                        UpdateAt = DateTime.Now,
-                        IsActive = true
-                    };
-
-                    _guestService.Update(guest);
-                    GetAllGuestList();
-                    MessageBox.Show("Misafir Güncellendi.");
-                    //GetByGuest();
+                        MessageBox.Show("Rezervasyon ID alınamadı.");
+                    }
                 }
-
+                else
+                {
+                    MessageBox.Show("Lütfen güncellenecek bir rezervasyon seçin.");
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hata var :" + ex.Message);
+                MessageBox.Show("Hata var: " + ex.Message);
             }
-            ClearControls();
+        }
+
+        private void UpdateClearControls()
+        {
+            txtTCNo.Clear();
+            txtGuestName.Clear();
+            txtGuestSurname.Clear();
+            dtpDogumTarihi.Value = DateTime.Now;
+            txtGuestAddress.Clear();
+            txtGuestPhone.Clear();
+            txtGuestMail.Clear();
+            dtpCikisTarihi.Value = DateTime.Now;
+            dtpCikisTarihi.Value = DateTime.Now;
+            cmbOdaNo.SelectedIndex = -1;
+            cmbOdaTipi.SelectedIndex = -1;
         }
 
         private void ClearControls()
