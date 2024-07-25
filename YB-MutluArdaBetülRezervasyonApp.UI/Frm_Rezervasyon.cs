@@ -230,11 +230,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         private void cmbHName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var selectedHotel = cmbHName.SelectedItem as Hotel;
-            if (selectedHotel != null)
-            {
-                GetAllRoomList(selectedHotel.Id);
-            }
+            GetAllRoomList();
         }
 
         private void cmbOdaTipi_SelectedIndexChanged(object sender, EventArgs e)
@@ -247,6 +243,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 lbllabelDescription.Text = $"{selectedRoomType.Description}";
             }
             CalculateTotal();
+            GetAllRoomList();
+
         }
 
         private void lblTotalPrice_Click(object sender, EventArgs e)
@@ -297,15 +295,28 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             dgvList.DataSource = null;
             dgvList.DataSource = guests;
         }
-        private void GetAllRoomList(Guid selectedHotelId)
+        private void GetAllRoomList()
         {
-            var room = _roomService.GetAll();
-            var filteredRooms = _context.Rooms.Where(r => r.HotelId == selectedHotelId).ToList();
-            cmbOdaNo.DataSource = null;
-            cmbOdaNo.DataSource = filteredRooms;
-            cmbOdaNo.DisplayMember = "RoomNo";
-            cmbOdaNo.ValueMember = "HotelId";
+            var selectedHotel = cmbHName.SelectedItem as Hotel;
+            var selectedRoomType = cmbOdaTipi.SelectedItem as RoomType;
 
+            if (selectedHotel != null && selectedRoomType != null)
+            {
+                // Seçilen otel ve oda tipine göre filtreleme yap
+                var filteredRooms = _roomService.GetAll()
+                                    .Where(r => r.HotelId == selectedHotel.Id && r.RoomTypeId == selectedRoomType.Id)
+                                    .ToList();
+
+                cmbOdaNo.DataSource = null;
+                cmbOdaNo.DataSource = filteredRooms;
+                cmbOdaNo.DisplayMember = "RoomNo";
+                cmbOdaNo.ValueMember = "Id";
+            }
+            else
+            {
+                // Eğer seçilen bir otel veya oda tipi yoksa, listeyi boş bırak
+                cmbOdaNo.DataSource = null;
+            }
         }
 
         #region listbox kullanırsak bunu kullanıcaz
@@ -576,7 +587,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
         private void cmbOdaNo_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+           
         }
     }
 }
