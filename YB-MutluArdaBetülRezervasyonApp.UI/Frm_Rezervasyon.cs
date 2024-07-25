@@ -69,7 +69,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
                 if (guestCount > 0)
                 {
-                    if (guestCount > 5)
+                    if (guestCount >= 5)
                     {
                         MessageBox.Show("Maksimum misafir sayısına ulaşıldı. Daha fazla misafir eklenemez.");
                         return;
@@ -91,6 +91,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                         };
                         _guestList.Add(guest);
                         maxGuestCount++;
+                        guestCount= 0;
                     }
                     else
                     {
@@ -430,6 +431,11 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             lblTotalPrice.Text = string.Empty;
             lbllabelDescription.Text = string.Empty;
             lblCapacity.Text = string.Empty;
+            dgvList.DataSource = null;
+            dgvList.Rows.Clear();
+            nmrGuestNumber.Value = 0;
+            grpRezervasyon.Visible = true;
+            maxGuestCount = 0;
 
         }
 
