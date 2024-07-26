@@ -382,7 +382,6 @@
             nmrGuestNumber.Name = "nmrGuestNumber";
             nmrGuestNumber.Size = new Size(66, 30);
             nmrGuestNumber.TabIndex = 15;
-            nmrGuestNumber.ValueChanged += nmrGuestNumber_ValueChanged;
             // 
             // lblGun
             // 
@@ -404,7 +403,6 @@
             cmbPaymentMethod.Name = "cmbPaymentMethod";
             cmbPaymentMethod.Size = new Size(158, 31);
             cmbPaymentMethod.TabIndex = 24;
-            cmbPaymentMethod.SelectedIndexChanged += cmbPaymentMethod_SelectedIndexChanged_1;
             // 
             // lblPaymentMethod
             // 

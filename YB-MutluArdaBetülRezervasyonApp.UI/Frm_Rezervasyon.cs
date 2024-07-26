@@ -125,8 +125,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 MessageBox.Show($"Bir hata oluştu : {ex.Message}");
             }
         }
-        
-
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             string searchText = txtSearch.Text.ToLower();
@@ -174,11 +172,9 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             }
             else if (searchText.Length == 0)
             {
-                BookingList();
+                GetAllBookingData();
             }
         }
-
-
         private void cmbHName_SelectedIndexChanged(object sender, EventArgs e)
         {
             GetAllRoomList();
@@ -258,19 +254,27 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                         {
                             var guestBookings = _guestBookingService.GetByBookingID(booking.Id);
                             var guestBooking = guestBookings.FirstOrDefault();
-                            try
-                            {
-                                DateControl();
-                            }
-                            catch (Exception ex)
-                            {
 
-                                MessageBox.Show("Tarih giriniz. :" + ex.Message);
-                            }     
+                            DateTime checkinDate = dtpGirisTarihi.Value;
+                            DateTime checkoutDate = dtpCikisTarihi.Value;
+                            Guid newRoomId = Guid.Parse(cmbOdaNo.SelectedValue.ToString());
+
+                            var existingBookings = _bookingService.GetAll()
+                                .Where(b => b.RoomId == newRoomId &&
+                                            ((checkinDate < b.CheckoutDate && checkoutDate > b.CheckinDate) ||
+                                             (checkinDate <= b.CheckinDate && checkoutDate >= b.CheckoutDate)))
+                                .ToList();
+
+                            if (existingBookings.Any())
+                            {
+                                MessageBox.Show($"Seçtiğiniz oda {checkinDate.Date:dd.MM.yyyy} - {checkoutDate.Date:dd.MM.yyyy} tarihleri aralığında doludur. Lütfen başka bir tarih veya oda seçiniz.");
+                                return; 
+                            }
+
+ 
                             if (guestBooking != null)
                             {
                                 var guest = guestBooking.Guest;
-
                                 if (guest != null)
                                 {
                                     guest.TCNo = txtTCNo.Text;
@@ -287,11 +291,13 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                                 }
                             }
 
-                            booking.RoomId = Guid.Parse(cmbOdaNo.SelectedValue.ToString());
+
+                            booking.RoomId = newRoomId;
                             booking.RoomTypeId = Guid.Parse(cmbOdaTipi.SelectedValue.ToString());
-                            booking.CheckinDate = dtpGirisTarihi.Value;
-                            booking.CheckoutDate = dtpCikisTarihi.Value;
-                            
+                            booking.CheckinDate = checkinDate;
+                            booking.CheckoutDate = checkoutDate;
+
+
                             CalculateTotal();
                             booking.TotalPrice = _totalPrice ?? 0;
 
@@ -471,24 +477,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                     try
                     {
                         DateControl();
-                        // Oda ID'sini ve tarih aralığını alıyoruz
-                        Guid roomId = Guid.Parse(cmbOdaNo.SelectedValue.ToString());
-                        DateTime checkinDate = dtpGirisTarihi.Value;
-                        DateTime checkoutDate = dtpCikisTarihi.Value;
-
-                        // Oda rezervasyonlarını kontrol ediyoruz
-                        var existingBookings = _bookingService.GetAll()
-                            .Where(b => b.RoomId == roomId &&
-                                        ((checkinDate >= b.CheckinDate && checkinDate < b.CheckoutDate) ||
-                                         (checkoutDate > b.CheckinDate && checkoutDate <= b.CheckoutDate) ||
-                                         (checkinDate <= b.CheckinDate && checkoutDate >= b.CheckoutDate)))
-                            .ToList();
-
-                        if (existingBookings.Any())
-                        {
-                            MessageBox.Show($"Seçtiğiniz oda {checkinDate.Date}-{checkoutDate.Date} tarihleri aralığında doludur. Lütfen başka bir tarih veya oda seçiniz.");
-                            return;
-                        }
 
                         if (nmrGuestNumber.Value != 0)
                         {
