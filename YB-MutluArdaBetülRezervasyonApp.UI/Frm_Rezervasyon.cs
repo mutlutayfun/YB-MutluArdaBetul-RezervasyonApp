@@ -304,8 +304,8 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                             _bookingService.Update(booking);
 
                             MessageBox.Show("Misafir ve rezervasyon güncellendi.");
-                            GetAllGuestList();
-                            UpdateClearControls();
+                            GetAllBookingData();
+                            ClearControls();
                         }
                         else
                         {
@@ -317,10 +317,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                         MessageBox.Show("Rezervasyon ID alınamadı.");
                     }
                 }
-                else
-                {
-                    MessageBox.Show("Lütfen güncellenecek bir rezervasyon seçin.");
-                }
+
             }
             catch (Exception ex)
             {
@@ -652,21 +649,6 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 cmbOdaNo.DataSource = null;
             }
         }
-        private void UpdateClearControls()
-        {
-            txtTCNo.Clear();
-            txtGuestName.Clear();
-            txtGuestSurname.Clear();
-            dtpDogumTarihi.Value = DateTime.Now;
-            txtGuestAddress.Clear();
-            txtGuestPhone.Clear();
-            txtGuestMail.Clear();
-            dtpCikisTarihi.Value = DateTime.Now;
-            dtpCikisTarihi.Value = DateTime.Now;
-            cmbOdaNo.SelectedIndex = -1;
-            cmbOdaTipi.SelectedIndex = -1;
-        }
-
         private void ClearControls()
         {
             txtTCNo.Clear();
@@ -676,13 +658,24 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             txtGuestAddress.Clear();
             txtGuestPhone.Clear();
             txtGuestMail.Clear();
-            dtpCikisTarihi.Value = DateTime.Now;
+            dtpGirisTarihi.Value = DateTime.Now;
             dtpCikisTarihi.Value = DateTime.Now;
             lblGun.Text = string.Empty;
             lblPricePerNight.Text = string.Empty;
             lblTotalPrice.Text = string.Empty;
             lbllabelDescription.Text = string.Empty;
             lblCapacity.Text = string.Empty;
+            cmbPaymentMethod.SelectedIndex = -1;
+            cmbHName.SelectedIndex = -1;
+            cmbOdaTipi.SelectedIndex = -1;
+            cmbOdaNo.SelectedIndex = -1;
+
+            
+            _guestList.Clear();
+            _totalPrice = null;
+
+            
+            dgvList.DataSource = null;
 
         }
         private void GetAllReservationDetails()
