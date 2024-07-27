@@ -22,7 +22,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         private readonly RoomService _roomService;
 
         private List<Guest> _guestList;
-        private Guest _guest;
+        public List<Guid> NewGuestIds { get; set; } = new List<Guid>();
         private Booking _booking;
 
         public Frm_Rezervasyon()
@@ -103,6 +103,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                             IsActive = true
                         };
                         _guestList.Add(guest);
+                        NewGuestIds.Add(guest.Id);
                         maxGuestCount++;
                     }
                     else
@@ -268,10 +269,10 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                             if (existingBookings.Any())
                             {
                                 MessageBox.Show($"Seçtiğiniz oda {checkinDate.Date:dd.MM.yyyy} - {checkoutDate.Date:dd.MM.yyyy} tarihleri aralığında doludur. Lütfen başka bir tarih veya oda seçiniz.");
-                                return; 
+                                return;
                             }
 
- 
+
                             if (guestBooking != null)
                             {
                                 var guest = guestBooking.Guest;
@@ -379,8 +380,9 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                 };
                 _guestBookingService.Add(guestBooking);
             }
-            
-            Frm_RezervasyonBilgi frmRezerBilgi = new Frm_RezervasyonBilgi();
+
+            Frm_RezervasyonBilgi frmRezerBilgi = new Frm_RezervasyonBilgi(NewGuestIds);
+
             frmRezerBilgi.Show();
             ClearControls();
             maxGuestCount = 0;
@@ -505,12 +507,12 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         }
         private void DateControl()
         {
-            
+
             Guid roomId = Guid.Parse(cmbOdaNo.SelectedValue.ToString());
             DateTime checkinDate = dtpGirisTarihi.Value;
             DateTime checkoutDate = dtpCikisTarihi.Value;
 
-            
+
             var existingBookings = _bookingService.GetAll()
                 .Where(b => b.RoomId == roomId &&
                             ((checkinDate >= b.CheckinDate && checkinDate < b.CheckoutDate) ||
@@ -530,14 +532,14 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
             try
             {
- 
+
                 var bookingsQuery = from gb in _context.GuestBookings
                                     join b in _context.Bookings on gb.BookingId equals b.Id
                                     join g in _context.Guests on gb.GuestId equals g.Id
                                     join r in _context.Rooms on b.RoomId equals r.Id
                                     join rt in _context.RoomTypes on b.RoomTypeId equals rt.Id
                                     join h in _context.Hotels on r.HotelId equals h.Id
-                                    join p in _context.Payments on b.Id equals p.BookingId    
+                                    join p in _context.Payments on b.Id equals p.BookingId
                                     orderby b.CheckinDate.Date
                                     select new
                                     {
@@ -555,18 +557,18 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
                                         RoomTypeId = rt.Id,
                                         HotelId = h.Id,
                                         PaymentId = p.Id,
-                                        OdemeSekli = p.PaymentMethod 
+                                        OdemeSekli = p.PaymentMethod
                                     };
 
                 var bookings = bookingsQuery.ToList();
 
-                
+
                 if (bookings.Count == 0)
                 {
                     MessageBox.Show("Veri bulunamadı.");
                 }
 
-                
+
                 dgvList.DataSource = bookings;
                 dgvList.Columns["RoomId"].Visible = false;
                 dgvList.Columns["RoomTypeId"].Visible = false;
@@ -633,7 +635,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
 
             if (selectedHotel != null && selectedRoomType != null)
             {
-                
+
                 var filteredRooms = _roomService.GetAll()
                                     .Where(r => r.HotelId == selectedHotel.Id && r.RoomTypeId == selectedRoomType.Id)
                                     .ToList();
@@ -645,7 +647,7 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             }
             else
             {
-                
+
                 cmbOdaNo.DataSource = null;
             }
         }
@@ -670,11 +672,11 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
             cmbOdaTipi.SelectedIndex = -1;
             cmbOdaNo.SelectedIndex = -1;
 
-            
+
             _guestList.Clear();
             _totalPrice = null;
 
-            
+
             dgvList.DataSource = null;
 
         }

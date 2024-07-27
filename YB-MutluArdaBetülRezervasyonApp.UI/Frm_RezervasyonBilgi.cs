@@ -18,23 +18,15 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
     public partial class Frm_RezervasyonBilgi : Form
     {
         private readonly AppDbContext _context;
-        private readonly BookingService _bookingService;
-        private readonly HotelService _hotelService;
-        private readonly GuestService _guestService;
-        private readonly PaymentService _paymentService;
 
-        public Frm_RezervasyonBilgi()
+
+        private List<Guid> _newGuestIds;
+
+        public Frm_RezervasyonBilgi(List<Guid> newGuestIds)
         {
             InitializeComponent();
             _context = new AppDbContext();
-            GuestRepository gRepo = new GuestRepository(_context);
-            _guestService = new GuestService(gRepo);
-            BookingRepository bRepo = new BookingRepository(_context);
-            _bookingService = new BookingService(bRepo);
-            PaymentRepository pRepo = new PaymentRepository(_context);
-            _paymentService = new PaymentService(pRepo);
-            HotelRepository hRepo = new HotelRepository(_context);
-            _hotelService = new HotelService(hRepo);
+            _newGuestIds = newGuestIds;
         }
         private void btnKapat_Click(object sender, EventArgs e)
         {
@@ -47,53 +39,62 @@ namespace YB_MutluArdaBetülRezervasyonApp.UI
         }
         private void GetReservations()
         {
-            var bookingsQuery = from gb in _context.GuestBookings
-                                join b in _context.Bookings on gb.BookingId equals b.Id
-                                join g in _context.Guests on gb.GuestId equals g.Id
-                                join r in _context.Rooms on b.RoomId equals r.Id
-                                join rt in _context.RoomTypes on b.RoomTypeId equals rt.Id
-                                join h in _context.Hotels on r.HotelId equals h.Id
-                                join p in _context.Payments on b.Id equals p.BookingId
-                                orderby g.CreateAt descending// En son eklenen kaydı almak için sıralama
-                                select new
-                                {
-                                    TcNo = g.TCNo,
-                                    MisafirAdi = g.FirstName,
-                                    MisafirSoyad = g.LastName,
-                                    OtelAdi = h.Name,
-                                    OdaTipi = rt.Name,
-                                    OdaNo = r.RoomNo,
-                                    GecelikUcret = rt.PricePerNight,
-                                    Tutar = b.TotalPrice,
-                                    GirisTarihi = b.CheckinDate,
-                                    CikisTarihi = b.CheckoutDate,
-                                    OdemeSekli = p.PaymentMethod
-                                };
-
-            var lastBooking = bookingsQuery.FirstOrDefault(); // En son eklenen kaydı almak için FirstOrDefault kullanıyoruz
-
-            lstRezervasyon.Items.Clear();
-
-            if (lastBooking != null)
+            try
             {
-                
-                lstRezervasyon.Items.Add($"TC No: {lastBooking.TcNo}");
-                lstRezervasyon.Items.Add($"Misafir Adı: {lastBooking.MisafirAdi}");
-                lstRezervasyon.Items.Add($"Misafir Soyadı: {lastBooking.MisafirSoyad}");
-                lstRezervasyon.Items.Add($"Misafir Sayısı: {lastBooking.OtelAdi}");
-                lstRezervasyon.Items.Add($"Otel Adı: {lastBooking.OtelAdi}");
-                lstRezervasyon.Items.Add($"Oda Tipi: {lastBooking.OdaTipi}");
-                lstRezervasyon.Items.Add($"Oda No: {lastBooking.OdaNo}");
-                lstRezervasyon.Items.Add($"Gecelik Ücret: {lastBooking.GecelikUcret?.ToString("C")}");
-                lstRezervasyon.Items.Add($"Tutar: {lastBooking.Tutar?.ToString("C")}");
-                lstRezervasyon.Items.Add($"Giriş Tarihi: {lastBooking.GirisTarihi.ToShortDateString()}");
-                lstRezervasyon.Items.Add($"Çıkış Tarihi: {lastBooking.CikisTarihi.ToShortDateString()}");
-                lstRezervasyon.Items.Add($"Ödeme Şekli: {lastBooking.OdemeSekli}");
+                var bookingsQuery = from gb in _context.GuestBookings
+                                    join b in _context.Bookings on gb.BookingId equals b.Id
+                                    join g in _context.Guests on gb.GuestId equals g.Id
+                                    join r in _context.Rooms on b.RoomId equals r.Id
+                                    join rt in _context.RoomTypes on b.RoomTypeId equals rt.Id
+                                    join h in _context.Hotels on r.HotelId equals h.Id
+                                    join p in _context.Payments on b.Id equals p.BookingId
+                                    where _newGuestIds.Contains(g.Id)
+                                    orderby g.CreateAt descending
+                                    select new
+                                    {
+                                        TcNo = g.TCNo,
+                                        MisafirAdi = g.FirstName,
+                                        MisafirSoyad = g.LastName,
+                                        OtelAdi = h.Name,
+                                        OdaTipi = rt.Name,
+                                        OdaNo = r.RoomNo,
+                                        GecelikUcret = rt.PricePerNight,
+                                        Tutar = b.TotalPrice,
+                                        GirisTarihi = b.CheckinDate,
+                                        CikisTarihi = b.CheckoutDate,
+                                        OdemeSekli = p.PaymentMethod
+                                    };
 
-                
-                lstRezervasyon.Items.Add(new string('-', 50));
+                var bookings = bookingsQuery.ToList();
+
+                lstRezervasyon.Items.Clear();
+
+                foreach (var booking in bookings)
+                {
+                    lstRezervasyon.Items.Add($"TC No: {booking.TcNo}");
+                    lstRezervasyon.Items.Add($"Misafir Adı: {booking.MisafirAdi}");
+                    lstRezervasyon.Items.Add($"Misafir Soyadı: {booking.MisafirSoyad}");
+                    lstRezervasyon.Items.Add($"Otel Adı: {booking.OtelAdi}");
+                    lstRezervasyon.Items.Add($"Oda Tipi: {booking.OdaTipi}");
+                    lstRezervasyon.Items.Add($"Oda No: {booking.OdaNo}");
+                    lstRezervasyon.Items.Add($"Gecelik Ücret: {booking.GecelikUcret?.ToString("C")}");
+                    lstRezervasyon.Items.Add($"Tutar: {booking.Tutar?.ToString("C")}");
+                    lstRezervasyon.Items.Add($"Giriş Tarihi: {booking.GirisTarihi.ToShortDateString()}");
+                    lstRezervasyon.Items.Add($"Çıkış Tarihi: {booking.CikisTarihi.ToShortDateString()}");
+                    lstRezervasyon.Items.Add($"Ödeme Şekli: {booking.OdemeSekli}");
+
+                    lstRezervasyon.Items.Add(new string('-', 50));
+                }
+
+                if (!bookings.Any())
+                {
+                    lstRezervasyon.Items.Add("Yeni misafir bulunamadı.");
+                }
             }
-
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Bir hata oluştu: {ex.Message}");
+            }
         }
 
         private void Frm_RezervasyonBilgi_Load(object sender, EventArgs e)
